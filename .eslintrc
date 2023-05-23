@@ -27,6 +27,7 @@
     },
     "plugins": ["react", "react-hooks", "jsx-a11y", "prettier", "import"],
     "rules": {
+        "no-console": "off",
         "react/prefer-stateless-function": "off",
         "react/react-in-jsx-scope": "off",
         "react-hooks/rules-of-hooks": "error",
@@ -47,7 +48,7 @@
         "prettier/prettier": [
             "error",
             {
-                "trailingComma": "es5",
+                "trailingComma": "es6",
                 "singleQuote": true,
                 "printWidth": 100,
                 "tabWidth": 4,
