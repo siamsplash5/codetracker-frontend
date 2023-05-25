@@ -9,6 +9,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import VerifyRegistration from "./pages/VerifyRegistration";
 
 //import contexts
 import {AuthProvider} from './context/AuthContext';
@@ -26,6 +27,10 @@ function App() {
                     <Route
                         path="/forgot-password"
                         element={<ForgotPassword />}
+                    />
+                    <Route
+                        path="/verify-registration"
+                        element={<VerifyRegistration />}
                     />
                 </Routes>
             </AuthProvider>

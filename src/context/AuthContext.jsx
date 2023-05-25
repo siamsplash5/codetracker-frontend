@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 const AuthContext = React.createContext();
 
@@ -16,6 +16,41 @@ export function AuthProvider({ children }) {
             setCurrentUser(storedUser);
         }
     }, []);
+
+    //register function
+    async function register(email, username, password){
+        try {
+            const {data} = await axios.post("/api/register", 
+                {
+                    email, 
+                    username, 
+                    password
+                },
+                {withCredentials: true}
+            );
+            return data;
+        } catch (error) {
+            console.log(error);
+            atert(error);
+        }
+    }
+
+    //verify function
+    async function verify(otp) {
+        try {
+            const { data } = await axios.post(
+                "/api/register/verify",
+                {
+                    otp,
+                },
+                { withCredentials: true }
+            );
+            return data;
+        } catch (error) {
+            console.log(error);
+            alert(error);
+        }
+    }
 
     // login function
     async function login(username, password) {
@@ -55,6 +90,8 @@ export function AuthProvider({ children }) {
         currentUser,
         login,
         logout,
+        register,
+        verify,
     };
 
     return (

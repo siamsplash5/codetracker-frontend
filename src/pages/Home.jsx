@@ -1,5 +1,7 @@
 export default function(){
-    return(
-        <h3>This is home page</h3>
+    return (
+        <section className="bg-custom h-96">
+            <h3>This is home page</h3>
+        </section>
     );
 }
