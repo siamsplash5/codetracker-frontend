@@ -1,28 +1,35 @@
-// importing packages
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { ThemeProvider } from 'styled-components';
+// importing from packages
+import { useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 // importing components
-import Footer from './components/Footer';
-import Header from './components/Header';
-import Home from './pages/Home';
 
-// importing styles
-import GlobalStyle from './components/styles/Global.style';
-import theme from './components/styles/Theme.style';
+import Navbar from "./components/Navbar";
+import ForgotPassword from "./pages/ForgotPassword";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+
+//import contexts
+import {AuthProvider} from './context/AuthContext';
+
 
 function App() {
     return (
-        <ThemeProvider theme={theme}>
-            <GlobalStyle />
-            <BrowserRouter>
-                <Header />
+        <BrowserRouter>
+            <AuthProvider>
+                <Navbar />
                 <Routes>
                     <Route path="/" element={<Home />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route
+                        path="/forgot-password"
+                        element={<ForgotPassword />}
+                    />
                 </Routes>
-                <Footer />
-            </BrowserRouter>
-        </ThemeProvider>
+            </AuthProvider>
+        </BrowserRouter>
     );
 }
 
