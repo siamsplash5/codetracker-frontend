@@ -86,12 +86,42 @@ export function AuthProvider({ children }) {
         }
     }
 
+    async function recoverPasswordRequest(username) {
+        try {
+            const { data } = await axios.post(
+                "/api/login/passwordRecovery",
+                { username },
+                { withCredentials: true }
+            );
+            return data;
+        } catch (error) {
+            console.log(error);
+            alert(error);
+        }
+    }
+
+    async function updatePassword(otp, newPassword) {
+        try {
+            const { data } = await axios.post(
+                "/api/login/passwordRecovery/verify",
+                { otp, newPassword },
+                { withCredentials: true }
+            );
+            return data;
+        } catch (error) {
+            console.log(error);
+            alert(error);
+        }
+    }
+
     const value = {
         currentUser,
         login,
         logout,
         register,
         verify,
+        recoverPasswordRequest,
+        updatePassword
     };
 
     return (

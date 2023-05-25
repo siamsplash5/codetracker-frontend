@@ -1,18 +1,18 @@
 // importing from packages
-import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 // importing components
 
 import Navbar from "./components/Navbar";
-import ForgotPassword from "./pages/ForgotPassword";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import PasswordRecover from "./pages/PasswordRecover";
+import SetNewPassword from "./pages/SetNewPassword";
 import Register from "./pages/Register";
 import VerifyRegistration from "./pages/VerifyRegistration";
 
 //import contexts
-import {AuthProvider} from './context/AuthContext';
+import { AuthProvider } from './context/AuthContext';
 
 
 function App() {
@@ -26,7 +26,11 @@ function App() {
                     <Route path="/register" element={<Register />} />
                     <Route
                         path="/forgot-password"
-                        element={<ForgotPassword />}
+                        element={<PasswordRecover />}
+                    />
+                    <Route
+                        path="/forgot-password-verify"
+                        element={<SetNewPassword />}
                     />
                     <Route
                         path="/verify-registration"
