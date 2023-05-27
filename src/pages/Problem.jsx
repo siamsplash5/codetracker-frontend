@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const YourPageComponent = () => {
-    const [judge, setJudge] = useState("");
     const [problemUrl, setProblemUrl] = useState("");
     const [problemList, setProblemList] = useState([]);
     
@@ -26,67 +25,75 @@ const YourPageComponent = () => {
 
         try {
             const {data} = await axios.post("/api/problem", {
-                judge,
-                problemUrl,
-            }); // Replace with your backend API endpoint
+                problemUrl
+            }); 
             console.log(data);
-            // Update the problem list with the newly parsed problem
-            setProblemList([...problemList, data]);
-
-            // Reset the form inputs
-            setJudge("");
-            setProblemUrl("");
+            if(data.status===undefined){
+                setProblemList([...problemList, data]);
+                setProblemUrl("");
+            }
+            else{
+                alert(data.message);
+            }
         } catch (error) {
             console.error("Error submitting form:", error);
         }
     };
 
     return (
-        <section className="bg-custom dark:bg-gray-900 h-screen">
-            <div className="container mx-auto">
-                <form onSubmit={handleSubmit} className="mb-4">
-                    <div className="flex items-center mb-4">
-                        <label className="mr-2">Problem URL:</label>
-                        <input
-                            type="text"
-                            value={problemUrl}
-                            onChange={(e) => setProblemUrl(e.target.value)}
-                            className="border border-gray-300 rounded px-2 py-1"
-                            required
-                        />
-                    </div>
+        <section className="bg-custom dark:bg-gray-900 min-h-screen flex">
+            <div className="container mx-auto p-4">
+                <form
+                    onSubmit={handleSubmit}
+                    className="mb-4 flex justify-center items-center"
+                >
+                    <label className="mr-2">Problem URL:</label>
+                    <input
+                        type="text"
+                        value={problemUrl}
+                        onChange={(e) => setProblemUrl(e.target.value)}
+                        className="border border-gray-300 rounded px-2 py-1 w-64"
+                        placeholder="Enter the problem link of Codeforces/Atcoder/SPOJ/Timus"
+                        required
+                    />
                     <button
                         type="submit"
-                        className="bg-blue-500 text-white py-2 px-4 rounded"
+                        className="bg-indigo-800 text-white py-2 px-4 rounded ml-2"
                     >
                         Submit
                     </button>
                 </form>
 
-                <table className="border border-gray-300">
-                    <thead>
-                        <tr>
-                            <th className="border-b px-4 py-2">Judge</th>
-                            <th className="border-b px-4 py-2">Problem ID</th>
-                            <th className="border-b px-4 py-2">
-                                Problem Title
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {problemList.map((problem) => (
-                            <tr key={problem.problemID}>
-                                <td className="border-b px-4 py-2">{judge}</td>
-                                <td className="border-b px-4 py-2">
-                                    {problem.problemID}
-                                </td>
-                                <td className="border-b px-4 py-2">
-                                    {problem.title}
-                                </td>
+                <div className="overflow-x-auto">
+                    <table className="border border-gray-300 w-full">
+                        <thead>
+                            <tr>
+                                <th className="border-b px-4 py-2">Judge</th>
+                                <th className="border-b px-4 py-2">
+                                    Problem ID
+                                </th>
+                                <th className="border-b px-4 py-2">
+                                    Problem Title
+                                </th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {problemList.map((problem) => (
+                                <tr key={problem.problemID}>
+                                    <td className="border-b px-4 py-2">
+                                        {problem.judge}
+                                    </td>
+                                    <td className="border-b px-4 py-2">
+                                        {problem.problemID}
+                                    </td>
+                                    <td className="border-b px-4 py-2">
+                                        {problem.title}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </section>
     );

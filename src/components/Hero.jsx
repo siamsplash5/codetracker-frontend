@@ -18,7 +18,7 @@ export default function Hero(){
                     <div className="flex flex-col space-y-4 sm:items-center sm:justify-center sm:flex-row sm:space-y-0 sm:space-x-4 lg:justify-start">
                         <a
                             rel="noopener noreferrer"
-                            href="/register"
+                            href="/problem"
                             className="px-8 py-3 text-lg font-semibold rounded bg-indigo-800 text-primary-50"
                         >
                             Get Started
