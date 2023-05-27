@@ -22,8 +22,8 @@ export default function Login() {
     async function handleSubmit(event){
         event.preventDefault();
         try {
-            const message = await login(username, password);
-            if (message === "SUCCESS") {
+            const {status, message} = await login(username, password);
+            if (status === 200) {
                 setUsername("");
                 setPassword("");
                 navigate("/");
@@ -31,7 +31,6 @@ export default function Login() {
                 setErrorMsg(message);
                 setShowErrorMsg(true);
             }
-            
         } catch (error) {
             console.log(error);
             alert(error);
@@ -41,7 +40,7 @@ export default function Login() {
         <section className="bg-custom dark:bg-gray-900">
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <a
-                    href="#"
+                    href="/"
                     className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
                 >
                     <img
@@ -73,7 +72,7 @@ export default function Login() {
                                     id="username"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-buttons focus:border-buttons block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="ex. siamplash5"
-                                    required=""
+                                    required
                                     value={username}
                                     onChange={handleUsernameChange}
                                 />
@@ -91,7 +90,7 @@ export default function Login() {
                                     id="password"
                                     placeholder="••••••••"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-buttons focus:border-buttons block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    required=""
+                                    required
                                     value={password}
                                     onChange={handlePasswordChange}
                                 />

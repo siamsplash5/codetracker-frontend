@@ -4,24 +4,24 @@ import { useAuth } from "../context/AuthContext";
 
 export default function verifyRegistration(){
     const { verify } = useAuth();
-    const [code, setCode] = useState("");
+    const [otp, setOTP] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
     const [showErrorMsg, setShowErrorMsg] = useState(false);
     const navigate = useNavigate();
 
-    const handleCodeChange = (e) => {
-        setCode(e.target.value);
+    const handleOTPChange = (e) => {
+        setOTP(e.target.value);
     };
 
     async function handleSubmit(e) {
         e.preventDefault();
 
-        const data = await verify(code);
-        if (data === "success") {
-             setCode("");
+        const {status, message} = await verify(otp);
+        if (status === 201) {
+            setOTP("");
             navigate("/login");
         } else {
-            setErrorMsg(data);
+            setErrorMsg(message);
             setShowErrorMsg(true);
         }
     }
@@ -43,8 +43,8 @@ export default function verifyRegistration(){
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                         <p>
-                            A verification code has been sent to your email.
-                            Enter the verification code here to complete the
+                            A OTP has been sent to your email.
+                            Enter the OTP here to complete the
                             registration.
                         </p>
                         <form
@@ -53,14 +53,14 @@ export default function verifyRegistration(){
                         >
                             <div>
                                 <input
-                                    type="code"
-                                    name="code"
-                                    id="code"
+                                    type="otp"
+                                    name="otp"
+                                    id="otp"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-buttons focus:border-buttons block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="Enter verification code"
-                                    required=""
-                                    value={code}
-                                    onChange={handleCodeChange}
+                                    placeholder="Enter the OTP"
+                                    required
+                                    value={otp}
+                                    onChange={handleOTPChange}
                                 />
                             </div>
                             {showErrorMsg && (

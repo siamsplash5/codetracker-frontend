@@ -31,7 +31,7 @@ export function AuthProvider({ children }) {
             return data;
         } catch (error) {
             console.log(error);
-            atert(error);
+            alert(error);
         }
     }
 
@@ -39,7 +39,7 @@ export function AuthProvider({ children }) {
     async function verify(otp) {
         try {
             const { data } = await axios.post(
-                "/api/register/verify",
+                "/api/register-verify",
                 {
                     otp,
                 },
@@ -63,7 +63,7 @@ export function AuthProvider({ children }) {
                 },
                 { withCredentials: true }
             );
-            if (data === "SUCCESS") {
+            if (data.status === 200) {
                 setCurrentUser(username);
                 localStorage.setItem("currentUser", username);
             }
@@ -77,9 +77,13 @@ export function AuthProvider({ children }) {
     //logout function
     async function logout() {
         try {
-            await axios.post("/api/logout", null, { withCredentials: true });
-            setCurrentUser(null);
-            localStorage.removeItem("currentUser");
+            const username = localStorage.getItem('currentUser');
+            const { data } = await axios.post("/api/logout", {username}, { withCredentials: true });
+            if(data.status===200){
+                setCurrentUser(null);
+                localStorage.removeItem("currentUser");
+            }
+            return data;
         } catch (error) {
             console.log(error);
             alert(error);
@@ -89,7 +93,7 @@ export function AuthProvider({ children }) {
     async function recoverPasswordRequest(username) {
         try {
             const { data } = await axios.post(
-                "/api/login/passwordRecovery",
+                "/api/reset-password",
                 { username },
                 { withCredentials: true }
             );
@@ -103,7 +107,7 @@ export function AuthProvider({ children }) {
     async function updatePassword(otp, newPassword) {
         try {
             const { data } = await axios.post(
-                "/api/login/passwordRecovery/verify",
+                "/api/reset-password-verify",
                 { otp, newPassword },
                 { withCredentials: true }
             );

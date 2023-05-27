@@ -45,20 +45,6 @@ const YourPageComponent = () => {
         <section className="bg-custom dark:bg-gray-900 h-screen">
             <div className="container mx-auto">
                 <form onSubmit={handleSubmit} className="mb-4">
-                    <div className="flex items-center mb-2">
-                        <label className="mr-2">Judge:</label>
-                        <select
-                            value={judge}
-                            onChange={(e) => setJudge(e.target.value)}
-                            className="border border-gray-300 rounded px-2 py-1"
-                        >
-                            <option value="">Select a Judge</option>
-                            <option value="atcoder">AtCoder</option>
-                            <option value="codeforces">Codeforces</option>
-                            <option value="spoj">SPOJ</option>
-                            <option value="timus">Timus</option>
-                        </select>
-                    </div>
                     <div className="flex items-center mb-4">
                         <label className="mr-2">Problem URL:</label>
                         <input
@@ -66,6 +52,7 @@ const YourPageComponent = () => {
                             value={problemUrl}
                             onChange={(e) => setProblemUrl(e.target.value)}
                             className="border border-gray-300 rounded px-2 py-1"
+                            required
                         />
                     </div>
                     <button

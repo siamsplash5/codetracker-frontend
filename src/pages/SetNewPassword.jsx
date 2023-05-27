@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 
 export default function verifyRegistration() {
     const { login, updatePassword } = useAuth();
-    const [code, setCode] = useState("");
+    const [otp, setOTP] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -13,8 +13,8 @@ export default function verifyRegistration() {
 
     const navigate = useNavigate();
 
-    const handleCodeChange = (e) => {
-        setCode(e.target.value);
+    const handleOTPChange = (e) => {
+        setOTP(e.target.value);
     };
 
     const handlePasswordChange = (e) => {
@@ -33,12 +33,10 @@ export default function verifyRegistration() {
             setShowErrorMsg(true);
         }
         else{
-            const data = await updatePassword(code, newPassword);
-            const { username, message } = data;
-            console.log(username, message);
-            if (message === "success") {
+            const {username, status, message} = await updatePassword(otp, newPassword);
+            if (status === 200) {
                 await login(username, newPassword);
-                setCode("");
+                setOTP("");
                 setNewPassword("");
                 navigate("/");
             } else {
@@ -65,8 +63,8 @@ export default function verifyRegistration() {
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                         <p>
-                            A verification code has been sent to your email.
-                            Enter the code here to reset your password.
+                            A OTP has been sent to your email. Enter the OTP
+                            here to reset your password.
                         </p>
                         <form
                             className="space-y-4 md:space-y-6"
@@ -77,17 +75,17 @@ export default function verifyRegistration() {
                                     htmlFor="username"
                                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                 >
-                                    Enter the verification code
+                                    Enter the OTP
                                 </label>
                                 <input
-                                    type="code"
-                                    name="code"
-                                    id="code"
+                                    type="otp"
+                                    name="otp"
+                                    id="otp"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-buttons focus:border-buttons block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="Enter Code"
-                                    required=""
-                                    value={code}
-                                    onChange={handleCodeChange}
+                                    placeholder="Enter the OTP"
+                                    required
+                                    value={otp}
+                                    onChange={handleOTPChange}
                                 />
                             </div>
                             <div>

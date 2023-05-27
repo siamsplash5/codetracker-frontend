@@ -15,12 +15,12 @@ export default function verifyRegistration() {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        const data = await recoverPasswordRequest(username);
-        if (data === "success") {
+        const {status, message} = await recoverPasswordRequest(username);
+        if (status === 202) {
             setUsername("");
             navigate("/forgot-password-verify");
         } else {
-            setErrorMsg(data);
+            setErrorMsg(message);
             setShowErrorMsg(true);
         }
     }
@@ -55,7 +55,7 @@ export default function verifyRegistration() {
                                     id="username"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-buttons focus:border-buttons block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="ex. siamsplash5"
-                                    required=""
+                                    required
                                     value={username}
                                     onChange={handleUsernameChange}
                                 />

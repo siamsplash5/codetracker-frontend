@@ -36,9 +36,10 @@ const Register = () => {
             setShowErrorMsg(true);
         }
         else{
-            const data = await register(email, username, password);
-            console.log(data);
-            if(data==='PENDING'){
+            console.log(email, username, password);
+            const { status, message } = await register(email, username, password);
+            console.log(status, message);
+            if(status===202){
                 navigate('/verify-registration');
                 setEmail("");
                 setUsername("");
@@ -46,7 +47,7 @@ const Register = () => {
                 setConfirmPassword("");
             }
             else{
-                setErrorMsg(data);
+                setErrorMsg(message);
                 setShowErrorMsg(true);
             }
         }

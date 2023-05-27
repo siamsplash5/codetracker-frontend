@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-
+import { useNavigate } from "react-router-dom";
 export default function Navbar() {
     const { currentUser, logout } = useAuth();
-    
+    const navigate = useNavigate();
+
     async function handleLogout(){
         try {
-            await logout();
+           const { status, message } = await logout();
+           if(status===500){
+                navigate('/server-error'); 
+           }
         } catch (error) {
             console.log(error);
             alert(error);
