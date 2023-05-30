@@ -1,40 +1,42 @@
-import React, { useState, useEffect } from "react";
 import axios from "axios";
+import React, { useState } from "react";
 
 const YourPageComponent = () => {
     const [problemUrl, setProblemUrl] = useState("");
     const [problemList, setProblemList] = useState([]);
-    
-    // const fetchProblemList = async () => {
-    //     try {
-    //         const response = await axios.get("/api/problems"); // Replace with your backend API endpoint
-    //         setProblemList(response.data);
-    //     } catch (error) {
-    //         console.error("Error fetching problem list:", error);
-    //     }
-    // };
-
-    // // Fetch the initial problem list from the backend when the page loads
-    // useEffect(() => {
-    //     fetchProblemList();
-    // }, []);
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const {data} = await axios.post("/api/problem", {
-                problemUrl
-            }); 
-            console.log(data);
-            if(data.status===undefined){
-                setProblemList([...problemList, data]);
-                setProblemUrl("");
+            //special checking for only codeforces link
+            let myUrl = problemUrl;
+            console.log(myUrl);
+            const cfRegex = /\/problemset\/problem\/(\d+)\/(\w+)/;
+            const matches = myUrl.match(cfRegex);
+            if (matches && matches.length === 3) {
+                console.log("dukse");
+                const contestID = matches[1];
+                const problemIndex = matches[2];
+                myUrl = `https://codeforces.com/contest/${contestID}/problem/${problemIndex.toUpperCase()}`;
             }
-            else{
-                alert(data.message);
+
+            const problemExists = problemList.some(
+                (problem) => problem.source === myUrl
+            );
+
+            if (!problemExists) {
+                const { data } = await axios.post("/api/problem", {
+                    problemUrl: myUrl,
+                });
+                if(data.status===undefined){
+                    setProblemList((prevList) => [data, ...prevList]);
+                }
+                else{
+                    alert(data.message);
+                }
             }
+            setProblemUrl("");
         } catch (error) {
             console.error("Error submitting form:", error);
         }
@@ -53,7 +55,7 @@ const YourPageComponent = () => {
                         value={problemUrl}
                         onChange={(e) => setProblemUrl(e.target.value)}
                         className="border border-gray-300 rounded px-2 py-1 w-64"
-                        placeholder="Enter the problem link of Codeforces/Atcoder/SPOJ/Timus"
+                        placeholder="Enter the problem link"
                         required
                     />
                     <button
@@ -79,7 +81,7 @@ const YourPageComponent = () => {
                         </thead>
                         <tbody>
                             {problemList.map((problem) => (
-                                <tr key={problem.problemID}>
+                                <tr key={problem._id}>
                                     <td className="border-b px-4 py-2">
                                         {problem.judge}
                                     </td>
