@@ -14,6 +14,10 @@ import ProblemSearch from "./pages/Problem";
 import ServerError from "./pages/ServerError";
 import NotFound from "./pages/NotFound";
 import Loading from "./pages/Loading";
+import CodeforcesProblemPage from "./pages/CodeforcesProblemPage"
+import TimusProblemPage from "./pages/TimusProblemPage";
+import AtcoderProblemPage from "./pages/AtcoderProblemPage";
+import SpojProblemPage from "./pages/SpojProblemPage";
 
 //import contexts
 import { AuthProvider } from './context/AuthContext';
@@ -30,6 +34,10 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/problem" element={<ProblemSearch />} />
+                    <Route path="/problem/codeforces/:problemID" element={<CodeforcesProblemPage />} />
+                    <Route path="/problem/atocoder/:problemID" element={<AtcoderProblemPage />} />
+                    <Route path="/problem/spoj/:problemID" element={<SpojProblemPage />} />
+                    <Route path="/problem/timus/:problemID" element={<TimusProblemPage />} />
                     <Route
                         path="/forgot-password"
                         element={<PasswordRecover />}
@@ -46,7 +54,7 @@ function App() {
                     <Route path="/notfound" element={<NotFound />} />
                     <Route path="/loading" element={<Loading />} />
                 </Routes>
-                <Footer/>
+                {/* <Footer/> */}
             </AuthProvider>
         </BrowserRouter>
     );

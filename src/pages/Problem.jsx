@@ -1,21 +1,21 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const YourPageComponent = () => {
     const [problemUrl, setProblemUrl] = useState("");
     const [problemList, setProblemList] = useState([]);
 
+    const navigate = useNavigate();
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         try {
-            //special checking for only codeforces link
+            // Special checking for only codeforces link
             let myUrl = problemUrl;
-            console.log(myUrl);
             const cfRegex = /\/problemset\/problem\/(\d+)\/(\w+)/;
             const matches = myUrl.match(cfRegex);
             if (matches && matches.length === 3) {
-                console.log("dukse");
                 const contestID = matches[1];
                 const problemIndex = matches[2];
                 myUrl = `https://codeforces.com/contest/${contestID}/problem/${problemIndex.toUpperCase()}`;
@@ -29,16 +29,35 @@ const YourPageComponent = () => {
                 const { data } = await axios.post("/api/problem", {
                     problemUrl: myUrl,
                 });
-                if(data.status===undefined){
+                if (data.status === undefined) {
                     setProblemList((prevList) => [data, ...prevList]);
-                }
-                else{
+                } else {
                     alert(data.message);
                 }
             }
             setProblemUrl("");
         } catch (error) {
             console.error("Error submitting form:", error);
+        }
+    };
+
+    const handleProblemClick = (problem) => {
+        if (problem.judge === "Atcoder") {
+            navigate(`/problem/atcoder/${problem.problemID}`, {
+                state: problem,
+            });
+        } else if (problem.judge === "Codeforces") {
+            navigate(`/problem/codeforces/${problem.problemID}`, {
+                state: problem,
+            });
+        } else if (problem.judge === "Spoj") {
+            navigate(`/problem/spoj/${problem.problemID}`, {
+                state: problem,
+            });
+        } else if (problem.judge === "timus") {
+            navigate(`/problem/timus/${problem.problemID}`, {
+                state: problem,
+            });
         }
     };
 
@@ -89,7 +108,14 @@ const YourPageComponent = () => {
                                         {problem.problemID}
                                     </td>
                                     <td className="border-b px-4 py-2">
-                                        {problem.title}
+                                        <button
+                                            onClick={() =>
+                                                handleProblemClick(problem)
+                                            }
+                                            className="cursor-pointer"
+                                        >
+                                            {problem.title}
+                                        </button>
                                     </td>
                                 </tr>
                             ))}
