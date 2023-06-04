@@ -79,7 +79,7 @@ export function AuthProvider({ children }) {
         try {
             const username = localStorage.getItem('currentUser');
             const { data } = await axios.post("/api/logout", {username}, { withCredentials: true });
-            if(data.status===200){
+            if(data.status===200 || data.status===401){
                 setCurrentUser(null);
                 localStorage.removeItem("currentUser");
             }

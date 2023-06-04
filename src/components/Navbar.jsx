@@ -7,10 +7,10 @@ export default function Navbar() {
 
     async function handleLogout(){
         try {
-           const { status, message } = await logout();
-           if(status===500){
+            const { status, message } = await logout();
+            if(status===500){
                 navigate('/server-error'); 
-           }
+            }
         } catch (error) {
             console.log(error);
             alert(error);
