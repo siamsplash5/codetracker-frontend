@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 // importing components
 
 import Navbar from "./components/Others/Navbar";
-import CodeforcesProblemPage from "./pages/CodeforcesProblemPage";
+import ProblemPage from "./pages/ProblemPage";
 import Home from "./pages/Home";
 import Loading from "./pages/Loading";
 import Login from "./pages/Login";
@@ -30,7 +30,7 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/problem" element={<ProblemList />} />
-                    <Route path="/problem/:judge/:problemID" element={<CodeforcesProblemPage />} />
+                    <Route path="/problem/:judge/:problemID" element={<ProblemPage />} />
                     <Route
                         path="/forgot-password"
                         element={<PasswordRecover />}
