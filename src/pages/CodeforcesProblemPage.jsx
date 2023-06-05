@@ -242,7 +242,9 @@ export default function CodeforcesProblemPage(props) {
                                     <td className="border-b px-4 py-2">
                                         {status.realJudgesSubmissionID}
                                     </td>
-                                    <td className="border-b px-4 py-2">
+                                    <td className="border-b px-4 py-2 text-center">
+                                        {status.submitDate}
+                                        <br />
                                         {status.submitTime}
                                     </td>
                                     <td className="border-b px-4 py-2">
