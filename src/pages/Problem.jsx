@@ -54,7 +54,7 @@ const YourPageComponent = () => {
             navigate(`/problem/spoj/${problem.problemID}`, {
                 state: problem,
             });
-        } else if (problem.judge === "timus") {
+        } else if (problem.judge === "Timus") {
             navigate(`/problem/timus/${problem.problemID}`, {
                 state: problem,
             });
