@@ -4,7 +4,7 @@ import ReactHtmlParser from "react-html-parser";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import SubmitSolution from "../components/Modals/SubmitSolution";
-import ProblemInfoContent from "../components/ProblemInfoContent";
+import ProblemInfoContent from "../components/Others/ProblemInfoContent";
 import { useNavigate } from "react-router-dom";
 
 
@@ -94,7 +94,7 @@ export default function CodeforcesProblemPage(props) {
                 langID,
                 sourceCode,
             });
-            console.log(data);
+            
             if (data.status === undefined) {
                 setSubmissionList((prevList) => [data, ...prevList]);
             } else {
@@ -239,7 +239,7 @@ export default function CodeforcesProblemPage(props) {
                         <tbody>
                             {submissionList.map((status) => (
                                 <tr key={status._id}>
-                                    <td className="border-b px-4 py-2">
+                                    <td className="border-b px-4 py-2 text-center">
                                         {status.realJudgesSubmissionID}
                                     </td>
                                     <td className="border-b px-4 py-2 text-center">
@@ -247,7 +247,13 @@ export default function CodeforcesProblemPage(props) {
                                         <br />
                                         {status.submitTime}
                                     </td>
-                                    <td className="border-b px-4 py-2">
+                                    <td
+                                        className={`border-b px-4 py-2 text-center ${
+                                            status.verdict === "Accepted"
+                                                ? "font-bold text-green-500"
+                                                : "text-red-500"
+                                        }`}
+                                    >
                                         {status.verdict}
                                     </td>
                                 </tr>

@@ -1,4 +1,4 @@
-import heroImage from '../assets/Business_SVG.svg'
+import heroImage from '../../assets/Business_SVG.svg'
 
 export default function Hero(){
     return (

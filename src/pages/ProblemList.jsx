@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const YourPageComponent = () => {
+export default function ProblemList() {
     const [problemUrl, setProblemUrl] = useState("");
     const [problemList, setProblemList] = useState([]);
 
@@ -126,5 +126,3 @@ const YourPageComponent = () => {
         </section>
     );
 };
-
-export default YourPageComponent;

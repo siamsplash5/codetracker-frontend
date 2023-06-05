@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../components/Button";
+import Button from "../components/Others/Button";
 import { useAuth } from "../context/AuthContext";
 
-const Register = () => {
+export default function Register() {
     const {register} = useAuth();
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
@@ -173,5 +173,3 @@ const Register = () => {
         </section>
     );
 };
-
-export default Register;

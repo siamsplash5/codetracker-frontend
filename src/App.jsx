@@ -3,25 +3,21 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 // importing components
 
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Others/Navbar";
+import CodeforcesProblemPage from "./pages/CodeforcesProblemPage";
 import Home from "./pages/Home";
-import Login from "./pages/Login";
-import PasswordRecover from "./pages/PasswordRecover";
-import SetNewPassword from "./pages/SetNewPassword";
-import Register from "./pages/Register";
-import VerifyRegistration from "./pages/VerifyRegistration";
-import ProblemSearch from "./pages/Problem";
-import ServerError from "./pages/ServerError";
-import NotFound from "./pages/NotFound";
 import Loading from "./pages/Loading";
-import CodeforcesProblemPage from "./pages/CodeforcesProblemPage"
-import TimusProblemPage from "./pages/TimusProblemPage";
-import AtcoderProblemPage from "./pages/AtcoderProblemPage";
-import SpojProblemPage from "./pages/SpojProblemPage";
+import Login from "./pages/Login";
+import NotFound from "./pages/NotFound";
+import PasswordRecover from "./pages/PasswordRecover";
+import ProblemList from "./pages/ProblemList";
+import Register from "./pages/Register";
+import ServerError from "./pages/ServerError";
+import SetNewPassword from "./pages/SetNewPassword";
+import VerifyRegistration from "./pages/VerifyRegistration";
 
 //import contexts
 import { AuthProvider } from './context/AuthContext';
-import Footer from "./components/Footer";
 
 
 function App() {
@@ -33,11 +29,8 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
-                    <Route path="/problem" element={<ProblemSearch />} />
-                    <Route path="/problem/codeforces/:problemID" element={<CodeforcesProblemPage />} />
-                    <Route path="/problem/atocoder/:problemID" element={<AtcoderProblemPage />} />
-                    <Route path="/problem/spoj/:problemID" element={<SpojProblemPage />} />
-                    <Route path="/problem/timus/:problemID" element={<TimusProblemPage />} />
+                    <Route path="/problem" element={<ProblemList />} />
+                    <Route path="/problem/:judge/:problemID" element={<CodeforcesProblemPage />} />
                     <Route
                         path="/forgot-password"
                         element={<PasswordRecover />}
