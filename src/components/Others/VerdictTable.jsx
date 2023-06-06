@@ -7,41 +7,51 @@ export default function VerdictTable({ status, info }) {
     const { judge, problemID } = info;
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const getSubmission = async () => {
-            try {
-                const { data } = await axios.post(
-                    "/api/submissiondata/specific-problem",
-                    {
-                        judge,
-                        problemID,
-                    }
-                );
-                if (data.status === undefined) {
-                    setSubmissionList((prevList) => [...data, ...prevList]);
-                } else {
-                    console.log(data.error);
-                    navigate("/server-error");
+    const handleRequestError = (error) => {
+        console.log(error);
+        navigate("/server-error");
+    };
+
+    const getSubmission = async () => {
+        try {
+            const { data } = await axios.post(
+                "/api/submissiondata/specific-problem",
+                {
+                    judge,
+                    problemID,
                 }
-            } catch (error) {
-                console.log(error);
+            );
+
+            if (data.status === undefined) {
+
+                data.reverse();
+                setSubmissionList((prevList) => [...data, ...prevList]);
+            } else {
+                console.log(data.error);
                 navigate("/server-error");
             }
-        };
-
-        getSubmission();
-    }, [judge, problemID, navigate]);
-
-    if (status !== undefined) {
-        if (status.status === undefined) {
-            setSubmissionList((prevList) => [status, ...prevList]);
-        } else {
-            console.log(status.message);
-            navigate("/server-error");
+        } catch (error) {
+            handleRequestError(error);
         }
-    }
+    };
 
-    //console.log(submissionList);
+    useEffect(() => {
+        const abortController = new AbortController();
+        getSubmission();
+
+        return () => {
+            abortController.abort();
+            setSubmissionList([]);
+        };
+    }, []);
+
+    useEffect(() => {
+        status !== undefined
+            ? status.status === undefined
+                ? setSubmissionList((prevList) => [status, ...prevList])
+                : (console.log(status.message), navigate("/server-error"))
+            : null;
+    }, [status]);
 
     return (
         <div className="overflow-x-auto mb-5">
@@ -55,8 +65,6 @@ export default function VerdictTable({ status, info }) {
                 </thead>
                 <tbody>
                     {submissionList.map((status) => (
-                        console.log(status),
-                        console.log('shalar put'),
                         <tr key={status._id}>
                             <td className="border-b px-4 py-2 text-center">
                                 {status.realJudgesSubmissionID}
