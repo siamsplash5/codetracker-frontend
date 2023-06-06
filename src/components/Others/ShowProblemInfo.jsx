@@ -5,29 +5,33 @@ export default function ShowProblemInfo({problem}){
     const { tags, rating, source } = problem;
     
     return (
-        <div className="container rounded-3xl mb-5 text-white bg-cyan-950 px-4 py-8">
+        <div className="container rounded-3xl mb-5 text-slate-50 bg-cyan-950 px-4 py-8">
             <button onClick={() => (show ? setShow(false) : setShow(true))}>
                 {show ? "Hide Problem Info" : "Show Problem Info"}
             </button>
             {show && (
-                <>
+                <div>
                     <hr />
                     <br />
                     <div>
                         <p>
-                            <b>Rating:</b> {rating}
+                            <span className="text-amber-300">Rating: </span>
+                            <span>
+                                <b>{rating}</b>
+                            </span>
                         </p>
                         <p>
-                            <b> Tag:</b>{" "}
+                            <span className="text-amber-300">Tags: </span>
                             {tags.map((element, index) => (
-                                <span key={index}>{element + ", "}</span>
+                                <li key={index}>{element}</li>
                             ))}
                         </p>
                         <p>
-                            <b>Source:</b> <a href={source}>Codeforces</a>
+                            <span className="text-amber-300">Source: </span>{" "}
+                            <a href={source}>Codeforces</a>
                         </p>
                     </div>
-                </>
+                </div>
             )}
         </div>
     );

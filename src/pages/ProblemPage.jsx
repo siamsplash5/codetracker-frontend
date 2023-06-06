@@ -5,6 +5,7 @@ import styled from "styled-components";
 import ShowProblemInfo from "../components/Others/ShowProblemInfo";
 import SubmitSolution from "../components/Others/SubmitSolution";
 import VerdictTable from "../components/Others/VerdictTable";
+import AtcoderProblem from "../components/ProblemStatement/AtcoderProblem";
 import CodeforcesProblem from "../components/ProblemStatement/CodeforcesProblem";
 
 const StyledProblemContainer = styled.div`
@@ -44,6 +45,9 @@ export default function ProblemPage(props) {
     return (
         <div className="container flex mx-auto">
             <StyledProblemContainer>
+                {problem.judge === "Atcoder" && (
+                    <AtcoderProblem problem={problem} />
+                )}
                 {problem.judge === "Codeforces" && (
                     <CodeforcesProblem problem={problem} />
                 )}
