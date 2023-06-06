@@ -21,11 +21,9 @@ const StyledGap = styled.div`
 `;
 
 export default function ProblemPage(props) {
+    const [statusInfo, setStatusInfo] = useState();
     const location = useLocation();
     const problem = location.state;
-
-    const [submissionList, setSubmissionList] = useState([]);
-
     const navigate = useNavigate();
 
     async function submitHandler({langID, sourceCode}){
@@ -36,13 +34,7 @@ export default function ProblemPage(props) {
                 langID,
                 sourceCode,
             });
-            
-            if (data.status === undefined) {
-                setSubmissionList((prevList) => [data, ...prevList]);
-            } else {
-                console.log(data.message);
-                navigate("/server-error");
-            }
+            setStatusInfo(data);
         } catch (error) {
             console.log(error);
             navigate("/server-error");
@@ -64,7 +56,13 @@ export default function ProblemPage(props) {
                         submitHandler({ langID, sourceCode })
                     }
                 />
-                <VerdictTable submissionList={submissionList} />
+                <VerdictTable
+                    status={statusInfo}
+                    info={{
+                        judge: problem.judge,
+                        problemID: problem.problemID,
+                    }}
+                />
             </StyledSideBar>
         </div>
     );
