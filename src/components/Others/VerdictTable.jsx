@@ -27,7 +27,7 @@ export default function VerdictTable({ status, info }) {
                 data.reverse();
                 setSubmissionList((prevList) => [...data, ...prevList]);
             } else {
-                console.log(data.error);
+                console.log(data.message);
                 navigate("/server-error");
             }
         } catch (error) {

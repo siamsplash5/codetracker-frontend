@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function ProblemList() {
@@ -7,6 +8,36 @@ export default function ProblemList() {
     const [problemList, setProblemList] = useState([]);
 
     const navigate = useNavigate();
+
+    const handleRequestError = (error) => {
+        console.log(error);
+        navigate("/server-error");
+    };
+
+    const getProblemList = async () => {
+        try {
+            const { data } = await axios.get("/api/problem-all");
+
+            if (data.status === undefined) {
+                setProblemList((prevList) => [...data, ...prevList]);
+            } else {
+                console.log(data.message);
+                navigate("/server-error");
+            }
+        } catch (error) {
+            handleRequestError(error);
+        }
+    };
+
+    useEffect(() => {
+        const abortController = new AbortController();
+        getProblemList();
+
+        return () => {
+            abortController.abort();
+            setProblemList([]);
+        };
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -85,7 +116,7 @@ export default function ProblemList() {
                     </button>
                 </form>
 
-                <div className="overflow-x-auto">
+                <div className="overflow-x-auto text-center">
                     <table className="border border-gray-300 w-full">
                         <thead>
                             <tr>
@@ -105,7 +136,14 @@ export default function ProblemList() {
                                         {problem.judge}
                                     </td>
                                     <td className="border-b px-4 py-2">
-                                        {problem.problemID}
+                                        <button
+                                            onClick={() =>
+                                                handleProblemClick(problem)
+                                            }
+                                            className="cursor-pointer"
+                                        >
+                                            {problem.problemID}
+                                        </button>
                                     </td>
                                     <td className="border-b px-4 py-2">
                                         <button
