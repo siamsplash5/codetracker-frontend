@@ -99,85 +99,70 @@ export default function CodeforcesProblem({ problem }) {
             </p>
             <hr />
 
-            {problemStatement.body && (
-                <div className="mb-6">
-                    {ReactHtmlParser(problemStatement.body)}
-                </div>
-            )}
-
-            {problemStatement.constraint && (
-                <div className="mb-6">
-                    {ReactHtmlParser(problemStatement.constraint)}
-                </div>
-            )}
-
-            {problemStatement.input && (
-                <div className="mb-6">
-                    {ReactHtmlParser(problemStatement.input)}
-                </div>
-            )}
-
-            {problemStatement.output && (
-                <div className="mb-6">
-                    {ReactHtmlParser(problemStatement.output)}
-                </div>
-            )}
+            {problemStatement.map((element, index) => (
+                <div className="mb-6">{ReactHtmlParser(element)}</div>
+            ))}
 
             {sampleTestCase.inputs.map((item, index) => (
                 <>
-                    <div className="flex" key={`test-case-${index}`}>
-                        <div className="flex-1">
-                            <div className="h-full">
-                                <table className="w-full h-full border border-gray-300">
-                                    <thead>
-                                        <tr>
-                                            <th className="px-4 py-2 bg-gray-200">
-                                                Input
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td className="px-4 py-2 align-top">
-                                                <span className="mysample">
-                                                    {item}
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                    {item && (
+                        <>
+                            <div className="flex" key={`test-case-${index}`}>
+                                <div className="flex-1">
+                                    <div className="h-full">
+                                        <table className="w-full h-full border border-gray-300">
+                                            <thead>
+                                                <tr>
+                                                    <th className="px-4 py-2 bg-gray-200">
+                                                        Input
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td className="px-4 py-2 align-top">
+                                                        <span className="mysample">
+                                                            {item}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div className="flex-1">
+                                    <div className="h-full">
+                                        <table className="w-full h-full border border-gray-300">
+                                            <thead>
+                                                <tr>
+                                                    <th className="px-4 py-2 bg-gray-200">
+                                                        Output
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td className="px-4 py-2 align-top">
+                                                        <span className="mysample">
+                                                            {
+                                                                sampleTestCase
+                                                                    .outputs[
+                                                                    index
+                                                                ]
+                                                            }
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div className="flex-1">
-                            <div className="h-full">
-                                <table className="w-full h-full border border-gray-300">
-                                    <thead>
-                                        <tr>
-                                            <th className="px-4 py-2 bg-gray-200">
-                                                Output
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td className="px-4 py-2 align-top">
-                                                <span className="mysample">
-                                                    {
-                                                        sampleTestCase.outputs[
-                                                            index
-                                                        ]
-                                                    }
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <br />
-                    {notes[index] && ReactHtmlParser(notes[index])}
-                    <hr />
+                            <br />
+                            {notes[index] && ReactHtmlParser(notes[index])}
+                            <hr />
+                        </>
+                    )}
                 </>
             ))}
         </StyledProblemStatement>
