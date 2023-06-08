@@ -38,7 +38,8 @@ const StyledProblemStatement = styled.div`
     section {
         display: block;
     }
-    pre {
+    pre,
+    blockquote {
         display: block;
         padding: 9.5px;
         line-height: 1.42857143;
