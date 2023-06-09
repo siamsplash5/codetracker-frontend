@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import ShowProblemInfo from "../components/Others/ShowProblemInfo";
@@ -9,6 +10,7 @@ import AtcoderProblem from "../components/ProblemStatement/AtcoderProblem";
 import CodeforcesProblem from "../components/ProblemStatement/CodeforcesProblem";
 
 const StyledProblemContainer = styled.div`
+    font-family: Helvetica;
     width: 70%;
 `;
 

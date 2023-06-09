@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import CodeforcesOptions from '../SubmitLanguageOptions/CodeforcesOptions'
 
 export default function SubmitSolution({ handle }) {
     const [showSubmitModal, setShowSubmitModal] = useState(false);
     const [langID, setLangID] = useState(0);
     const [sourceCode, setSourceCode] = useState("");
+    const navigate = useNavigate();  
 
     const handleLangIDChange = (event) => {
         setLangID(event.target.value);
@@ -14,7 +16,16 @@ export default function SubmitSolution({ handle }) {
         setSourceCode(event.target.value);
     };
 
-    async function handleSubmit(e) {
+    function handleSubmit(){
+        const currentUser = localStorage.getItem("currentUser");
+        console.log(currentUser);
+        if(currentUser===null){
+            navigate('/login');
+        }
+        else setShowSubmitModal(true);
+    }
+
+    async function handleSolutionSubmit(e) {
         e.preventDefault();
         handle({ langID, sourceCode });
         setLangID("");
@@ -26,7 +37,7 @@ export default function SubmitSolution({ handle }) {
             <button
                 type="button"
                 className="w-full text-white bg-indigo-800 hover:bg-indigo-900 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-buttons dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                onClick={() => setShowSubmitModal(true)}
+                onClick={handleSubmit}
             >
                 submit
             </button>
@@ -49,7 +60,7 @@ export default function SubmitSolution({ handle }) {
                                     </button>
                                 </div>
 
-                                <form onSubmit={handleSubmit}>
+                                <form onSubmit={handleSolutionSubmit}>
                                     <div className="relative p-6 flex-auto">
                                         <div className="mb-6">
                                             <label

@@ -23,12 +23,8 @@ export default function VerdictTable({ status, info }) {
             );
 
             if (data.status === undefined) {
-
                 data.reverse();
                 setSubmissionList((prevList) => [...data, ...prevList]);
-            } else {
-                console.log(data.message);
-                navigate("/server-error");
             }
         } catch (error) {
             handleRequestError(error);

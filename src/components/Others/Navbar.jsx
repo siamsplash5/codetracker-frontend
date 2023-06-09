@@ -10,6 +10,7 @@ export default function Navbar() {
             if(status===500){
                 navigate('/server-error'); 
             }
+            window.location.reload();
         } catch (error) {
             console.log(error);
             alert(error);

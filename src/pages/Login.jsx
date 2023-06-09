@@ -27,7 +27,7 @@ export default function Login() {
             if (status === 200) {
                 setUsername("");
                 setPassword("");
-                navigate("/");
+                navigate(-1);
             } else {
                 setErrorMsg(message);
                 setShowErrorMsg(true);
