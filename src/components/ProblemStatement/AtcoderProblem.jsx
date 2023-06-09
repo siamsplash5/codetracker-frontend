@@ -104,6 +104,9 @@ export default function CodeforcesProblem({ problem }) {
                 <div className="mb-6">{ReactHtmlParser(element)}</div>
             ))}
 
+            <hr />
+            <br />
+
             {sampleTestCase.inputs.map((item, index) => (
                 <>
                     {item && (
