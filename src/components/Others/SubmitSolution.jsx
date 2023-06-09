@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import CodeforcesOptions from '../SubmitLanguageOptions/CodeforcesOptions'
+import CodeforcesOptions from '../SubmitLanguageOptions/CodeforcesOptions';
+import AtcoderOptions from '../SubmitLanguageOptions/AtcoderOptions';
 
-export default function SubmitSolution({ handle }) {
+
+export default function SubmitSolution({ handle, judge }) {
     const [showSubmitModal, setShowSubmitModal] = useState(false);
     const [langID, setLangID] = useState(0);
     const [sourceCode, setSourceCode] = useState("");
@@ -52,7 +54,9 @@ export default function SubmitSolution({ handle }) {
                                     </h3>
                                     <button
                                         className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                                        onClick={() => setShowSubmitModal(false)}
+                                        onClick={() =>
+                                            setShowSubmitModal(false)
+                                        }
                                     >
                                         <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
                                             X
@@ -77,7 +81,12 @@ export default function SubmitSolution({ handle }) {
                                                 required
                                                 defaultValue=""
                                             >
-                                                <CodeforcesOptions />
+                                                {judge === "Atcoder" && (
+                                                    <AtcoderOptions />
+                                                )}
+                                                {judge === "Codeforces" && (
+                                                    <CodeforcesOptions />
+                                                )}
                                             </select>
                                         </div>
                                         <div className="mb-6">
@@ -103,7 +112,9 @@ export default function SubmitSolution({ handle }) {
                                         <button
                                             className="text-red-500 background-transparent font-bold uppercase px-6 py-3 text-lg outline-none focus:outline-none mr-2 mb-1 ease-linear transition-all duration-150"
                                             type="button"
-                                            onClick={() => setShowSubmitModal(false)}
+                                            onClick={() =>
+                                                setShowSubmitModal(false)
+                                            }
                                         >
                                             Close
                                         </button>

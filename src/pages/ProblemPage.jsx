@@ -61,6 +61,7 @@ export default function ProblemPage(props) {
                     handle={({ langID, sourceCode }) =>
                         submitHandler({ langID, sourceCode })
                     }
+                    judge={problem.judge}
                 />
                 <VerdictTable
                     status={statusInfo}
