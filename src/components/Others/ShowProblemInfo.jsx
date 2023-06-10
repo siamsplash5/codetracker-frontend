@@ -2,7 +2,7 @@ import { useState } from "react";
 
 export default function ShowProblemInfo({problem}){
     const [show, setShow] = useState(false);
-    const { judge, tags, rating, source, score } = problem;
+    const { judge, tags, rating, source, score, difficulty, author } = problem;
     
     return (
         <div className="container rounded-3xl mb-5 text-slate-50 bg-cyan-950 px-4 py-8">
@@ -30,10 +30,30 @@ export default function ShowProblemInfo({problem}){
                                 </span>
                             </p>
                         )}
-                        {tags && (
+                        {difficulty && (
+                            <p>
+                                <span className="text-amber-300">
+                                    Difficulty:{" "}
+                                </span>
+                                <span>
+                                    <b>{difficulty}</b>
+                                </span>
+                            </p>
+                        )}
+                        {tags && tags.length>0 && (
                             <p>
                                 <span className="text-amber-300">Tags: </span>
                                 {tags.map((element, index) => (
+                                    <li key={index}>{element}</li>
+                                ))}
+                            </p>
+                        )}
+                        {author && author.length>0 && (
+                            <p>
+                                <span className="text-amber-300">
+                                    Information:
+                                </span>
+                                {author.map((element, index) => (
                                     <li key={index}>{element}</li>
                                 ))}
                             </p>

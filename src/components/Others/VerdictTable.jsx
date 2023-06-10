@@ -42,11 +42,21 @@ export default function VerdictTable({ status, info }) {
     }, []);
 
     useEffect(() => {
-        status !== undefined
-            ? status.status === undefined
-                ? setSubmissionList((prevList) => [status, ...prevList])
-                : (console.log(status.message), navigate("/server-error"))
-            : null;
+        if(status!==undefined){
+            if(status.status === undefined){
+                setSubmissionList((prevList) => [status, ...prevList]);
+            }
+            else if(status.status===401){
+                console.log(status.message);
+                localStorage.removeItem("currentUser");
+                navigate("/login");
+                window.location.reload();
+            }
+            else{
+                console.log(status.message);
+                navigate("/server-error");
+            }
+        }
     }, [status]);
 
     return (

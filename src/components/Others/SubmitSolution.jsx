@@ -20,7 +20,6 @@ export default function SubmitSolution({ handle, judge }) {
 
     function handleSubmit(){
         const currentUser = localStorage.getItem("currentUser");
-        console.log(currentUser);
         if(currentUser===null){
             navigate('/login');
         }

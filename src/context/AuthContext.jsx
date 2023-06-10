@@ -14,8 +14,10 @@ export function AuthProvider({ children }) {
         const storedUser = localStorage.getItem("currentUser");
         if (storedUser) {
             setCurrentUser(storedUser);
+        } else {
+            setCurrentUser(null);
         }
-    }, []);
+    }, [currentUser]);
 
     //register function
     async function register(email, username, password){
