@@ -2,7 +2,11 @@ import ReactHtmlParser from "react-html-parser";
 import styled from "styled-components";
 
 const StyledProblemStatement = styled.div`
-    font-size: 1.2rem;
+    font-size: 1.3rem;
+    font-family: Times New Roman;
+    pre{
+        font-size: 1.1rem;
+    }
     hr {
         margin: 1rem;
     }
@@ -15,6 +19,20 @@ const StyledProblemStatement = styled.div`
         font-weight: 600;
         font-size: 1.3rem;
         margin-bottom: 1rem;
+    }
+
+    ul {
+        list-style: disc;
+        padding-left: 20px;
+        list-style-position: inside;
+    }
+    ol {
+        list-style-type: decimal;
+        padding-left: 20px;
+        list-style-position: inside;
+    }
+    .spf {
+        font-family: Helvetica;
     }
     .problem_par_normal {
         margin-bottom: 1rem;
@@ -31,16 +49,14 @@ export default function TimusProblem({ problem }) {
         notes,
     } = problem;
 
-    const {background, body, input, output} = problemStatement;
 
-    console.log(sampleTestCase.outputs);
+
 
     return (
         <StyledProblemStatement className="px-4 py-8 rounded-lg bg-custom">
-            <h1 className="text-4xl font-bold mb-4">{title}</h1>
+            <h1 className="text-4xl font-bold mb-4 spf">{title}</h1>
             <hr />
-
-            <p className="text-base">
+            <p className="text-base spf">
                 <span>
                     <b>Time Limit:</b> {timeLimit}
                 </span>
@@ -51,29 +67,9 @@ export default function TimusProblem({ problem }) {
             </p>
             <hr />
 
-            {background && (
-                <>
-                    <h3>Background</h3>
-                    <div className="mb-6">{ReactHtmlParser(background)}</div>
-                </>
-            )}
-            {body && (
-                <>
-                    <div className="mb-6">{ReactHtmlParser(body)}</div>
-                </>
-            )}
-            {input && (
-                <>
-                    <h3>Input</h3>
-                    <div className="mb-6">{ReactHtmlParser(input)}</div>
-                </>
-            )}
-            {output && (
-                <>
-                    <h3>Output</h3>
-                    <div className="mb-6">{ReactHtmlParser(output)}</div>
-                </>
-            )}
+            {problemStatement.map((item, index) => (
+                <div className="mb-6">{ReactHtmlParser(item)}</div>
+            ))}
 
             <hr />
             <br />
@@ -97,7 +93,9 @@ export default function TimusProblem({ problem }) {
                                                 <tr>
                                                     <td className="px-4 py-2 align-top">
                                                         <span className="mysample">
-                                                            {item}
+                                                            {ReactHtmlParser(
+                                                                item
+                                                            )}
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -119,12 +117,12 @@ export default function TimusProblem({ problem }) {
                                                 <tr>
                                                     <td className="px-4 py-2 align-top">
                                                         <span className="mysample">
-                                                            {
+                                                            {ReactHtmlParser(
                                                                 sampleTestCase
                                                                     .outputs[
                                                                     index
                                                                 ]
-                                                            }
+                                                            )}
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -137,14 +135,16 @@ export default function TimusProblem({ problem }) {
                             <hr />
                         </>
                     )}
-                    {notes && (
-                        <>
-                            <h3>Note</h3>
-                            <div>{ReactHtmlParser(notes)}</div>
-                        </>
-                    )}
                 </>
             ))}
+            {notes && notes.length > 0 && (
+                <>
+                    <h3>Note</h3>
+                    {notes.map((item, index) => (
+                        <div>{ReactHtmlParser(item)}</div>
+                    ))}
+                </>
+            )}
         </StyledProblemStatement>
     );
 }
