@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import CodeforcesOptions from '../SubmitLanguageOptions/CodeforcesOptions';
 import AtcoderOptions from '../SubmitLanguageOptions/AtcoderOptions';
+import CodeforcesOptions from '../SubmitLanguageOptions/CodeforcesOptions';
+import SpojOptions from "../SubmitLanguageOptions/SpojOptions";
 import TimusOptions from '../SubmitLanguageOptions/TimusOptions';
 
 
@@ -89,6 +90,9 @@ export default function SubmitSolution({ handle, judge }) {
                                                 )}
                                                 {judge === "Timus" && (
                                                     <TimusOptions />
+                                                )}
+                                                {judge === "Spoj" && (
+                                                    <SpojOptions />
                                                 )}
                                             </select>
                                         </div>

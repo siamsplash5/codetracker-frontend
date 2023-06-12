@@ -1,4 +1,4 @@
-export default function CodeforcesOptions() {
+export default function TimusOptions() {
     return (
         <>
             <option value="">Select Language</option>

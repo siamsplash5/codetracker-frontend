@@ -9,6 +9,7 @@ import VerdictTable from "../components/Others/VerdictTable";
 import AtcoderProblem from "../components/ProblemStatement/AtcoderProblem";
 import CodeforcesProblem from "../components/ProblemStatement/CodeforcesProblem";
 import TimusProblem from "../components/ProblemStatement/TimusProblem";
+import SpojProblem from "../components/ProblemStatement/SpojProblem";
 
 const StyledProblemContainer = styled.div`
     font-family: Helvetica;
@@ -56,6 +57,9 @@ export default function ProblemPage(props) {
                 )}
                 {problem.judge === "Timus" && (
                     <TimusProblem problem={problem} />
+                )}
+                {problem.judge === "Spoj" && (
+                    <SpojProblem problem={problem} />
                 )}
             </StyledProblemContainer>
             <StyledGap />

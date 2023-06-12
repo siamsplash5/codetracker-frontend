@@ -1,4 +1,4 @@
-export default function CodeforcesOptions() {
+export default function AtcoderOptions() {
     return (
         <>
             <option value="">Select Language</option>

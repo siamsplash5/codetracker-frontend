@@ -1,9 +1,10 @@
 import { useState } from "react";
+import ReactHtmlParser from "react-html-parser";
 
 export default function ShowProblemInfo({problem}){
     const [show, setShow] = useState(false);
-    const { judge, tags, rating, source, score, difficulty, author } = problem;
-    
+    const { sourceLimit, judge, tags, rating, source, score, difficulty, author } = problem;
+    console.log(tags);
     return (
         <div className="container rounded-3xl mb-5 text-slate-50 bg-cyan-950 px-4 py-8">
             <button onClick={() => (show ? setShow(false) : setShow(true))}>
@@ -14,6 +15,14 @@ export default function ShowProblemInfo({problem}){
                     <hr />
                     <br />
                     <div>
+                        {sourceLimit && (
+                            <p>
+                                <span className="text-amber-300">
+                                    Source Limit: {" "}
+                                </span>
+                                {sourceLimit}
+                            </p>
+                        )}
                         {rating && (
                             <p>
                                 <span className="text-amber-300">Rating: </span>
@@ -40,7 +49,7 @@ export default function ShowProblemInfo({problem}){
                                 </span>
                             </p>
                         )}
-                        {tags && tags.length>0 && (
+                        {tags && tags.length > 0 && (
                             <p>
                                 <span className="text-amber-300">Tags: </span>
                                 {tags.map((element, index) => (
@@ -48,16 +57,26 @@ export default function ShowProblemInfo({problem}){
                                 ))}
                             </p>
                         )}
-                        {author && author.length>0 && (
+                        {author && author.length > 0 && judge === "Timus" ? (
                             <p>
                                 <span className="text-amber-300">
                                     Information:
                                 </span>
-                                {author.map((element, index) => (
-                                    <li key={index}>{element}</li>
-                                ))}
+                                <ul>
+                                    {author.map((element, index) => (
+                                        <li key={index}>{element}</li>
+                                    ))}
+                                </ul>
                             </p>
+                        ) : (
+                            <div>
+                                <span className="text-amber-300">
+                                    Author:
+                                </span>{" "}
+                                {ReactHtmlParser(author)}
+                            </div>
                         )}
+
                         {source && (
                             <p>
                                 <span className="text-amber-300">Source: </span>{" "}
