@@ -13,7 +13,7 @@ export default function ShowProblemInfo({ problem }) {
         difficulty,
         author,
     } = problem;
-    console.log(tags);
+
     return (
         <div className="container rounded-3xl mb-5 text-slate-50 bg-cyan-950 px-4 py-8">
             <button onClick={() => (show ? setShow(false) : setShow(true))}>

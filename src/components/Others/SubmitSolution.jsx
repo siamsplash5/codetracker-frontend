@@ -1,16 +1,16 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AtcoderOptions from '../SubmitLanguageOptions/AtcoderOptions';
-import CodeforcesOptions from '../SubmitLanguageOptions/CodeforcesOptions';
+import AtcoderOptions from "../SubmitLanguageOptions/AtcoderOptions";
+import CodeforcesOptions from "../SubmitLanguageOptions/CodeforcesOptions";
 import SpojOptions from "../SubmitLanguageOptions/SpojOptions";
-import TimusOptions from '../SubmitLanguageOptions/TimusOptions';
-
+import TimusOptions from "../SubmitLanguageOptions/TimusOptions";
 
 export default function SubmitSolution({ handle, judge }) {
     const [showSubmitModal, setShowSubmitModal] = useState(false);
     const [langID, setLangID] = useState(0);
     const [sourceCode, setSourceCode] = useState("");
-    const navigate = useNavigate();  
+    const navigate = useNavigate();
 
     const handleLangIDChange = (event) => {
         setLangID(event.target.value);
@@ -20,12 +20,11 @@ export default function SubmitSolution({ handle, judge }) {
         setSourceCode(event.target.value);
     };
 
-    function handleSubmit(){
+    function handleSubmit() {
         const currentUser = localStorage.getItem("currentUser");
-        if(currentUser===null){
-            navigate('/login');
-        }
-        else setShowSubmitModal(true);
+        if (currentUser === null) {
+            navigate("/login");
+        } else setShowSubmitModal(true);
     }
 
     async function handleSolutionSubmit(e) {
@@ -35,6 +34,17 @@ export default function SubmitSolution({ handle, judge }) {
         setSourceCode("");
         setShowSubmitModal(false);
     }
+
+    useEffect(() => {
+        if (showSubmitModal) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "scroll";
+        }
+
+        return () => {};
+    }, [showSubmitModal]);
+
     return (
         <div className="mb-5">
             <button
@@ -46,7 +56,9 @@ export default function SubmitSolution({ handle, judge }) {
             </button>
             {showSubmitModal && (
                 <>
-                    <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                    <div
+                        className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+                    >
                         <div className="relative w-full my-6 mx-auto max-w-4xl">
                             <div className="border-0 rounded-lg shadow-lg relative flex flex-col bg-white outline-none focus:outline-none">
                                 <div className="flex items-start justify-between p-6 border-b border-solid border-gray-300 rounded-t">
@@ -59,9 +71,7 @@ export default function SubmitSolution({ handle, judge }) {
                                             setShowSubmitModal(false)
                                         }
                                     >
-                                        <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                                            X
-                                        </span>
+                                        X
                                     </button>
                                 </div>
 

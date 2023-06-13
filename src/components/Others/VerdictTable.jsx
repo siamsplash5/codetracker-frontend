@@ -1,9 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ShowSourceCode from "./ShowSourceCode";
 
 export default function VerdictTable({ status, info }) {
     const [submissionList, setSubmissionList] = useState([]);
+    const [showCode, setShowCode] = useState(false);
+    const [indexToShow, setIndexToShow] = useState();
     const { judge, problemID } = info;
     const navigate = useNavigate();
 
@@ -42,22 +45,30 @@ export default function VerdictTable({ status, info }) {
     }, []);
 
     useEffect(() => {
-        if(status!==undefined){
-            if(status.status === undefined){
+        if (status !== undefined) {
+            if (status.status === undefined) {
                 setSubmissionList((prevList) => [status, ...prevList]);
-            }
-            else if(status.status===401){
+            } else if (status.status === 401) {
                 console.log(status.message);
                 localStorage.removeItem("currentUser");
                 navigate("/login");
                 window.location.reload();
-            }
-            else{
+            } else {
                 console.log(status.message);
                 navigate("/server-error");
             }
         }
     }, [status]);
+
+    useEffect(() => {
+        if(showCode){
+            document.body.style.overflow = "hidden";
+        }else{
+            document.body.style.overflow = "scroll";
+        }
+
+        return () => {};
+    }, [showCode]);
 
     return (
         <div className="overflow-x-auto mb-5">
@@ -70,10 +81,17 @@ export default function VerdictTable({ status, info }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {submissionList.map((status) => (
+                    {submissionList.map((status, index) => (
                         <tr key={status._id}>
                             <td className="border-b px-4 py-2 text-center">
-                                {status.realJudgesSubmissionID}
+                                <button
+                                    onClick={() => {
+                                        setShowCode(true);
+                                        setIndexToShow(index);
+                                    }}
+                                >
+                                    {status.realJudgesSubmissionID}
+                                </button>
                             </td>
                             <td className="border-b px-4 py-2 text-center">
                                 {status.submitDate}
@@ -93,6 +111,9 @@ export default function VerdictTable({ status, info }) {
                     ))}
                 </tbody>
             </table>
+            {showCode && (
+                <ShowSourceCode status={submissionList[indexToShow]} onClose={()=>setShowCode(false)} />
+            )}
         </div>
     );
 }
