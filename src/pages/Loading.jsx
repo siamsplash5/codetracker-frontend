@@ -1,5 +1,13 @@
 export default function Loading(){
     return (
-        <div classNameName="w-16 h-16 border-4 border-dashed rounded-full animate-spin dark:border-violet-400"></div>
+        <div className="h-screen bg-white">
+            <div className="flex justify-center items-center h-full">
+                <img
+                    className="h-16 w-16"
+                    src="https://icons8.com/preloaders/preloaders/1488/Iphone-spinner-2.gif"
+                    alt=""
+                />
+            </div>
+        </div>
     );
 }

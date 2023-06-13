@@ -41,6 +41,9 @@ const StyledProblemStatement = styled.div`
         font-weight: bold;
         font-size: 1.6rem;
     }
+    img{
+        margin: 1rem;
+    }
 
     p {
         margin-bottom: 20px;

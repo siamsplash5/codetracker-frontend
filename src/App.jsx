@@ -1,5 +1,6 @@
 // importing from packages
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Suspense } from "react";
 
 // importing components
 
@@ -25,29 +26,32 @@ function App() {
         <BrowserRouter>
             <AuthProvider>
                 <Navbar />
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route path="/problem" element={<ProblemList />} />
-                    <Route path="/problem/:judge/:problemID" element={<ProblemPage />} />
-                    <Route
-                        path="/forgot-password"
-                        element={<PasswordRecover />}
-                    />
-                    <Route
-                        path="/forgot-password-verify"
-                        element={<SetNewPassword />}
-                    />
-                    <Route
-                        path="/verify-registration"
-                        element={<VerifyRegistration />}
-                    />
-                    <Route path="/server-error" element={<ServerError />} />
-                    <Route path="/notfound" element={<NotFound />} />
-                    <Route path="/loading" element={<Loading />} />
-                </Routes>
-                {/* <Footer/> */}
+                <Suspense fallback={<Loading />}>
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
+                        <Route path="/problem" element={<ProblemList />} />
+                        <Route
+                            path="/problem/:judge/:problemID"
+                            element={<ProblemPage />}
+                        />
+                        <Route
+                            path="/forgot-password"
+                            element={<PasswordRecover />}
+                        />
+                        <Route
+                            path="/forgot-password-verify"
+                            element={<SetNewPassword />}
+                        />
+                        <Route
+                            path="/verify-registration"
+                            element={<VerifyRegistration />}
+                        />
+                        <Route path="/server-error" element={<ServerError />} />
+                        <Route path="/notfound" element={<NotFound />} />
+                    </Routes>
+                </Suspense>
             </AuthProvider>
         </BrowserRouter>
     );

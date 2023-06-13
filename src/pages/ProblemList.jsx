@@ -1,75 +1,76 @@
 import axios from "axios";
+import useSWR from "swr";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import ServerError from "../pages/ServerError";
+
+const fetchProblemList = async (...args) => {
+    const { data } = await axios.get(...args);
+    return data;
+};
+
+const changeCFUrl = (url) => {
+    const cfRegex = /\/problemset\/problem\/(\d+)\/(\w+)/;
+    const matches = url.match(cfRegex);
+    if (matches && matches.length === 3) {
+        const contestID = matches[1];
+        const problemIndex = matches[2];
+        return `https://codeforces.com/contest/${contestID}/problem/${problemIndex.toUpperCase()}`;
+    }
+    return url;
+};
 
 export default function ProblemList() {
     const [problemUrl, setProblemUrl] = useState("");
     const [problemList, setProblemList] = useState([]);
-
     const navigate = useNavigate();
+    
+    const { data, error } = useSWR("/api/problem-all", fetchProblemList, {
+        suspense: true,
+    });
 
-    const handleRequestError = (error) => {
+    if (error) {
         console.log(error);
-        navigate("/server-error");
-    };
-
-    const getProblemList = async () => {
-        try {
-            const { data } = await axios.get("/api/problem-all");
-
-            if (data.status === undefined) {
-                setProblemList((prevList) => [...data, ...prevList]);
-            } else {
-                console.log(data.message);
-                navigate("/server-error");
-            }
-        } catch (error) {
-            handleRequestError(error);
-        }
-    };
+        return <ServerError />;
+    }
 
     useEffect(() => {
-        const abortController = new AbortController();
-        getProblemList();
-
-        return () => {
-            abortController.abort();
-            setProblemList([]);
-        };
-    }, []);
+        if (data && data.status === undefined) {
+            setProblemList((prevList) => [...data, ...prevList]);
+        } else {
+            console.log(data.message);
+            return <ServerError />;
+        }
+    }, [data]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            // Special checking for only codeforces link
-            let myUrl = problemUrl;
-            const cfRegex = /\/problemset\/problem\/(\d+)\/(\w+)/;
-            const matches = myUrl.match(cfRegex);
-            if (matches && matches.length === 3) {
-                const contestID = matches[1];
-                const problemIndex = matches[2];
-                myUrl = `https://codeforces.com/contest/${contestID}/problem/${problemIndex.toUpperCase()}`;
+
+        const myUrl = changeCFUrl(problemUrl);
+
+        // check for avoiding duplicate parsing
+        const problemExists = problemList.some(
+            (problem) => problem.source === myUrl
+        );
+
+        if (!problemExists) {
+            const { data } = await axios.post("/api/problem", {
+                problemUrl: myUrl,
+            });
+
+            if (error) {
+                console.log(error);
+                return <ServerError />;
             }
 
-            const problemExists = problemList.some(
-                (problem) => problem.source === myUrl
-            );
-
-            if (!problemExists) {
-                const { data } = await axios.post("/api/problem", {
-                    problemUrl: myUrl,
-                });
-                if (data.status === undefined) {
-                    setProblemList((prevList) => [data, ...prevList]);
-                } else {
-                    alert(data.message);
-                }
+            if (data.status === undefined) {
+                setProblemList((prevList) => [data, ...prevList]);
+            } else {
+                alert(data.message);
             }
-            setProblemUrl("");
-        } catch (error) {
-            console.error("Error submitting form:", error);
         }
+        setProblemUrl("");
     };
 
     const handleProblemClick = (problem) => {
@@ -163,4 +164,4 @@ export default function ProblemList() {
             </div>
         </section>
     );
-};
+}
