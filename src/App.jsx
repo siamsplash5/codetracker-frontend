@@ -16,6 +16,7 @@ import Register from "./pages/Register";
 import ServerError from "./pages/ServerError";
 import SetNewPassword from "./pages/SetNewPassword";
 import VerifyRegistration from "./pages/VerifyRegistration";
+import Profile from "./pages/Profile"
 
 //import contexts
 import { AuthProvider } from './context/AuthContext';
@@ -32,6 +33,7 @@ function App() {
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
                         <Route path="/problem" element={<ProblemList />} />
+                        <Route path="/profile/:currentUser" element={<Profile />} />
                         <Route
                             path="/problem/:judge/:problemID"
                             element={<ProblemPage />}

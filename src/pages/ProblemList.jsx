@@ -25,7 +25,7 @@ export default function ProblemList() {
     const [problemUrl, setProblemUrl] = useState("");
     const [problemList, setProblemList] = useState([]);
     const navigate = useNavigate();
-    
+
     const { data, error } = useSWR("/api/problem-all", fetchProblemList, {
         suspense: true,
     });
@@ -94,7 +94,7 @@ export default function ProblemList() {
     };
 
     return (
-        <section className="bg-custom dark:bg-gray-900 min-h-screen flex">
+        <section className="dark:bg-gray-900 min-h-screen flex">
             <div className="container mx-auto p-4">
                 <form
                     onSubmit={handleSubmit}
@@ -119,7 +119,7 @@ export default function ProblemList() {
 
                 <div className="overflow-x-auto text-center">
                     <table className="border border-gray-300 w-full">
-                        <thead>
+                        <thead className="">
                             <tr>
                                 <th className="border-b px-4 py-2">Judge</th>
                                 <th className="border-b px-4 py-2">
@@ -131,8 +131,15 @@ export default function ProblemList() {
                             </tr>
                         </thead>
                         <tbody>
-                            {problemList.map((problem) => (
-                                <tr key={problem._id}>
+                            {problemList.map((problem, index) => (
+                                <tr
+                                    key={problem._id}
+                                    className={
+                                        index % 2 == 0
+                                            ? "bg-gray-50"
+                                            : "bg-white"
+                                    }
+                                >
                                     <td className="border-b px-4 py-2">
                                         {problem.judge}
                                     </td>
