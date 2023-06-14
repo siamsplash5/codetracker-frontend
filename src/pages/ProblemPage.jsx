@@ -36,6 +36,7 @@ export default function ProblemPage(props) {
             const { data } = await axios.post("/api/submit", {
                 judge: problem.judge,
                 problemID: problem.problemID,
+                problemName: problem.title,
                 langID,
                 sourceCode,
             });

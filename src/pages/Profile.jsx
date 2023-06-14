@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ProfileInfo from "../components/Others/ProfileInfo";
-import SubmissionList from "../components/Others/ShowUserSubmissions";
+import SubmissionList from "../components/Others/SubmissionList";
 
 export default function ProfilePage(){
     const [selectedMenuItem, setSelectedMenuItem] = useState("menu1");
@@ -8,8 +8,6 @@ export default function ProfilePage(){
     const handleMenuItemClick = (menuItem) => {
         setSelectedMenuItem(menuItem);
     };
-
-    console.log(selectedMenuItem);
 
     return (
         <div className="flex mx-10 mt-5">

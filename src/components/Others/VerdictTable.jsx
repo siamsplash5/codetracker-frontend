@@ -18,7 +18,7 @@ export default function VerdictTable({ status, info }) {
     const getSubmission = async () => {
         try {
             const { data } = await axios.get(
-                `/api/submissiondata/specific-problem/${judge}/${problemID}`,
+                `/api/submissiondata/specific-problem/${judge}/${problemID}`
             );
             if (data.status === undefined) {
                 setSubmissionList((prevList) => [...data, ...prevList]);
@@ -55,9 +55,9 @@ export default function VerdictTable({ status, info }) {
     }, [status]);
 
     useEffect(() => {
-        if(showCode){
+        if (showCode) {
             document.body.style.overflow = "hidden";
-        }else{
+        } else {
             document.body.style.overflow = "scroll";
         }
 
@@ -106,7 +106,10 @@ export default function VerdictTable({ status, info }) {
                 </tbody>
             </table>
             {showCode && (
-                <ShowSourceCode status={submissionList[indexToShow]} onClose={()=>setShowCode(false)} />
+                <ShowSourceCode
+                    status={submissionList[indexToShow]}
+                    onClose={() => setShowCode(false)}
+                />
             )}
         </div>
     );
