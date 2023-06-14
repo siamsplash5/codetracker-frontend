@@ -1,24 +1,29 @@
 import React, { useState } from "react";
-import ProblemList from "./ProblemList";
 import ProfileInfo from "../components/Others/ProfileInfo";
+import SubmissionList from "../components/Others/ShowUserSubmissions";
 
-const ProfilePage = () => {
+export default function ProfilePage(){
     const [selectedMenuItem, setSelectedMenuItem] = useState("menu1");
 
     const handleMenuItemClick = (menuItem) => {
         setSelectedMenuItem(menuItem);
     };
 
+    console.log(selectedMenuItem);
+
     return (
         <div className="flex mx-10 mt-5">
             <div className="w-3/4 overflow-y-auto max-h-screen pl-4">
                 <div className="p-4">
                     {selectedMenuItem === "menu1" && <ProfileInfo />}
-                    {selectedMenuItem === "menu2" && <ProblemList />}
+                    {selectedMenuItem === "menu2" && (
+                        <SubmissionList
+                            username={localStorage.getItem("currentUser")}
+                        />
+                    )}
                     {selectedMenuItem === "menu3" && (
                         <div>
                             <h1 className="text-2xl font-bold">Component 3</h1>
-                            {/* Content for Component 3 */}
                         </div>
                     )}
                 </div>
@@ -27,16 +32,20 @@ const ProfilePage = () => {
                 <div className="p-4">
                     <ul className="space-y-2 text-center">
                         <li
-                            className={`bg-gray-200 p-2 rounded cursor-pointer ${
-                                selectedMenuItem === "menu1" && "bg-blue-200"
+                            className={`p-2 rounded cursor-pointer ${
+                                selectedMenuItem === "menu1"
+                                    ? "bg-blue-200"
+                                    : "bg-gray-200"
                             }`}
                             onClick={() => handleMenuItemClick("menu1")}
                         >
                             My Profile
                         </li>
                         <li
-                            className={`bg-gray-200 p-2 rounded cursor-pointer ${
-                                selectedMenuItem === "menu2" && "bg-blue-200"
+                            className={`p-2 rounded cursor-pointer ${
+                                selectedMenuItem === "menu2"
+                                    ? "bg-blue-200"
+                                    : "bg-gray-200"
                             }`}
                             onClick={() => handleMenuItemClick("menu2")}
                         >
@@ -44,7 +53,9 @@ const ProfilePage = () => {
                         </li>
                         <li
                             className={`bg-gray-200 p-2 rounded cursor-pointer ${
-                                selectedMenuItem === "menu3" && "bg-blue-200"
+                                selectedMenuItem === "menu3"
+                                    ? "bg-blue-200"
+                                    : "bg-gray-200"
                             }`}
                             onClick={() => handleMenuItemClick("menu3")}
                         >
@@ -57,4 +68,4 @@ const ProfilePage = () => {
     );
 };
 
-export default ProfilePage;
+

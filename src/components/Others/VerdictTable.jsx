@@ -17,16 +17,10 @@ export default function VerdictTable({ status, info }) {
 
     const getSubmission = async () => {
         try {
-            const { data } = await axios.post(
-                "/api/submissiondata/specific-problem",
-                {
-                    judge,
-                    problemID,
-                }
+            const { data } = await axios.get(
+                `/api/submissiondata/specific-problem/${judge}/${problemID}`,
             );
-
             if (data.status === undefined) {
-                data.reverse();
                 setSubmissionList((prevList) => [...data, ...prevList]);
             }
         } catch (error) {
