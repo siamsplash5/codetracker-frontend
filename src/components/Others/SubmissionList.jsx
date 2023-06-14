@@ -23,9 +23,6 @@ export default function SubmissionList({ username }) {
             suspense: true,
         }
     );
-
-    console.log(showCode);
-
     if (error) {
         console.log(error);
         return <ServerError />;
