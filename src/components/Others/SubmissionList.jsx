@@ -114,7 +114,11 @@ export default function SubmissionList({ username }) {
                                             <b>{submission.submittedBy}</b>
                                         </td>
                                         <td className="border-b px-4 py-2">
-                                            {submission.problemName}
+                                            <a
+                                                href={`/problem/${submission.judge}/${submission.problemID}`}
+                                            >
+                                                {submission.problemName}
+                                            </a>
                                         </td>
                                         <td className="border-b px-4 py-2">
                                             {submission.language}
