@@ -85,11 +85,11 @@ export default function CodeforcesProblem({ problem }) {
     } = problem;
 
     return (
-        <StyledProblemStatement className="px-4 py-8 rounded-lg bg-custom">
-            <h1 className="text-4xl font-bold mb-4">{title}</h1>
+        <StyledProblemStatement className="px-4 py-8 rounded-lg">
+            <h1 className="text-4xl font-bold mb-4 text-center">{title}</h1>
             <hr />
 
-            <p className="text-base">
+            <p className="text-base text-center">
                 <span>
                     <b>Time Limit:</b> {timeLimit}
                 </span>
@@ -111,7 +111,10 @@ export default function CodeforcesProblem({ problem }) {
                 <>
                     {item && (
                         <>
-                            <div className="flex" key={`test-case-${index}`}>
+                            <div
+                                className="flex bg-white"
+                                key={`test-case-${index}`}
+                            >
                                 <div className="flex-1">
                                     <div className="h-full">
                                         <table className="w-full h-full border border-gray-300">

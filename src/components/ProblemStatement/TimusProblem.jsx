@@ -4,7 +4,7 @@ import styled from "styled-components";
 const StyledProblemStatement = styled.div`
     font-size: 1.3rem;
     font-family: Times New Roman;
-    pre{
+    pre {
         font-size: 1.1rem;
     }
     hr {
@@ -53,10 +53,10 @@ export default function TimusProblem({ problem }) {
 
 
     return (
-        <StyledProblemStatement className="px-4 py-8 rounded-lg bg-custom">
-            <h1 className="text-4xl font-bold mb-4 spf">{title}</h1>
+        <StyledProblemStatement className="px-4 py-8 rounded-lg">
+            <h1 className="text-4xl font-bold mb-4 spf text-center">{title}</h1>
             <hr />
-            <p className="text-base spf">
+            <p className="text-base spf text-center">
                 <span>
                     <b>Time Limit:</b> {timeLimit}
                 </span>
@@ -78,7 +78,7 @@ export default function TimusProblem({ problem }) {
                 <>
                     {item && (
                         <>
-                            <div className="flex" key={`test-case-${index}`}>
+                            <div className="flex bg-white" key={`test-case-${index}`}>
                                 <div className="flex-1">
                                     <div className="h-full">
                                         <table className="w-full h-full border border-gray-300">

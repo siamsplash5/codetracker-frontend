@@ -49,10 +49,10 @@ export default function TimusProblem({ problem }) {
     } = problem;
 
     return (
-        <StyledProblemStatement className="px-4 py-8 rounded-lg bg-custom">
-            <h1 className="text-4xl font-bold mb-4 spf">{title}</h1>
+        <StyledProblemStatement className="px-4 py-8 rounded-lg">
+            <h1 className="text-4xl font-bold mb-4 text-center">{title}</h1>
             <hr />
-            <p className="text-base spf">
+            <p className="text-base text-center">
                 <span>
                     <b>Time Limit:</b> {timeLimit}
                 </span>

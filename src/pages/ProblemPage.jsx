@@ -77,7 +77,7 @@ export default function ProblemPage(props) {
             {showNotFound && <NotFound />}
             {!showNotFound && problem && (
                 <div className="container flex mx-auto">
-                    <StyledProblemContainer>
+                    <StyledProblemContainer className="bg-slate-50">
                         {problem.judge === "Atcoder" && (
                             <AtcoderProblem problem={problem} />
                         )}
