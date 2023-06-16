@@ -1,41 +1,11 @@
-import axios from "axios";
-import useSWR from "swr";
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import ServerError from "../../pages/ServerError";
+import React, { useEffect, useState } from "react";
 import ShowSourceCode from "./ShowSourceCode";
 
-const fetchSubmissionList = async (url) => {
-    const { data } = await axios.get(url);
-    return data;
-};
 
-export default function SubmissionList({ username }) {
-    const [submissionList, setSubmissionList] = useState([]);
+
+export default function SubmissionList({ submissionList }) {
     const [showCode, setShowCode] = useState(false);
     const [indexToShow, setIndexToShow] = useState();
-
-    const navigate = useNavigate();
-    const { data, error } = useSWR(
-        `/api/submissiondata/specific-user/${username}`,
-        fetchSubmissionList,
-        {
-            suspense: true,
-        }
-    );
-    if (error) {
-        console.log(error);
-        return <ServerError />;
-    }
-
-    useEffect(() => {
-        if (data && data.status === undefined) {
-            setSubmissionList((prevList) => [...data, ...prevList]);
-        } else {
-            console.log(data.message);
-            return <ServerError />;
-        }
-    }, []);
 
     useEffect(() => {
         if (showCode) {
