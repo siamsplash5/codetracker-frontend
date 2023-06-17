@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../../../components/Button";
 import { useAuth } from "../../../context/AuthContext";
+import logo from "../../../assets/logo.png"
+import sleep from "../../../utils/sleep";
 
-export default function RegisterForm() {
+export default function RegisterForm({ onClose }) {
     const {register} = useAuth();
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
@@ -33,21 +35,23 @@ export default function RegisterForm() {
         e.preventDefault();
 
         if(password!==confirmPassword){
+            setErrorMsg("");
+            await sleep(100);
             setErrorMsg("Passwords do not match");
             setShowErrorMsg(true);
         }
         else{
-            console.log(email, username, password);
             const { status, message } = await register(email, username, password);
-            console.log(status, message);
             if(status===202){
-                navigate('/verify-registration');
+                onClose({username, password});
                 setEmail("");
                 setUsername("");
                 setPassword("");
                 setConfirmPassword("");
             }
             else{
+                setErrorMsg("");
+                await sleep(100);
                 setErrorMsg(message);
                 setShowErrorMsg(true);
             }
@@ -63,7 +67,7 @@ export default function RegisterForm() {
                 >
                     <img
                         className="w-8 h-8 mr-2"
-                        src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
+                        src={logo}
                         alt="logo"
                     />
                     CodeTracker
@@ -109,7 +113,7 @@ export default function RegisterForm() {
                                     value={username}
                                     onChange={handleUsernameChange}
                                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-buttons focus:border-buttons block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="ex. siamsplash5"
+                                    placeholder="username"
                                     required
                                 />
                             </div>
@@ -127,7 +131,7 @@ export default function RegisterForm() {
                                     value={password}
                                     onChange={handlePasswordChange}
                                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-buttons focus:border-buttons block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="••••••••"
+                                    placeholder="Must have atleast 8 characters"
                                     required
                                 />
                             </div>

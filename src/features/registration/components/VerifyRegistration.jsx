@@ -1,13 +1,17 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import logo from "../../../assets/logo.png";
 import { useAuth } from "../../../context/AuthContext";
+import sleep from "../../../utils/sleep";
 
-export default function verifyRegistration(){
-    const { verify } = useAuth();
+export default function verifyRegistration({userInfo}){
+    const { verify, login } = useAuth();
     const [otp, setOTP] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
     const [showErrorMsg, setShowErrorMsg] = useState(false);
     const navigate = useNavigate();
+
+    const {username, password} = userInfo;
 
     const handleOTPChange = (e) => {
         setOTP(e.target.value);
@@ -18,9 +22,17 @@ export default function verifyRegistration(){
 
         const {status, message} = await verify(otp);
         if (status === 201) {
-            setOTP("");
-            navigate("/login");
+            const response = await login(username, password);
+            if(response.status===200){
+                setOTP("");
+                setErrorMsg("");
+                navigate('/');
+            }else{
+                setErrorMsg('Something went wrong!');
+            }
         } else {
+            setErrorMsg("");
+            await sleep(100);
             setErrorMsg(message);
             setShowErrorMsg(true);
         }
@@ -35,7 +47,7 @@ export default function verifyRegistration(){
                 >
                     <img
                         className="w-8 h-8 mr-2"
-                        src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
+                        src={logo}
                         alt="logo"
                     />
                     CodeTracker
@@ -43,9 +55,9 @@ export default function verifyRegistration(){
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                         <p>
-                            A OTP has been sent to your email.
-                            Enter the OTP here to complete the
-                            registration.
+                            A OTP has been sent to your email. The code will
+                            expires in 1 hour. Enter the OTP here to complete
+                            the registration.
                         </p>
                         <form
                             className="space-y-4 md:space-y-6"
