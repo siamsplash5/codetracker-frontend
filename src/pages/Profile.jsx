@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
-import filterSubmissionData from "../utils/filterSubmissionData";
+import {filterSubmissionList} from "../features/submissions";
 import { ProfileInfo } from "../features/profiles";
 import { SubmissionList } from "../features/submissions";
 import NotFound from "../components/NotFound";
@@ -59,7 +59,7 @@ export default function ProfilePage() {
                                 <ProfileInfo
                                     profileData={{
                                         username,
-                                        ...filterSubmissionData(data),
+                                        ...filterSubmissionList(data),
                                     }}
                                 />
                             )}

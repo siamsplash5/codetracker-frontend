@@ -2,7 +2,7 @@ import heroImage from '../assets/Business_SVG.svg';
 
 export default function Hero(){
     return (
-        <section className="bg-custom text-black-900">
+        <section className="bg-slate-100 text-black-900">
             <div className="container flex flex-col justify-center p-6 mx-auto sm:py-12 lg:py-24 lg:flex-row lg:justify-between">
                 <div className="flex flex-col justify-center p-6 text-center rounded-sm lg:max-w-md xl:max-w-lg lg:text-left">
                     <h1 className="text-5xl font-bold leading-none sm:text-6xl">
