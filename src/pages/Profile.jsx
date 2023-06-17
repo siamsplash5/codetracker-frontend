@@ -2,10 +2,11 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
-import ProfileInfo from "../components/Others/ProfileInfo";
-import SubmissionList from "../components/Others/SubmissionList";
-import NotFound from "./NotFound";
-import ServerError from "./ServerError";
+import filterSubmissionData from "../utils/filterSubmissionData";
+import { ProfileInfo } from "../features/profiles";
+import { SubmissionList } from "../features/submissions";
+import NotFound from "../components/NotFound";
+import ServerError from "../components/ServerError";
 
 const fetchSubmissionList = async (url) => {
     const { data } = await axios.get(url);
@@ -14,48 +15,6 @@ const fetchSubmissionList = async (url) => {
         return data.status.toString();
     }
     return data;
-};
-
-const filterData = (data) => {
-    const atc = new Set();
-    const cf = new Set();
-    const sp = new Set();
-    const tim = new Set();
-
-    let total = 0;
-    let atcoder = 0;
-    let codeforces = 0;
-    let spoj = 0;
-    let timus = 0;
-
-    for (const obj of data) {
-        if (obj.verdict === "Accepted") {
-            if (obj.judge === "Atcoder" && !atc.has(obj.problemID)) {
-                atcoder++;
-                atc.add(obj.problemID);
-            }
-            if (obj.judge === "Codeforces" && !cf.has(obj.problemID)) {
-                codeforces++;
-                cf.add(obj.problemID);
-            }
-            if (obj.judge === "Spoj" && !sp.has(obj.problemID)) {
-                spoj++;
-                sp.add(obj.problemID);
-            }
-            if (obj.judge === "Timus" && !tim.has(obj.problemID)) {
-                timus++;
-                tim.add(obj.problemID);
-            }
-        }
-    }
-    total = atcoder + codeforces + spoj + timus;
-    return {
-        total,
-        atcoder,
-        codeforces,
-        spoj,
-        timus,
-    };
 };
 
 export default function ProfilePage() {
@@ -100,7 +59,7 @@ export default function ProfilePage() {
                                 <ProfileInfo
                                     profileData={{
                                         username,
-                                        ...filterData(data),
+                                        ...filterSubmissionData(data),
                                     }}
                                 />
                             )}

@@ -1,0 +1,71 @@
+export default function AtcoderOptions() {
+    return (
+        <>
+            <option value="">Select Language</option>
+            <option value="4001">Ada2012 (GNAT 9.2.1)</option>
+            <option value="4063">Awk (GNU Awk 4.1.4)</option>
+            <option value="4021">Bash (5.0.11)</option>
+            <option value="4062">Brainfuck (bf 20041219)</option>
+            <option value="4024">C (Clang 10.0.0)</option>
+            <option value="4001">C (GCC 9.2.1)</option>
+            <option value="4002">C++ (Clang 10.0.0)</option>
+            <option value="4003">C++ (GCC 9.2.1)</option>
+            <option value="4010">C# (.NET Core 3.1.201)</option>
+            <option value="4011">C# (Mono-mcs 6.8.0.105)</option>
+            <option value="4012">C# (Mono-csc 3.5.0)</option>
+            <option value="4014">Crystal (0.33.0)</option>
+            <option value="4013">Clojure (1.10.1.536)</option>
+            <option value="4060">COBOL - Fixed (OpenCOBOL 1.1.0)</option>
+            <option value="4061">COBOL - Free (OpenCOBOL 1.1.0)</option>
+            <option value="4062">Cython (0.29.16)</option>
+            <option value="4025">D (GDC 9.2.1)</option>
+            <option value="4015">D (DMD 2.091.0)</option>
+            <option value="4017">D (LDC 1.20.1)</option>
+            <option value="4018">Dart (2.7.2)</option>
+            <option value="4019">dc (1.4.1)</option>
+            <option value="4020">Elixir (1.10.2)</option>
+            <option value="4022">Erlang (22.3)</option>
+            <option value="4017">F# (.NET Core 3.1.201)</option>
+            <option value="4023">F# (Mono 10.2.3)</option>
+            <option value="4024">Forth (gforth 0.7.3)</option>
+            <option value="4025">Fortran (GNU Fortran 9.2.1)</option>
+            <option value="4026">Go (1.14.1)</option>
+            <option value="4027">Haskell (GHC 8.8.3)</option>
+            <option value="4028">Haxe (4.0.3); Java</option>
+            <option value="4029">Haxe (4.0.3); js</option>
+            <option value="4031">Java (OpenJDK 11.0.6)</option>
+            <option value="4052">Java (OpenJDK 1.8.0)</option>
+            <option value="4032">JavaScript (Node.js 12.16.1)</option>
+            <option value="4033">Julia (1.4.0)</option>
+            <option value="4032">Kotlin (1.3.71)</option>
+            <option value="4033">Lua (Lua 5.3.5)</option>
+            <option value="4034">Lua (LuaJIT 2.1.0)</option>
+            <option value="4035">Dash (0.5.8)</option>
+            <option value="4036">Nim (1.0.6)</option>
+            <option value="4037">Objective-C (Clang 10.0.0)</option>
+            <option value="4038">Common Lisp (SBCL 2.0.3)</option>
+            <option value="4039">OCaml (4.10.0)</option>
+            <option value="4040">Octave (5.2.0)</option>
+            <option value="4041">Pascal (FPC 3.0.4)</option>
+            <option value="4042">Perl (5.26.1)</option>
+            <option value="4043">Raku (Rakudo 2020.02.1)</option>
+            <option value="4044">PHP (7.4.4)</option>
+            <option value="4045">Prolog (SWI-Prolog 8.0.3)</option>
+            <option value="4046">PyPy2 (7.3.0)</option>
+            <option value="4047">PyPy3 (7.3.0)</option>
+            <option value="4048">Racket (7.6)</option>
+            <option value="4049">Ruby (2.7.1)</option>
+            <option value="4050">Rust (1.42.0)</option>
+            <option value="4051">Scala (2.13.1)</option>
+            <option value="4053">Scheme (Gauche 0.9.9)</option>
+            <option value="4063">Sed (4.4)</option>
+            <option value="4054">Standard ML (MLton 20130715)</option>
+            <option value="4055">Swift (5.2.1)</option>
+            <option value="4056">Text (cat 8.28)</option>
+            <option value="4057">TypeScript (3.8)</option>
+            <option value="4058">Visual Basic (.NET Core 3.1.101)</option>
+            <option value="4064">Vim (8.2.0460)</option>
+            <option value="4059">Zsh (5.4.2)</option>
+        </>
+    );
+}

@@ -27,6 +27,12 @@
     },
     "plugins": ["react", "react-hooks", "jsx-a11y", "prettier", "import"],
     "rules": {
+        "no-restricted-imports": [
+            "error",
+            {
+                "patterns": ["@/features/*/*"]
+            }
+        ],
         "no-console": "off",
         "react/prefer-stateless-function": "off",
         "react/react-in-jsx-scope": "off",

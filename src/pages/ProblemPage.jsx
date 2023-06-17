@@ -1,16 +1,17 @@
 import axios from "axios";
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import ShowProblemInfo from "../components/Others/ShowProblemInfo";
-import SubmitSolution from "../components/Others/SubmitSolution";
-import VerdictTable from "../components/Others/VerdictTable";
-import AtcoderProblem from "../components/ProblemStatement/AtcoderProblem";
-import CodeforcesProblem from "../components/ProblemStatement/CodeforcesProblem";
-import TimusProblem from "../components/ProblemStatement/TimusProblem";
-import SpojProblem from "../components/ProblemStatement/SpojProblem";
-import NotFound from "../pages/NotFound"
+import {
+    ShowProblemInfo,
+    AtcoderProblem,
+    CodeforcesProblem,
+    SpojProblem,
+    TimusProblem
+} from "../features/problems";
+
+import { SubmitSolution, VerdictTable } from "../features/submissions"; 
+import NotFound from "../components/NotFound";
 
 const StyledProblemContainer = styled.div`
     font-family: Helvetica;
