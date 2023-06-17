@@ -4,32 +4,23 @@ import logo from "../../../assets/logo.png";
 import { useAuth } from "../../../context/AuthContext";
 import sleep from "../../../utils/sleep";
 
-export default function verifyRegistration({ userInfo }) {
-    const { verify, login } = useAuth();
-    const [otp, setOTP] = useState("");
+export default function UsernameForm({ onClose }) {
+    const { recoverPasswordRequest } = useAuth();
+    const [username, setUsername] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
     const [showErrorMsg, setShowErrorMsg] = useState(false);
     const navigate = useNavigate();
 
-    const { username, password } = userInfo;
-
-    const handleOTPChange = (e) => {
-        setOTP(e.target.value);
+    const handleUsernameChange = (e) => {
+        setUsername(e.target.value);
     };
 
     async function handleSubmit(e) {
         e.preventDefault();
-
-        const { status, message } = await verify(otp);
-        if (status === 201) {
-            const response = await login(username, password);
-            if (response.status === 200) {
-                setOTP("");
-                setErrorMsg("");
-                navigate("/");
-            } else {
-                setErrorMsg("Something went wrong!");
-            }
+        const { status, message } = await recoverPasswordRequest(username);
+        if (status === 202) {
+            setUsername("");
+            onClose();
         } else {
             setErrorMsg("");
             await sleep(100);
@@ -44,30 +35,30 @@ export default function verifyRegistration({ userInfo }) {
                 href="#"
                 className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
             >
-                <img className="w-8 h-8 mr-2" src={logo} alt="logo" />
+                <img
+                    className="w-8 h-8 mr-2"
+                    src={logo}
+                    alt="logo"
+                />
                 CodeTracker
             </a>
             <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                 <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-                    <p>
-                        A OTP has been sent to your email. The code will expires
-                        in 1 hour. Enter the OTP here to complete the
-                        registration.
-                    </p>
+                    <p>Enter your username:</p>
                     <form
                         className="space-y-4 md:space-y-6"
                         onSubmit={handleSubmit}
                     >
                         <div>
                             <input
-                                type="otp"
-                                name="otp"
-                                id="otp"
+                                type="username"
+                                name="username"
+                                id="username"
                                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-buttons focus:border-buttons block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="Enter the OTP"
+                                placeholder="ex. siamsplash5"
                                 required
-                                value={otp}
-                                onChange={handleOTPChange}
+                                value={username}
+                                onChange={handleUsernameChange}
                             />
                         </div>
                         {showErrorMsg && (

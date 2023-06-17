@@ -1,10 +1,16 @@
-import { PasswordRecover, SetNewPassword } from "../features/password-update";
+import { useState } from "react";
+import { UsernameForm, NewPasswordForm } from "../features/password-update";
 
 export default function UpdatePassword() {
+    const [showUsernameForm, setShowUsernameForm] = useState(true);
     return (
         <>
-            <PasswordRecover />
-            <SetNewPassword />
+            <div className="bg-slate-100">
+                {showUsernameForm && (
+                    <UsernameForm onClose={() => setShowUsernameForm(false)} />
+                )}
+                {!showUsernameForm && <NewPasswordForm />}
+            </div>
         </>
     );
 }

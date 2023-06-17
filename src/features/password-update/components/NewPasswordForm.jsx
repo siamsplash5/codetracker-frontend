@@ -1,30 +1,26 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../../../components/Button";
-import { useAuth } from "../../../context/AuthContext";
 import logo from "../../../assets/logo.png";
+import { useAuth } from "../../../context/AuthContext";
 import sleep from "../../../utils/sleep";
 
-export default function RegisterForm({ onClose }) {
-    const { register } = useAuth();
-    const [email, setEmail] = useState("");
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+export default function NewPasswordForm() {
+    const { login, updatePassword } = useAuth();
+    const [otp, setOTP] = useState("");
+    const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+
     const [errorMsg, setErrorMsg] = useState("");
     const [showErrorMsg, setShowErrorMsg] = useState(false);
+
     const navigate = useNavigate();
 
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value);
-    };
-
-    const handleUsernameChange = (e) => {
-        setUsername(e.target.value);
+    const handleOTPChange = (e) => {
+        setOTP(e.target.value);
     };
 
     const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
+        setNewPassword(e.target.value);
     };
 
     const handleConfirmPasswordChange = (e) => {
@@ -34,23 +30,21 @@ export default function RegisterForm({ onClose }) {
     async function handleSubmit(e) {
         e.preventDefault();
 
-        if (password !== confirmPassword) {
+        if (newPassword !== confirmPassword) {
             setErrorMsg("");
             await sleep(100);
-            setErrorMsg("Passwords do not match");
+            setErrorMsg("Password do not match");
             setShowErrorMsg(true);
         } else {
-            const { status, message } = await register(
-                email,
-                username,
-                password
+            const { username, status, message } = await updatePassword(
+                otp,
+                newPassword
             );
-            if (status === 202) {
-                onClose({ username, password });
-                setEmail("");
-                setUsername("");
-                setPassword("");
-                setConfirmPassword("");
+            if (status === 200) {
+                await login(username, newPassword);
+                setOTP("");
+                setNewPassword("");
+                navigate("/");
             } else {
                 setErrorMsg("");
                 await sleep(100);
@@ -63,55 +57,42 @@ export default function RegisterForm({ onClose }) {
     return (
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
             <a
-                href="/"
+                href="#"
                 className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
             >
-                <img className="w-8 h-8 mr-2" src={logo} alt="logo" />
+                <img
+                    className="w-8 h-8 mr-2"
+                    src={logo}
+                    alt="logo"
+                />
                 CodeTracker
             </a>
             <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                 <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-                    <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                        Create a new account
-                    </h1>
+                    <p>
+                        A OTP has been sent to your email. Enter the OTP here to
+                        reset your password.
+                    </p>
                     <form
                         className="space-y-4 md:space-y-6"
                         onSubmit={handleSubmit}
                     >
                         <div>
                             <label
-                                htmlFor="email"
-                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                            >
-                                Your email
-                            </label>
-                            <input
-                                type="email"
-                                name="email"
-                                id="email"
-                                value={email}
-                                onChange={handleEmailChange}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-buttons focus:border-buttons block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="name@company.com"
-                                required
-                            />
-                        </div>
-                        <div>
-                            <label
                                 htmlFor="username"
                                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                             >
-                                Username
+                                Enter the OTP
                             </label>
                             <input
-                                type="text"
-                                name="username"
-                                id="username"
-                                value={username}
-                                onChange={handleUsernameChange}
+                                type="otp"
+                                name="otp"
+                                id="otp"
                                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-buttons focus:border-buttons block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="username"
+                                placeholder="Enter the OTP"
                                 required
+                                value={otp}
+                                onChange={handleOTPChange}
                             />
                         </div>
                         <div>
@@ -119,16 +100,16 @@ export default function RegisterForm({ onClose }) {
                                 htmlFor="password"
                                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                             >
-                                Password
+                                Enter a new password
                             </label>
                             <input
                                 type="password"
                                 name="password"
                                 id="password"
-                                value={password}
+                                value={newPassword}
                                 onChange={handlePasswordChange}
                                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-buttons focus:border-buttons block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="Must have atleast 8 characters"
+                                placeholder="••••••••"
                                 required
                             />
                         </div>
@@ -157,16 +138,12 @@ export default function RegisterForm({ onClose }) {
                                 </span>
                             </div>
                         )}
-                        <Button>Create an account</Button>
-                        <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                            Already have an account?{" "}
-                            <a
-                                href="/login"
-                                className="font-medium text-buttons hover:underline dark:text-primary-500"
-                            >
-                                Login here
-                            </a>
-                        </p>
+                        <button
+                            type="submit"
+                            className="w-full text-white bg-indigo-800 hover:bg-indigo-900 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-buttons dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                        >
+                            Update
+                        </button>
                     </form>
                 </div>
             </div>

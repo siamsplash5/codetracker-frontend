@@ -1,2 +1,3 @@
-export { default as PasswordRecover } from './components/PasswordRecover';
-export { default as SetNewPassword } from './components/SetNewPassword';
+export { default as NewPasswordForm } from './components/NewPasswordForm';
+export { default as UsernameForm } from './components/UsernameForm';
+

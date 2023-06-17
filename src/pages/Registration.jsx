@@ -6,13 +6,19 @@ export default function Registration(){
     const [userInfo, setUserInfo] = useState({});
     return (
         <>
-            {showRegisterForm && (
-                <RegisterForm onClose={(userInfo) => {
-                    setShowRegisterForm(false);
-                    setUserInfo(userInfo);
-                }} />
-            )}
-            {!showRegisterForm && <VerifyRegistration userInfo={userInfo} />}
+            <div className="bg-slate-100">
+                {showRegisterForm && (
+                    <RegisterForm
+                        onClose={(userInfo) => {
+                            setShowRegisterForm(false);
+                            setUserInfo(userInfo);
+                        }}
+                    />
+                )}
+                {!showRegisterForm && (
+                    <VerifyRegistration userInfo={userInfo} />
+                )}
+            </div>
         </>
     );
 }

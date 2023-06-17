@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import logo from "../../../assets/logo.png";
 import Button from "../../../components/Button";
 import { useAuth } from "../../../context/AuthContext";
+import sleep from "../../../utils/sleep";
 
 export default function () {
     const [username, setUsername] = useState("");
@@ -30,6 +31,8 @@ export default function () {
                 setPassword("");
                 navigate(-1);
             } else {
+                setErrorMsg("");
+                await sleep(100);
                 setErrorMsg(message);
                 setShowErrorMsg(true);
             }
