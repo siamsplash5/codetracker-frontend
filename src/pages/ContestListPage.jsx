@@ -1,4 +1,10 @@
-import { faCalendarAlt, faFlagCheckered, faList, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import {
+    faCalendarAlt,
+    faFlagCheckered,
+    faList,
+    faPlus,
+    faSpinner
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -22,10 +28,6 @@ export default function ProfilePage() {
     const { data, error } = useSWR("/api/contest-query/all", fetchContestList, {
         suspense: true,
     });
-
-    console.log(data);
-
-    // @Todo
 
     useEffect(() => {
         if (data === "500") {
@@ -64,6 +66,11 @@ export default function ProfilePage() {
                                     <h1>Finished</h1>
                                 </div>
                             )}
+                            {selectedMenuItem === "menu5" && (
+                                <div>
+                                    <h1>New Contest</h1>
+                                </div>
+                            )}
                         </div>
                     </div>
                     <div className="w-1/5 bg-slate-800 text-white text-opacity-80 h-screen pr-4 ">
@@ -77,8 +84,10 @@ export default function ProfilePage() {
                                     }`}
                                     onClick={() => handleMenuItemClick("menu1")}
                                 >
-                                    <FontAwesomeIcon icon={faList} /> All
-                                    contest
+                                    <span className="pr-2">
+                                        <FontAwesomeIcon icon={faList} />{" "}
+                                    </span>{" "}
+                                    All contest
                                 </li>
                                 <li
                                     className={`p-2 rounded cursor-pointer ${
@@ -88,7 +97,9 @@ export default function ProfilePage() {
                                     }`}
                                     onClick={() => handleMenuItemClick("menu2")}
                                 >
-                                    <FontAwesomeIcon icon={faCalendarAlt} />{" "}
+                                    <span className="pr-2">
+                                        <FontAwesomeIcon icon={faCalendarAlt} />{" "}
+                                    </span>
                                     Upcoming
                                 </li>
                                 <li
@@ -99,7 +110,10 @@ export default function ProfilePage() {
                                     }`}
                                     onClick={() => handleMenuItemClick("menu3")}
                                 >
-                                    <FontAwesomeIcon icon={faSpinner} /> Running
+                                    <span className="pr-2">
+                                        <FontAwesomeIcon icon={faSpinner} />{" "}
+                                    </span>
+                                    Running
                                 </li>
                                 <li
                                     className={`p-2 rounded cursor-pointer ${
@@ -109,8 +123,26 @@ export default function ProfilePage() {
                                     }`}
                                     onClick={() => handleMenuItemClick("menu4")}
                                 >
-                                    <FontAwesomeIcon icon={faFlagCheckered} />{" "}
+                                    <span className="pr-2">
+                                        <FontAwesomeIcon
+                                            icon={faFlagCheckered}
+                                        />{" "}
+                                    </span>
                                     Finished
+                                </li>
+                                <hr />
+                                <li
+                                    className={`p-2 rounded cursor-pointer ${
+                                        selectedMenuItem === "menu5"
+                                            ? "bg-gray-700"
+                                            : ""
+                                    }`}
+                                    onClick={() => handleMenuItemClick("menu5")}
+                                >
+                                    <span className="pr-2">
+                                        <FontAwesomeIcon icon={faPlus} />{" "}
+                                    </span>
+                                    Create new contest
                                 </li>
                                 <hr />
                             </ul>

@@ -1,3 +1,6 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLock, faLockOpen } from "@fortawesome/free-solid-svg-icons";
+
 export default function ({ contestList }) {
     return (
         <section className="dark:bg-gray-900 min-h-screen flex">
@@ -6,9 +9,7 @@ export default function ({ contestList }) {
                     <table className="border border-gray-300 w-full">
                         <thead>
                             <tr>
-                                <th className="border-b px-4 py-2">
-                                    ID
-                                </th>
+                                <th className="border-b px-4 py-2">ID</th>
                                 <th className="border-b px-4 py-2">Title</th>
                                 <th className="border-b px-4 py-2">
                                     Total Participants
@@ -37,10 +38,33 @@ export default function ({ contestList }) {
                                                 setIndexToShow(index);
                                             }}
                                         >
-                                            #{contest.index}
+                                            #{contest.contestID}
                                         </button>
                                     </td>
-                                    <td className="border-b px-4 py-2">
+                                    <td className="border-b px-4 py-2 text-left">
+                                        {contest.privacy === "Protected" && (
+                                            <span className="text-amber-500 text-lg pr-2">
+                                                <FontAwesomeIcon
+                                                    icon={faLock}
+                                                />{" "}
+                                            </span>
+                                        )}
+
+                                        {contest.privacy === "Private" && (
+                                            <span className="text-red-500 text-lg pr-2">
+                                                <FontAwesomeIcon
+                                                    icon={faLock}
+                                                />{" "}
+                                            </span>
+                                        )}
+
+                                        {contest.privacy === "Public" && (
+                                            <span className="text-green-500 text-lg pr-2">
+                                                <FontAwesomeIcon
+                                                    icon={faLockOpen}
+                                                />{" "}
+                                            </span>
+                                        )}
                                         {contest.title}
                                     </td>
                                     <td className="border-b px-4 py-2">
@@ -52,9 +76,9 @@ export default function ({ contestList }) {
                                         {contest.startTime}
                                     </td>
                                     <td className="border-b px-4 py-2">
-                                        {contest.duration}
+                                        {contest.length}
                                     </td>
-                                    <td className="border-b px-4 py-2 text-yellow-900">
+                                    <td className="border-b px-4 py-2 text-green-700">
                                         <a href={`/profile/${contest.owner}`}>
                                             <b>{contest.owner}</b>
                                         </a>
