@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock, faLockOpen } from "@fortawesome/free-solid-svg-icons";
+import { LockedIconAmber, LockedIconRed, UnlockedIconGreen } from "../../../components/Icons";
 
 export default function ({ contestList }) {
     return (
@@ -43,27 +44,15 @@ export default function ({ contestList }) {
                                     </td>
                                     <td className="border-b px-4 py-2 text-left">
                                         {contest.privacy === "Protected" && (
-                                            <span className="text-amber-500 text-lg pr-2">
-                                                <FontAwesomeIcon
-                                                    icon={faLock}
-                                                />{" "}
-                                            </span>
+                                            <LockedIconAmber />
                                         )}
 
                                         {contest.privacy === "Private" && (
-                                            <span className="text-red-500 text-lg pr-2">
-                                                <FontAwesomeIcon
-                                                    icon={faLock}
-                                                />{" "}
-                                            </span>
+                                            <LockedIconRed />
                                         )}
 
                                         {contest.privacy === "Public" && (
-                                            <span className="text-green-500 text-lg pr-2">
-                                                <FontAwesomeIcon
-                                                    icon={faLockOpen}
-                                                />{" "}
-                                            </span>
+                                            <UnlockedIconGreen />
                                         )}
                                         {contest.title}
                                     </td>

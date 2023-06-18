@@ -1,16 +1,15 @@
+import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import {
     faCalendarAlt,
     faFlagCheckered,
-    faList,
-    faPlus,
-    faSpinner
+    faList, faSpinner
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import useSWR from "swr";
 import ServerError from "../components/ServerError";
-import { ContestList } from "../features/contests";
+import { ContestList, CreateNewContest } from "../features/contests";
 
 const fetchContestList = async (url) => {
     const { data } = await axios.get(url);
@@ -22,7 +21,7 @@ const fetchContestList = async (url) => {
 };
 
 export default function ProfilePage() {
-    const [selectedMenuItem, setSelectedMenuItem] = useState("menu1");
+    const [selectedMenuItem, setSelectedMenuItem] = useState("menu5");
     const [showServerError, setShowServerError] = useState(false);
 
     const { data, error } = useSWR("/api/contest-query/all", fetchContestList, {
@@ -67,9 +66,7 @@ export default function ProfilePage() {
                                 </div>
                             )}
                             {selectedMenuItem === "menu5" && (
-                                <div>
-                                    <h1>New Contest</h1>
-                                </div>
+                                <CreateNewContest />
                             )}
                         </div>
                     </div>
@@ -140,7 +137,7 @@ export default function ProfilePage() {
                                     onClick={() => handleMenuItemClick("menu5")}
                                 >
                                     <span className="pr-2">
-                                        <FontAwesomeIcon icon={faPlus} />{" "}
+                                        <FontAwesomeIcon icon={faPenToSquare} />{" "}
                                     </span>
                                     Create new contest
                                 </li>
