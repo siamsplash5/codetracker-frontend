@@ -89,7 +89,9 @@ export default function ProfilePage() {
                                     }`}
                                     onClick={() => handleMenuItemClick("menu1")}
                                 >
-                                    <FontAwesomeIcon icon={faUser} />{" "}
+                                    <span className="pr-2">
+                                        <FontAwesomeIcon icon={faUser} />{" "}
+                                    </span>
                                     {username ===
                                     localStorage.getItem("currentUser")
                                         ? "My profile"
@@ -103,7 +105,9 @@ export default function ProfilePage() {
                                     }`}
                                     onClick={() => handleMenuItemClick("menu2")}
                                 >
-                                    <FontAwesomeIcon icon={faList} />{" "}
+                                    <span className="pr-2">
+                                        <FontAwesomeIcon icon={faList} />{" "}
+                                    </span>
                                     {username ===
                                     localStorage.getItem("currentUser")
                                         ? "My submissions"
@@ -117,7 +121,9 @@ export default function ProfilePage() {
                                     }`}
                                     onClick={() => handleMenuItemClick("menu3")}
                                 >
-                                    <FontAwesomeIcon icon={faList} />{" "}
+                                    <span className="pr-2">
+                                        <FontAwesomeIcon icon={faList} />{" "}
+                                    </span>
                                     {username ===
                                     localStorage.getItem("currentUser")
                                         ? "My contests"
