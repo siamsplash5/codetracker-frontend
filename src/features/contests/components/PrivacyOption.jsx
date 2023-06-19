@@ -1,9 +1,11 @@
+import { useState } from "react";
+
 export default function PrivacyOption({value, onChange}) {
     const [privacy, setPrivacy] = useState("");
     const handlePrivacyChange = (e)=>{
         const newPrivacy = e.target.value;
         setPrivacy(newPrivacy);
-        onChange(privacy);
+        onChange(newPrivacy);
     }
     return (
         <div className="mb-4">

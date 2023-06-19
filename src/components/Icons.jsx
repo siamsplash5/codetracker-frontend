@@ -1,5 +1,5 @@
-import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
-import { faLock, faPlus, faUnlock } from "@fortawesome/free-solid-svg-icons";
+import { faPenToSquare, faTrashAlt } from "@fortawesome/free-regular-svg-icons";
+import { faLock, faPlus, faTrash, faUnlock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function UnlockedIconGreen() {
@@ -41,3 +41,12 @@ export function PlusIconDefault(){
         </span>
     );
 }
+
+export function TrashIconDefault() {
+    return (
+        <span className="pr-2">
+            <FontAwesomeIcon icon={faTrashAlt} />{" "}
+        </span>
+    );
+}
+

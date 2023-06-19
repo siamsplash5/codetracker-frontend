@@ -6,6 +6,9 @@ import {
 } from "../../../components/Icons";
 import LengthPicker from "../../../components/LengthPicker";
 import TimePicker from "../../../components/TimePicker";
+import PasswordComponent from "./PasswordComponent";
+import PrivacyOption from "./PrivacyOption";
+import SetContestProblem from "./SetContestProblem";
 
 
 const FormComponent = () => {
@@ -19,6 +22,8 @@ const FormComponent = () => {
     const [description, setDescription] = useState("");
     const [announcement, setAnnouncement] = useState("");
     const [totalProblemTab, setTotalProblemTab] = useState(0);
+    const [problemList, setProblemList] = useState([]);
+    console.log(problemList);
 
     const handleTitleChange = (e) => {
         setTitle(e.target.value);
@@ -64,7 +69,10 @@ const FormComponent = () => {
                 <PrivacyOption value={privacy} onChange={setPrivacy} />
 
                 {privacy === "private" || privacy === "protected" ? (
-                    <PasswordComponent onPasswordChange={setPassword} onConfirmPasswordChange={setConfirmPassword}/>
+                    <PasswordComponent
+                        onPasswordChange={setPassword}
+                        onConfirmPasswordChange={setConfirmPassword}
+                    />
                 ) : null}
 
                 <div className="mb-4">
@@ -109,7 +117,6 @@ const FormComponent = () => {
                         >
                             Begin Time (24-hour format)
                         </label>
-
                         <TimePicker value={startTime} onChange={setStartTime} />
                     </div>
 
@@ -157,29 +164,39 @@ const FormComponent = () => {
                         className="block h-32 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     />
                 </div>
-                <br />
+
                 <hr />
                 <br />
-                {Array.from({ length: totalProblemTab }, (_, index) => (
-                    <SetProblem/>
-                ))}
-                <button
-                    type="button"
-                    className="w-full px-4 py-2 text-sm font-medium text-white bg-indigo-800 rounded-md hover:bg-indigo-900 focus:outline-none focus:bg-indigo-900"
-                    onClick={handleAddProblem}
-                >
-                    <PlusIconDefault />
-                    Add a problem
-                </button>
+
+                <div className="w-1/4 mb-4">
+                    <button
+                        type="button"
+                        className="px-4 py-2 text-sm font-medium text-white bg-indigo-800 rounded-md hover:bg-indigo-900 focus:outline-none focus:bg-indigo-900"
+                        onClick={handleAddProblem}
+                    >
+                        <PlusIconDefault />
+                        Add a problem
+                    </button>
+                </div>
+
+                <div className="mb-4">
+                    {Array.from({ length: totalProblemTab }, (_, index) => (
+                        <SetContestProblem onChange={setProblemList} />
+                    ))}
+                </div>
+
+                <hr />
                 <br />
-                <br />
-                <button
-                    type="submit"
-                    className="w-full px-4 py-2 text-sm font-medium text-white bg-indigo-800 rounded-md hover:bg-indigo-900 focus:outline-none focus:bg-indigo-900"
-                >
-                    <PenToSquareIconDefault />
-                    Create
-                </button>
+
+                <div className="mb-4">
+                    <button
+                        type="submit"
+                        className="px-4 py-2 text-sm font-medium text-white bg-indigo-800 rounded-md hover:bg-indigo-900 focus:outline-none focus:bg-indigo-900"
+                    >
+                        <PenToSquareIconDefault />
+                        Create Contest
+                    </button>
+                </div>
             </form>
         </>
     );

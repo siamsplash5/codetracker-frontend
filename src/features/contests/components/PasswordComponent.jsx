@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 export default function PasswordComponent({onPasswordChange, onConfirmPasswordChange}){
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -5,13 +7,13 @@ export default function PasswordComponent({onPasswordChange, onConfirmPasswordCh
     const handlePasswordChange = (e) => {
         const passwordValue = e.target.value;
         setPassword(passwordValue);
-        onPasswordChange(password);
+        onPasswordChange(passwordValue);
     };
 
     const handleConfirmPasswordChange = (e) => {
         const confirmPasswordValue = e.target.value;
         setConfirmPassword(confirmPasswordValue);
-        onConfirmPasswordChange(confirmPassword);
+        onConfirmPasswordChange(confirmPasswordValue);
     };
 
     return (
