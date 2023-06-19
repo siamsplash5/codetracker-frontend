@@ -4,7 +4,7 @@ export default function Announcement({value, onChange}){
     const [announcement, setAnnouncement] = useState("");
     const handleAnnouncementChange = (e) => {
         const newAnnouncement = e.target.value;
-        setDescription(newAnnouncement);
+        setAnnouncement(newAnnouncement);
         onChange(newAnnouncement);
     };
     return (

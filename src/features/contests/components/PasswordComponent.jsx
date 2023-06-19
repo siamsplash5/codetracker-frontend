@@ -37,14 +37,14 @@ export default function PasswordComponent({onPasswordChange, onConfirmPasswordCh
             </div>
             <div className="w-1/2 mb-4">
                 <label
-                    htmlFor="password"
+                    htmlFor="confirm-password"
                     className="block mb-2 text-sm font-medium text-gray-700"
                 >
                     Confirm Password
                 </label>
                 <input
                     type="password"
-                    id="password"
+                    id="confirm-password"
                     name="password"
                     value={confirmPassword}
                     placeholder="••••••••"

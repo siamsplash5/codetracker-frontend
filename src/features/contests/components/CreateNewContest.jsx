@@ -1,15 +1,17 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Announcement from "../../../components/Announcement";
 import DatePicker from "../../../components/DatePicker";
 import Description from "../../../components/Description";
 import {
     PenToSquareIconDefault,
-    PlusIconDefault,
+    PlusIconDefault
 } from "../../../components/Icons";
 import LengthPicker from "../../../components/LengthPicker";
 import TimePicker from "../../../components/TimePicker";
 import Title from "../../../components/Title";
+import isDifferenceThreeMonths from "../../../utils/isDifferenceThreeMonths";
+import timeLengthToMillisecond from "../../../utils/timeLengthToMillisecond";
+import toMillisecond from "../../../utils/toMillisecond";
 import PasswordComponent from "./PasswordComponent";
 import PrivacyOption from "./PrivacyOption";
 import SetContestProblem from "./SetContestProblem";
@@ -28,6 +30,8 @@ const FormComponent = () => {
     const [tabs, setTabs] = useState(
         Array.from({ length: totalProblemTab }, () => true)
     );
+    const [showError, setShowError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const handleAddProblem = (e) => {
         setTotalProblemTab((prev) => prev + 1);
@@ -42,7 +46,29 @@ const FormComponent = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log({privacy, password, confirmPassword, title, startDate, startTime, length, description, announcement});
+        const beginTime = toMillisecond(startDate, startTime);
+        const contestLength = timeLengthToMillisecond(length);
+        
+        if(password!==confirmPassword){
+            setShowError(true);
+            setErrorMessage("Password do not match");
+        }else if(beginTime<=Date.now()){
+            setShowError(true);
+            setErrorMessage(
+                "Begin time should be later than the current time!"
+            );
+        }else if (!isDifferenceThreeMonths(Date.now(), beginTime)) {
+            setShowError(true);
+            setErrorMessage("The contest should begin in 30 days from now!");
+        }else{
+            const problemList = [];
+            tabs.forEach((value) => {
+                if (typeof value === "object" && value !== null) {
+                    console.log(value);
+                    problemList.push(value);
+                }
+            });
+        }
     };
 
     return (
@@ -118,7 +144,7 @@ const FormComponent = () => {
                 <div className="mb-4">
                     {tabs.map(
                         (isMounted, index) =>
-                            isMounted && (
+                            isMounted!==null && (
                                 <SetContestProblem
                                     key={index}
                                     index={index}
@@ -130,6 +156,12 @@ const FormComponent = () => {
 
                 <hr />
                 <br />
+
+                {showError && (
+                    <div className="mb-4 bg-red-200 p-4 rounded">
+                        {errorMessage}       
+                    </div>
+                )}
 
                 <div className="mb-4">
                     <button

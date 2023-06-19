@@ -8,19 +8,19 @@ const LengthPicker = ({ value, onChange }) => {
     const handleDaysChange = (e) => {
         const newDays = e.target.value;
         setDays(newDays);
-        onChange(newDays + ":" + newHours + ":" + minutes);
+        onChange(newDays + ":" + hours + ":" + minutes);
     };
 
     const handleHoursChange = (e) => {
         const newHours = e.target.value;
         setHours(newHours);
-        onChange(newDays + ":" + newHours + ":" + minutes);
+        onChange(days + ":" + newHours + ":" + minutes);
     };
 
     const handleMinutesChange = (e) => {
         const newMinutes = e.target.value;
         setMinutes(newMinutes);
-        onChange(newDays + ":" + newHours + ":" + minutes);
+        onChange(days + ":" + hours + ":" + newMinutes);
     };
 
     return (
