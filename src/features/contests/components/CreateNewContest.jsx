@@ -1,15 +1,18 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
+import Announcement from "../../../components/Announcement";
 import DatePicker from "../../../components/DatePicker";
+import Description from "../../../components/Description";
 import {
     PenToSquareIconDefault,
-    PlusIconDefault
+    PlusIconDefault,
 } from "../../../components/Icons";
 import LengthPicker from "../../../components/LengthPicker";
 import TimePicker from "../../../components/TimePicker";
+import Title from "../../../components/Title";
 import PasswordComponent from "./PasswordComponent";
 import PrivacyOption from "./PrivacyOption";
 import SetContestProblem from "./SetContestProblem";
-
 
 const FormComponent = () => {
     const [privacy, setPrivacy] = useState("");
@@ -22,40 +25,24 @@ const FormComponent = () => {
     const [description, setDescription] = useState("");
     const [announcement, setAnnouncement] = useState("");
     const [totalProblemTab, setTotalProblemTab] = useState(0);
-    const [problemList, setProblemList] = useState([]);
-    console.log(problemList);
-
-    const handleTitleChange = (e) => {
-        setTitle(e.target.value);
-    };
-
-    const handleStartDateChange = (date) => {
-        setStartDate(date);
-    };
-
-    const handleStartTimeChange = (e) => {
-        setStartTime(e.target.value);
-    };
-
-    const handleLengthChange = (e) => {
-        setLength(e.target.value);
-    };
-
-    const handleDescriptionChange = (e) => {
-        setDescription(e.target.value);
-    };
-
-    const handleAnnouncementChange = (e) => {
-        setAnnouncement(e.target.value);
-    };
+    const [tabs, setTabs] = useState(
+        Array.from({ length: totalProblemTab }, () => true)
+    );
 
     const handleAddProblem = (e) => {
-        setTotalProblemTab((prev)=> prev+1);
-    }
+        setTotalProblemTab((prev) => prev + 1);
+    };
+
+    useEffect(() => {
+        setTabs((prev) => {
+            const newTabs = [...prev, true];
+            return newTabs;
+        });
+    }, [totalProblemTab]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Handle form submission here
+        console.log({privacy, password, confirmPassword, title, startDate, startTime, length, description, announcement});
     };
 
     return (
@@ -65,7 +52,9 @@ const FormComponent = () => {
                     <PenToSquareIconDefault />
                     Create a new contest
                 </h2>
+
                 <br />
+
                 <PrivacyOption value={privacy} onChange={setPrivacy} />
 
                 {privacy === "private" || privacy === "protected" ? (
@@ -76,92 +65,39 @@ const FormComponent = () => {
                 ) : null}
 
                 <div className="mb-4">
-                    <label
-                        htmlFor="title"
-                        className="block mb-2 text-sm font-medium text-gray-700"
-                    >
-                        Title
-                    </label>
-                    <input
-                        type="text"
-                        id="title"
-                        name="title"
-                        maxLength={100}
+                    <Title
                         value={title}
-                        placeholder="Contest title (max 100 characters)"
-                        onChange={handleTitleChange}
-                        className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        required
+                        onChange={setTitle}
+                        titleFor="Contest"
                     />
                 </div>
 
                 <div className="flex space-x-4 flex-row mb-4">
                     <div className="w-1/3">
-                        <label
-                            htmlFor="startDate"
-                            className="block mb-2 text-sm font-medium text-gray-700"
-                        >
-                            Begin Date (MM : DD : YYYY)
-                        </label>
-
                         <DatePicker
                             selectedDate={startDate}
-                            onChange={handleStartDateChange}
+                            onChange={setStartDate}
                         />
                     </div>
 
                     <div className="w-1/3">
-                        <label
-                            htmlFor="startTime"
-                            className="block mb-2 text-sm font-medium text-gray-700"
-                        >
-                            Begin Time (24-hour format)
-                        </label>
                         <TimePicker value={startTime} onChange={setStartTime} />
                     </div>
 
                     <div className="w-1/3">
-                        <label
-                            htmlFor="length"
-                            className="block mb-2 text-sm font-medium text-gray-700"
-                        >
-                            Contest Length
-                        </label>
                         <LengthPicker value={length} onChange={setLength} />
                     </div>
                 </div>
                 <div className="mb-4">
-                    <label
-                        htmlFor="description"
-                        className="block mb-2 text-sm font-medium text-gray-700"
-                    >
-                        Description
-                    </label>
-                    <textarea
-                        id="description"
-                        name="description"
-                        maxLength={4000}
+                    <Description
                         value={description}
-                        placeholder="Write contest description"
-                        onChange={handleDescriptionChange}
-                        className="block h-32 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        onChange={setDescription}
                     />
                 </div>
                 <div className="mb-4">
-                    <label
-                        htmlFor="announcement"
-                        className="block mb-2 text-sm font-medium text-gray-700"
-                    >
-                        Announcement
-                    </label>
-                    <textarea
-                        id="announcement"
-                        name="announcement"
-                        maxLength={1000}
+                    <Announcement
                         value={announcement}
-                        placeholder="Write contest announcement"
-                        onChange={handleAnnouncementChange}
-                        className="block h-32 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        onChange={setAnnouncement}
                     />
                 </div>
 
@@ -180,9 +116,16 @@ const FormComponent = () => {
                 </div>
 
                 <div className="mb-4">
-                    {Array.from({ length: totalProblemTab }, (_, index) => (
-                        <SetContestProblem onChange={setProblemList} />
-                    ))}
+                    {tabs.map(
+                        (isMounted, index) =>
+                            isMounted && (
+                                <SetContestProblem
+                                    key={index}
+                                    index={index}
+                                    setTabs={setTabs}
+                                />
+                            )
+                    )}
                 </div>
 
                 <hr />

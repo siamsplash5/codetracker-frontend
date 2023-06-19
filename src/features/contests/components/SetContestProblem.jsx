@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { PlusIconDefault, TrashIconDefault } from "../../../components/Icons";
 
-export default function SetContestProblem({ onChange }) {
+export default function SetContestProblem({index, onChange, setTabs }) {
     const [judge, setJudge] = useState();
     const [problemID, setProblemID] = useState();
     const [alias, setAlias] = useState();
@@ -19,9 +19,17 @@ export default function SetContestProblem({ onChange }) {
         setAlias(newAlias);
     };
 
-    const handleClick = () => {
-        onChange((prev) => [{ judge, problemID, alias }, ...prev]);
+    const handleDelete = () => {
+        setTabs((prevTabs) => {
+            const updatedTabs = [...prevTabs];
+            updatedTabs[index] = false;
+            return updatedTabs;
+        });
     };
+
+    // const handleClick = () => {
+    //     onChange((prev) => [{ judge, problemID, alias }, ...prev]);
+    // };
 
     return (
         <div className="flex space-x-4 mb-4">
@@ -61,9 +69,10 @@ export default function SetContestProblem({ onChange }) {
                     required
                 />
             </div>
-            <div className="w-0.5/12 text-center">
+            <div className="w-1/12 text-center">
                 <button
                     type="button"
+                    onClick={handleDelete}
                     className="w-full px-4 py-2 text-sm font-medium text-white bg-red-800 rounded-md hover:bg-red-900 focus:outline-none focus:bg-red-900"
                 >
                     <TrashIconDefault />
