@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Announcement from "../../../components/Announcement";
 import DatePicker from "../../../components/DatePicker";
@@ -44,7 +45,7 @@ const FormComponent = () => {
         });
     }, [totalProblemTab]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const beginTime = toMillisecond(startDate, startTime);
         const contestLength = timeLengthToMillisecond(length);
@@ -60,14 +61,39 @@ const FormComponent = () => {
         }else if (!isDifferenceThreeMonths(Date.now(), beginTime)) {
             setShowError(true);
             setErrorMessage("The contest should begin in 30 days from now!");
-        }else{
-            const problemList = [];
+        } else if (contestLength < 1800000) {
+            setShowError(true);
+            setErrorMessage("Contest length should be alteast 30 minutes!");
+        } else {
+            const problemSet = [];
             tabs.forEach((value) => {
                 if (typeof value === "object" && value !== null) {
-                    console.log(value);
-                    problemList.push(value);
+                    problemSet.push(value);
                 }
             });
+
+            try {
+                const { data } = await axios.post("/api/contest/create", {
+                    privacy,
+                    password,
+                    title: title.trim(),
+                    description: description.trim(),
+                    announcement: announcement.trim(),
+                    beginTime,
+                    contestLength,
+                    problemSet,
+                });
+                if (data.status !== undefined) {
+                    setErrorMessage(data.message);
+                    setShowError(true);
+                } else {
+                    window.location.reload();
+                }
+            } catch (error) {
+                console.log(error);
+                setErrorMessage("Something went wrong!");
+                setShowError(true);
+            }
         }
     };
 
@@ -83,7 +109,7 @@ const FormComponent = () => {
 
                 <PrivacyOption value={privacy} onChange={setPrivacy} />
 
-                {privacy === "private" || privacy === "protected" ? (
+                {privacy === "Private" || privacy === "Protected" ? (
                     <PasswordComponent
                         onPasswordChange={setPassword}
                         onConfirmPasswordChange={setConfirmPassword}

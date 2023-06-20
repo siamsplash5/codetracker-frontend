@@ -1,6 +1,6 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
 import AtcoderOptions from "./AtcoderOptions";
 import CodeforcesOptions from "./CodeforcesOptions";
 import SpojOptions from "./SpojOptions";
@@ -11,6 +11,7 @@ export default function SubmitSolution({ handle, judge }) {
     const [langID, setLangID] = useState(0);
     const [sourceCode, setSourceCode] = useState("");
     const navigate = useNavigate();
+    const {currentUser} = useAuth();
 
     const handleLangIDChange = (event) => {
         setLangID(event.target.value);
@@ -21,7 +22,6 @@ export default function SubmitSolution({ handle, judge }) {
     };
 
     function handleSubmit() {
-        const currentUser = localStorage.getItem("currentUser");
         if (currentUser === null) {
             navigate("/login");
         } else setShowSubmitModal(true);

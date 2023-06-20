@@ -24,14 +24,14 @@ export default function PrivacyOption({value, onChange}) {
                 required
             >
                 <option value="">Select an option</option>
-                <option value="public">
+                <option value="Public">
                     Public - any user can see and submit
                 </option>
-                <option value="private">
+                <option value="Private">
                     Private - only user knowing contest password can see and
                     submit
                 </option>
-                <option value="protected">
+                <option value="Protected">
                     Protected - any user can see but only the user knowing
                     contest password can submit
                 </option>

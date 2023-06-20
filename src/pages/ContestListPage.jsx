@@ -7,8 +7,10 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import useSWR from "swr";
 import ServerError from "../components/ServerError";
+import { useAuth } from "../context/AuthContext";
 import { ContestList, CreateNewContest } from "../features/contests";
 
 const fetchContestList = async (url) => {
@@ -23,7 +25,8 @@ const fetchContestList = async (url) => {
 export default function ProfilePage() {
     const [selectedMenuItem, setSelectedMenuItem] = useState("menu5");
     const [showServerError, setShowServerError] = useState(false);
-
+    const {currentUser} = useAuth();
+    const navigate = useNavigate();
     const { data, error } = useSWR("/api/contest-query/all", fetchContestList, {
         suspense: true,
     });
@@ -65,9 +68,14 @@ export default function ProfilePage() {
                                     <h1>Finished</h1>
                                 </div>
                             )}
-                            {selectedMenuItem === "menu5" && (
-                                <CreateNewContest />
-                            )}
+                            <div className="p-4">
+                                {selectedMenuItem === "menu5" &&
+                                    (currentUser !== null ? (
+                                        <CreateNewContest />
+                                    ) : (
+                                        navigate("/login")
+                                    ))}
+                            </div>
                         </div>
                     </div>
                     <div className="w-1/5 bg-slate-800 text-white text-opacity-80 h-screen pr-4 ">
