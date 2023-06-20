@@ -1,9 +1,16 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLock, faLockOpen } from "@fortawesome/free-solid-svg-icons";
-import { LockedIconAmber, LockedIconRed, UnlockedIconGreen } from "../../../components/Icons";
+import { useNavigate } from "react-router-dom";
+import {
+    LockedIconAmber,
+    LockedIconRed,
+    UnlockedIconGreen
+} from "../../../components/Icons";
 import millisecondToDayHourMinute from "../../../utils/millisecondToDayHourMinute";
 
 export default function ({ heading, contestList }) {
+    const navigate = useNavigate();
+    const handleClick = (contest) => {
+        navigate(`/contest/${contest.contestID}`, {state: contest});
+    };
     return (
         <>
             {contestList && (
@@ -47,12 +54,11 @@ export default function ({ heading, contestList }) {
                                             >
                                                 <td className="border-b px-4 py-2">
                                                     <button
-                                                        onClick={() => {
-                                                            setShowCode(true);
-                                                            setIndexToShow(
-                                                                index
-                                                            );
-                                                        }}
+                                                        onClick={() =>
+                                                            handleClick(
+                                                                contest
+                                                            )
+                                                        }
                                                     >
                                                         #{contest.contestID}
                                                     </button>
@@ -72,7 +78,15 @@ export default function ({ heading, contestList }) {
                                                         "Public" && (
                                                         <UnlockedIconGreen />
                                                     )}
-                                                    {contest.title}
+                                                    <button
+                                                        onClick={() =>
+                                                            handleClick(
+                                                                contest
+                                                            )
+                                                        }
+                                                    >
+                                                        {contest.title}
+                                                    </button>
                                                 </td>
                                                 <td className="border-b px-4 py-2">
                                                     <b>{null}</b>

@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Loading from "./components/Loading";
 import Navbar from "./components/Navbar";
 import ContestListPage from "./pages/ContestListPage";
+import ContestPage from "./pages/ContestPage";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import ProblemListPage from "./pages/ProblemListPage";
@@ -40,6 +41,10 @@ function App() {
                             <Route
                                 path="/contest"
                                 element={<ContestListPage />}
+                            />
+                            <Route
+                                path="/contest/:contestID"
+                                element={<ContestPage />}
                             />
                             <Route
                                 path="/profile/:username"
