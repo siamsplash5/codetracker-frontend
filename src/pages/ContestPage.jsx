@@ -1,20 +1,16 @@
 import {
-    faBullhorn,
-    faCode,
-    faList,
+    faBullhorn, faList,
     faSquare,
-    faTrophy,
+    faTrophy
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { data } from "autoprefixer";
 import axios from "axios";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import useSWR from "swr";
 
-const fetchProblemList = async (...props) => {
-    const { data } = await axios.post(...props);
+const fetchProblemList = async (url, problemSet) => {
+    const { data } = await axios.post(url, problemSet);
     if (data.status !== undefined) {
         console.log(data.message);
         return data.status.toString();
@@ -27,10 +23,9 @@ export default function ContestPage() {
     const [showServerError, setShowServerError] = useState(false);
     const [problemList, setProblemList] = useState([]);
     const location = useLocation();
-    const [contest, setContest] = useState(location.state);
-    const { problemSet } = contest;
+    const { problemSet } = location.state;
     const [data, error] = useSWR(
-        ["/api/problem/contest/all", problemSet],
+        ["/api/contest-problem/all", problemSet],
         fetchProblemList,
         { suspense: true }
     );
@@ -100,7 +95,7 @@ export default function ContestPage() {
                                     Dashboard
                                 </li>
                                 <hr />
-                                {problemSet.map((problem) => (
+                                {problemList.map((problem) => (
                                     <li
                                         key={problem._id}
                                         className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
@@ -115,9 +110,7 @@ export default function ContestPage() {
                                         <span className="pr-2 text-lg">
                                             <FontAwesomeIcon icon={faSquare} />{" "}
                                         </span>{" "}
-                                        {problem.alias
-                                            ? problem.alias
-                                            : problem.problemID}
+                                        {problem.title}
                                     </li>
                                 ))}
                                 <hr />
