@@ -2,7 +2,6 @@ import ReactHtmlParser from "react-html-parser";
 import styled from "styled-components";
 
 const StyledProblemStatement = styled.div`
-    font-size: 1.2rem;
     hr {
         margin-bottom: 20px;
     }

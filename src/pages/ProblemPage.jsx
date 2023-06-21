@@ -1,31 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import styled from "styled-components";
-import {
-    AtcoderProblem,
-    CodeforcesProblem, ShowProblemInfo, SpojProblem,
-    TimusProblem
-} from "../features/problems";
-
 import NotFound from "../components/NotFound";
+import { ProblemContainer, ShowProblemInfo } from "../features/problems";
 import { SubmitSolution, VerdictTable } from "../features/submissions";
 
-const StyledProblemContainer = styled.div`
-    font-family: Helvetica;
-    width: 70%;
-`;
-
-const StyledSideBar = styled.div`
-    width: 28.5%;
-    height: 40%;
-`;
-
-const StyledGap = styled.div`
-    width: 1.5%;
-`;
-
-export default function ProblemPage({problem: problemFromProps, hideInfo}) {
+export default function ProblemPage() {
     const [statusInfo, setStatusInfo] = useState();
     const { judge, problemID } = useParams();
     const [showNotFound, setShowNotFound] = useState(false);
@@ -35,7 +15,7 @@ export default function ProblemPage({problem: problemFromProps, hideInfo}) {
 
     useEffect(() => {
         async function fetchProblem() {
-            if (!problem && !problemFromProps) {
+            if (!problem) {
                 try {
                     const { data } = await axios.post("/api/problem", {
                         judge,
@@ -50,9 +30,6 @@ export default function ProblemPage({problem: problemFromProps, hideInfo}) {
                     console.log(error);
                     setShowNotFound(true);
                 }  
-            }
-            else if(problemFromProps){
-                setProblem(problemFromProps);
             }
         }
         fetchProblem();
@@ -78,40 +55,26 @@ export default function ProblemPage({problem: problemFromProps, hideInfo}) {
         <>
             {showNotFound && <NotFound />}
             {!showNotFound && problem && (
-                <div className="container flex mx-auto">
-                    <StyledProblemContainer className="bg-white text-read">
-                        {problem.judge === "Atcoder" && (
-                            <AtcoderProblem problem={problem} />
-                        )}
-                        {problem.judge === "Codeforces" && (
-                            <CodeforcesProblem problem={problem} />
-                        )}
-                        {problem.judge === "Timus" && (
-                            <TimusProblem problem={problem} />
-                        )}
-                        {problem.judge === "Spoj" && (
-                            <SpojProblem problem={problem} />
-                        )}
-                    </StyledProblemContainer>
-                    <StyledGap />
-                    {!(hideInfo===true) && (
-                        <StyledSideBar>
-                            <ShowProblemInfo problem={problem} />
-                            <SubmitSolution
-                                handle={({ langID, sourceCode }) =>
-                                    submitHandler({ langID, sourceCode })
-                                }
-                                judge={problem.judge}
-                            />
-                            <VerdictTable
-                                status={statusInfo}
-                                info={{
-                                    judge: problem.judge,
-                                    problemID: problem.problemID,
-                                }}
-                            />
-                        </StyledSideBar>
-                    )}
+                <div className="container flex mx-auto mt-4">
+                    <div className="w-9/12 mr-10">
+                        <ProblemContainer problem={problem} />
+                    </div>
+                    <div className="w-3/12">
+                        <ShowProblemInfo problem={problem} />
+                        <SubmitSolution
+                            handle={({ langID, sourceCode }) =>
+                                submitHandler({ langID, sourceCode })
+                            }
+                            judge={problem.judge}
+                        />
+                        <VerdictTable
+                            status={statusInfo}
+                            info={{
+                                judge: problem.judge,
+                                problemID: problem.problemID,
+                            }}
+                        />
+                    </div>
                 </div>
             )}
         </>

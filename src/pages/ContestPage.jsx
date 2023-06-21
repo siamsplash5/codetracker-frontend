@@ -11,7 +11,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import useSWR from "swr";
-import ProblemPage from "./ProblemPage";
+import { ProblemContainer } from "../features/problems";
 
 const fetchProblemList = async ([url, problemSet]) => {
     const { data } = await axios.post(url, problemSet);
@@ -68,34 +68,8 @@ export default function ContestPage() {
         <>
             {showServerError && <ServerError />}
             {!showServerError && (
-                <div className="flex mx-10 mt-5">
-                    <div className="w-4/5 overflow-y-auto max-h-screen pl-4 pr-4">
-                        <div className="p-4">
-                            {selectedMenuItem === "dashboard" && (
-                                <div>
-                                    <h3>This is dashboard</h3>
-                                </div>
-                            )}
-                            {selectedProblem && (
-                                <ProblemPage
-                                    key={selectedProblem._id}
-                                    problem={selectedProblem}
-                                    hideInfo={true}
-                                />
-                            )}
-                            {selectedMenuItem === "standings" && (
-                                <div>
-                                    <h3>This is standings</h3>
-                                </div>
-                            )}
-                            {selectedMenuItem === "announcements" && (
-                                <div>
-                                    <h3>This is announcements</h3>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                    <div className="w-1/5 bg-slate-800 text-white text-opacity-80 h-screen pr-4 ">
+                <div className="flex mx-0">
+                    <div className="w-0.75/5 bg-slate-800 text-white text-opacity-80 h-screen pr-4 ">
                         <div className="p-4">
                             <h5 className="mb-4">{contest.title}</h5>
                             <hr />
@@ -189,6 +163,31 @@ export default function ContestPage() {
                                     Submissions
                                 </li>
                             </ul>
+                        </div>
+                    </div>
+                    <div className="w-3/5 overflow-y-auto max-h-screen">
+                        <div className="p-4">
+                            {selectedMenuItem === "dashboard" && (
+                                <div>
+                                    <h3>This is dashboard</h3>
+                                </div>
+                            )}
+                            {selectedProblem && (
+                                <ProblemContainer
+                                    key={selectedProblem._id}
+                                    problem={selectedProblem}
+                                />
+                            )}
+                            {selectedMenuItem === "standings" && (
+                                <div>
+                                    <h3>This is standings</h3>
+                                </div>
+                            )}
+                            {selectedMenuItem === "announcements" && (
+                                <div>
+                                    <h3>This is announcements</h3>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
