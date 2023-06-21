@@ -3,15 +3,13 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import {
-    ShowProblemInfo,
     AtcoderProblem,
-    CodeforcesProblem,
-    SpojProblem,
+    CodeforcesProblem, ShowProblemInfo, SpojProblem,
     TimusProblem
 } from "../features/problems";
 
-import { SubmitSolution, VerdictTable } from "../features/submissions"; 
 import NotFound from "../components/NotFound";
+import { SubmitSolution, VerdictTable } from "../features/submissions";
 
 const StyledProblemContainer = styled.div`
     font-family: Helvetica;
@@ -27,7 +25,7 @@ const StyledGap = styled.div`
     width: 1.5%;
 `;
 
-export default function ProblemPage(props) {
+export default function ProblemPage({problem: problemFromProps, hideInfo}) {
     const [statusInfo, setStatusInfo] = useState();
     const { judge, problemID } = useParams();
     const [showNotFound, setShowNotFound] = useState(false);
@@ -37,7 +35,7 @@ export default function ProblemPage(props) {
 
     useEffect(() => {
         async function fetchProblem() {
-            if (!problem) {
+            if (!problem && !problemFromProps) {
                 try {
                     const { data } = await axios.post("/api/problem", {
                         judge,
@@ -52,6 +50,9 @@ export default function ProblemPage(props) {
                     console.log(error);
                     setShowNotFound(true);
                 }  
+            }
+            else if(problemFromProps){
+                setProblem(problemFromProps);
             }
         }
         fetchProblem();
@@ -93,22 +94,24 @@ export default function ProblemPage(props) {
                         )}
                     </StyledProblemContainer>
                     <StyledGap />
-                    <StyledSideBar>
-                        <ShowProblemInfo problem={problem} />
-                        <SubmitSolution
-                            handle={({ langID, sourceCode }) =>
-                                submitHandler({ langID, sourceCode })
-                            }
-                            judge={problem.judge}
-                        />
-                        <VerdictTable
-                            status={statusInfo}
-                            info={{
-                                judge: problem.judge,
-                                problemID: problem.problemID,
-                            }}
-                        />
-                    </StyledSideBar>
+                    {!(hideInfo===true) && (
+                        <StyledSideBar>
+                            <ShowProblemInfo problem={problem} />
+                            <SubmitSolution
+                                handle={({ langID, sourceCode }) =>
+                                    submitHandler({ langID, sourceCode })
+                                }
+                                judge={problem.judge}
+                            />
+                            <VerdictTable
+                                status={statusInfo}
+                                info={{
+                                    judge: problem.judge,
+                                    problemID: problem.problemID,
+                                }}
+                            />
+                        </StyledSideBar>
+                    )}
                 </div>
             )}
         </>

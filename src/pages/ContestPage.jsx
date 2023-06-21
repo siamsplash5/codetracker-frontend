@@ -1,15 +1,19 @@
 import {
-    faBullhorn, faList,
+    faBullhorn,
+    faList,
+    faPaperPlane,
+    faPlane,
     faSquare,
-    faTrophy
+    faTrophy,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import useSWR from "swr";
+import ProblemPage from "./ProblemPage";
 
-const fetchProblemList = async (url, problemSet) => {
+const fetchProblemList = async ([url, problemSet]) => {
     const { data } = await axios.post(url, problemSet);
     if (data.status !== undefined) {
         console.log(data.message);
@@ -22,14 +26,16 @@ export default function ContestPage() {
     const [selectedMenuItem, setSelectedMenuItem] = useState("dashboard");
     const [showServerError, setShowServerError] = useState(false);
     const [problemList, setProblemList] = useState([]);
+    const [selectedProblem, setSelectedProblem] = useState(null);
     const location = useLocation();
-    const { problemSet } = location.state;
-    const [data, error] = useSWR(
+    const [contest, setContest] = useState(location.state);
+    const { problemSet } = contest;
+    const { data, error } = useSWR(
         ["/api/contest-problem/all", problemSet],
         fetchProblemList,
         { suspense: true }
     );
-    
+
     useEffect(() => {
         if (data === "500") {
             setShowServerError(true);
@@ -38,6 +44,21 @@ export default function ContestPage() {
             setShowServerError(false);
         }
     }, [data, error]);
+
+    useEffect(() => {
+        if (
+            selectedMenuItem !== "dashboard" &&
+            selectedMenuItem !== "standings" &&
+            selectedMenuItem !== "announcements" &&
+            selectedMenuItem !== "submissions"
+        ) {
+            setSelectedProblem(
+                problemList.find((problem) => problem._id === selectedMenuItem)
+            );
+        } else {
+            setSelectedProblem(null);
+        }
+    }, [selectedMenuItem, problemList]);
 
     const handleMenuItemClick = (menuItem) => {
         setSelectedMenuItem(menuItem);
@@ -55,13 +76,13 @@ export default function ContestPage() {
                                     <h3>This is dashboard</h3>
                                 </div>
                             )}
-                            {selectedMenuItem !== "dashboard" &&
-                                selectedMenuItem !== "standings" &&
-                                selectedMenuItem !== "announcements" && (
-                                    <div>
-                                        {selectedMenuItem}
-                                    </div>
-                                )}
+                            {selectedProblem && (
+                                <ProblemPage
+                                    key={selectedProblem._id}
+                                    problem={selectedProblem}
+                                    hideInfo={true}
+                                />
+                            )}
                             {selectedMenuItem === "standings" && (
                                 <div>
                                     <h3>This is standings</h3>
@@ -110,7 +131,15 @@ export default function ContestPage() {
                                         <span className="pr-2 text-lg">
                                             <FontAwesomeIcon icon={faSquare} />{" "}
                                         </span>{" "}
-                                        {problem.title}
+                                        <span
+                                            className={`${
+                                                problem.title === "Error!"
+                                                    ? "text-red-500"
+                                                    : null
+                                            }`}
+                                        >
+                                            {problem.title}
+                                        </span>
                                     </li>
                                 ))}
                                 <hr />
@@ -143,6 +172,21 @@ export default function ContestPage() {
                                         <FontAwesomeIcon icon={faBullhorn} />{" "}
                                     </span>{" "}
                                     Announcements
+                                </li>
+                                <li
+                                    className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
+                                        selectedMenuItem === "submissions"
+                                            ? "bg-gray-700 text-white"
+                                            : ""
+                                    }`}
+                                    onClick={() =>
+                                        handleMenuItemClick("submissions")
+                                    }
+                                >
+                                    <span className="pr-2 text-green-400">
+                                        <FontAwesomeIcon icon={faPaperPlane} />{" "}
+                                    </span>{" "}
+                                    Submissions
                                 </li>
                             </ul>
                         </div>

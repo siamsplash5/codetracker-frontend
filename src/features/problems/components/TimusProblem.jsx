@@ -78,7 +78,7 @@ export default function TimusProblem({ problem }) {
                 <>
                     {item && (
                         <>
-                            <div className="flex bg-white" key={`test-case-${index}`}>
+                            <div key={index} className="flex bg-white" key={`test-case-${index}`}>
                                 <div className="flex-1">
                                     <div className="h-full">
                                         <table className="w-full h-full border border-gray-300">
