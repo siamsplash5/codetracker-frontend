@@ -1,10 +1,8 @@
 import {
     faBullhorn,
     faList,
-    faPaperPlane,
-    faPlane,
-    faSquare,
-    faTrophy,
+    faPaperPlane, faSquare,
+    faTrophy
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
@@ -12,6 +10,8 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import useSWR from "swr";
 import { ProblemContainer } from "../features/problems";
+import { SubmitSolution, VerdictTable } from "../features/submissions";
+import submitHandler from "../services/submitHandler";
 
 const fetchProblemList = async ([url, problemSet]) => {
     const { data } = await axios.post(url, problemSet);
@@ -23,6 +23,7 @@ const fetchProblemList = async ([url, problemSet]) => {
 };
 
 export default function ContestPage() {
+    const [statusInfo, setStatusInfo] = useState();
     const [selectedMenuItem, setSelectedMenuItem] = useState("dashboard");
     const [showServerError, setShowServerError] = useState(false);
     const [problemList, setProblemList] = useState([]);
@@ -69,7 +70,7 @@ export default function ContestPage() {
             {showServerError && <ServerError />}
             {!showServerError && (
                 <div className="flex mx-0">
-                    <div className="w-0.75/5 bg-slate-800 text-white text-opacity-80 h-screen pr-4 ">
+                    <div className="w-2/12 bg-slate-800 text-white text-opacity-80 h-screen">
                         <div className="p-4">
                             <h5 className="mb-4">{contest.title}</h5>
                             <hr />
@@ -165,7 +166,7 @@ export default function ContestPage() {
                             </ul>
                         </div>
                     </div>
-                    <div className="w-3/5 overflow-y-auto max-h-screen">
+                    <div className="w-7/12 overflow-y-auto max-h-screen">
                         <div className="p-4">
                             {selectedMenuItem === "dashboard" && (
                                 <div>
@@ -189,6 +190,28 @@ export default function ContestPage() {
                                 </div>
                             )}
                         </div>
+                    </div>
+                    <div className="w-3/12 mx-4 max-h-screen mt-4">
+                        <SubmitSolution
+                            handle={({ langID, sourceCode }) =>
+                                submitHandler({
+                                    problem: selectedProblem,
+                                    langID,
+                                    sourceCode,
+                                    setStatusInfo,
+                                    setShowServerError,
+                                })
+                            }
+                            judge={selectedProblem?.judge}
+                        />
+                        <VerdictTable
+                            status={statusInfo}
+                            info={{
+                                judge: selectedProblem?.judge,
+                                problemID: selectedProblem?.problemID,
+                            }}
+                            alias = {selectedProblem?.title}
+                        />
                     </div>
                 </div>
             )}
