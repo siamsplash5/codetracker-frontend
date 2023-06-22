@@ -11,7 +11,6 @@ import { useLocation } from "react-router-dom";
 import useSWR from "swr";
 import { ProblemContainer } from "../features/problems";
 import { SubmitSolution, VerdictTable } from "../features/submissions";
-import submitHandler from "../services/submitHandler";
 
 const fetchProblemList = async ([url, problemSet]) => {
     const { data } = await axios.post(url, problemSet);
@@ -60,6 +59,32 @@ export default function ContestPage() {
             setSelectedProblem(null);
         }
     }, [selectedMenuItem, problemList]);
+
+    const contestSubmitHandler = async({langID, sourceCode})=>{
+        try {
+            const { data } = await axios.post("/api/submit", {
+                judge: selectedProblem.judge,
+                problemID: selectedProblem.problemID,
+                problemName: selectedProblem.title,
+                langID,
+                sourceCode,
+                vjContest: {
+                    contestID: contest.contestID,
+                    beginTime: contest.beginTime,
+                    contestLength: contest.contestLength,
+                },
+            });
+            if (data.status === undefined) {
+                setStatusInfo(data);
+                setShowServerError(false);
+            } else {
+                setShowServerError(true);
+            }
+        } catch (error) {
+            console.log(error);
+            setShowServerError(true);
+        }
+    }
 
     const handleMenuItemClick = (menuItem) => {
         setSelectedMenuItem(menuItem);
@@ -191,27 +216,27 @@ export default function ContestPage() {
                             )}
                         </div>
                     </div>
-                    <div className="w-3/12 mx-4 max-h-screen mt-4">
+                    <div className="w-3/12 ml-3 mr-6 max-h-screen mt-4">
                         <SubmitSolution
                             handle={({ langID, sourceCode }) =>
-                                submitHandler({
-                                    problem: selectedProblem,
+                                contestSubmitHandler({
                                     langID,
                                     sourceCode,
-                                    setStatusInfo,
-                                    setShowServerError,
                                 })
                             }
                             judge={selectedProblem?.judge}
                         />
-                        <VerdictTable
-                            status={statusInfo}
-                            info={{
-                                judge: selectedProblem?.judge,
-                                problemID: selectedProblem?.problemID,
-                            }}
-                            alias = {selectedProblem?.title}
-                        />
+                        {selectedProblem && (
+                            <VerdictTable
+                                status={statusInfo}
+                                key={`verdict-key-${selectedProblem._id}`}
+                                problemInfo={{
+                                    judge: selectedProblem?.judge,
+                                    problemID: selectedProblem?.problemID,
+                                }}
+                                contestID={contest.contestID}
+                            />
+                        )}
                     </div>
                 </div>
             )}

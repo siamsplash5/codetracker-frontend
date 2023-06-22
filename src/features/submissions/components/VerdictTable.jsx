@@ -4,18 +4,20 @@ import { useNavigate } from "react-router-dom";
 import ServerError from "../../../components/ServerError";
 import ShowSourceCode from "./ShowSourceCode";
 
-export default function VerdictTable({ status, info }) {
+export default function VerdictTable({ status, problemInfo, contestID }) {
     const [submissionList, setSubmissionList] = useState([]);
-    const [showServerError, setShowServerError] = useState(false); 
+    const [showServerError, setShowServerError] = useState(false);
     const [showCode, setShowCode] = useState(false);
     const [indexToShow, setIndexToShow] = useState();
-    const { judge, problemID } = info;
+    const { judge, problemID } = problemInfo;
     const navigate = useNavigate();
 
     const getSubmission = async () => {
         try {
             const { data } = await axios.get(
-                `/api/submissiondata/specific-problem/${judge}/${problemID}`
+                `/api/submissiondata/specific-problem/${judge}/${problemID}/${
+                    contestID || 0
+                }`
             );
             if (data.status === undefined) {
                 setSubmissionList((prevList) => [...data, ...prevList]);
@@ -67,7 +69,7 @@ export default function VerdictTable({ status, info }) {
             {showServerError && <ServerError />}
             {!showServerError && (
                 <div className="overflow-x-auto mb-5">
-                    <table className="border border-gray-300 w-full">
+                    <table className="rounded w-full">
                         <thead>
                             <tr>
                                 <th className="border-b px-4 py-2">

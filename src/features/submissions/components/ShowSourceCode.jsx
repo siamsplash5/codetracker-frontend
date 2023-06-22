@@ -17,8 +17,11 @@ export default function ShowSourceCode({ status, onClose }) {
                 <div className="relative w-full my-6 mx-auto max-w-4xl">
                     <div className="border-0 rounded-lg shadow-lg relative flex flex-col bg-white outline-none focus:outline-none">
                         <div className="flex items-start justify-between p-6 rounded-t">
-                            <h3 className="text-3xl font-semibold">
-                                {`${submittedBy}'s solution for [${judge}-${problemID}]`}
+                            <h3>
+                                <span className="text-green-800">
+                                    {`${submittedBy}`}
+                                </span>
+                                {`'s source code `}
                             </h3>
                             <button
                                 className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"

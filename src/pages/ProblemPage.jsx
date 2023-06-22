@@ -5,7 +5,6 @@ import NotFound from "../components/NotFound";
 import ServerError from "../components/ServerError";
 import { ProblemContainer, ShowProblemInfo } from "../features/problems";
 import { SubmitSolution, VerdictTable } from "../features/submissions";
-import submitHandler from "../services/submitHandler";
 
 export default function ProblemPage() {
     const [statusInfo, setStatusInfo] = useState();
@@ -24,25 +23,46 @@ export default function ProblemPage() {
                         judge,
                         problemID,
                     });
-                    if(data.status===undefined){
+                    if (data.status === undefined) {
                         setProblem(data);
-                    }else{
+                    } else {
                         throw new Error(data.message);
                     }
                 } catch (error) {
                     console.log(error);
                     setShowNotFound(true);
-                }  
+                }
             }
         }
         fetchProblem();
     }, [problem, judge, problemID]);
 
+    async function submitHandler({ langID, sourceCode }) {
+        try {
+            const { data } = await axios.post("/api/submit", {
+                judge: problem.judge,
+                problemID: problem.problemID,
+                problemName: problem.title,
+                langID,
+                sourceCode,
+            });
+            if (data.status === undefined) {
+                setStatusInfo(data);
+                setShowServerError(false);
+            } else {
+                setShowServerError(true);
+            }
+        } catch (error) {
+            console.log(error);
+            setShowServerError(true);
+        }
+    }
+
     return (
         <>
             {showServerError && <ServerError />}
             {showNotFound && <NotFound />}
-            {!showNotFound && !showServerError  && problem && (
+            {!showNotFound && !showServerError && problem && (
                 <div className="container flex mx-auto mt-4">
                     <div className="w-9/12 mr-10">
                         <ProblemContainer problem={problem} />
@@ -52,18 +72,15 @@ export default function ProblemPage() {
                         <SubmitSolution
                             handle={({ langID, sourceCode }) =>
                                 submitHandler({
-                                    problem,
                                     langID,
                                     sourceCode,
-                                    setStatusInfo,
-                                    setShowServerError,
                                 })
                             }
                             judge={problem.judge}
                         />
                         <VerdictTable
                             status={statusInfo}
-                            info={{
+                            problemInfo={{
                                 judge: problem.judge,
                                 problemID: problem.problemID,
                             }}
