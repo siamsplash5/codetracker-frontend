@@ -9,6 +9,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import useSWR from "swr";
+import { Announcement, Dashboard, Standings, Submissions } from "../features/contests";
 import { ProblemContainer } from "../features/problems";
 import { SubmitSolution, VerdictTable } from "../features/submissions";
 
@@ -193,26 +194,19 @@ export default function ContestPage() {
                     </div>
                     <div className="w-7/12 overflow-y-auto max-h-screen">
                         <div className="p-4">
-                            {selectedMenuItem === "dashboard" && (
-                                <div>
-                                    <h3>This is dashboard</h3>
-                                </div>
-                            )}
+                            {selectedMenuItem === "dashboard" && <Dashboard />}
                             {selectedProblem && (
                                 <ProblemContainer
                                     key={selectedProblem._id}
                                     problem={selectedProblem}
                                 />
                             )}
-                            {selectedMenuItem === "standings" && (
-                                <div>
-                                    <h3>This is standings</h3>
-                                </div>
-                            )}
+                            {selectedMenuItem === "standings" && <Standings />}
                             {selectedMenuItem === "announcements" && (
-                                <div>
-                                    <h3>This is announcements</h3>
-                                </div>
+                                <Announcement announcementList={contest.announcement} />
+                            )}
+                            {selectedMenuItem === "submissions" && (
+                                <Submissions contestID={contest.contestID}/>
                             )}
                         </div>
                     </div>

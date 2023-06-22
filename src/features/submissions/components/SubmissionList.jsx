@@ -19,6 +19,7 @@ export default function SubmissionList({ submissionList }) {
 
     return (
         <>
+            <h3 className=" text-center p-4">My submissions</h3>
             <section className="dark:bg-gray-900 min-h-screen flex">
                 <div className="container mx-auto p-4">
                     <div className="overflow-x-auto text-center">

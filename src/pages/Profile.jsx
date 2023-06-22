@@ -26,7 +26,7 @@ export default function ProfilePage() {
     const [showNotFound, setShowNotFound] = useState(false);
     const { username } = useParams();
     const { data, error } = useSWR(
-        `/api/submissiondata/specific-user/${username}`,
+        `/api/submissions/specific-user/${username}`,
         fetchSubmissionList,
         {
             suspense: true,

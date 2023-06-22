@@ -15,7 +15,7 @@ export default function VerdictTable({ status, problemInfo, contestID }) {
     const getSubmission = async () => {
         try {
             const { data } = await axios.get(
-                `/api/submissiondata/specific-problem/${judge}/${problemID}/${
+                `/api/submissions/specific-problem/${judge}/${problemID}/${
                     contestID || 0
                 }`
             );
