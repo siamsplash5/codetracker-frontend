@@ -217,25 +217,27 @@ export default function ContestPage() {
                         </div>
                     </div>
                     <div className="w-3/12 ml-3 mr-6 max-h-screen mt-4">
-                        <SubmitSolution
-                            handle={({ langID, sourceCode }) =>
-                                contestSubmitHandler({
-                                    langID,
-                                    sourceCode,
-                                })
-                            }
-                            judge={selectedProblem?.judge}
-                        />
                         {selectedProblem && (
-                            <VerdictTable
-                                status={statusInfo}
-                                key={`verdict-key-${selectedProblem._id}`}
-                                problemInfo={{
-                                    judge: selectedProblem?.judge,
-                                    problemID: selectedProblem?.problemID,
-                                }}
-                                contestID={contest.contestID}
-                            />
+                            <>
+                                <SubmitSolution
+                                    handle={({ langID, sourceCode }) =>
+                                        contestSubmitHandler({
+                                            langID,
+                                            sourceCode,
+                                        })
+                                    }
+                                    judge={selectedProblem?.judge}
+                                />
+                                <VerdictTable
+                                    status={statusInfo}
+                                    key={`verdict-key-${selectedProblem._id}`}
+                                    problemInfo={{
+                                        judge: selectedProblem?.judge,
+                                        problemID: selectedProblem?.problemID,
+                                    }}
+                                    contestID={contest.contestID}
+                                />
+                            </>
                         )}
                     </div>
                 </div>

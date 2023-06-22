@@ -1,11 +1,11 @@
 import { faPenToSquare, faTrashAlt } from "@fortawesome/free-regular-svg-icons";
-import { faLock, faPlus, faTrash, faUnlock } from "@fortawesome/free-solid-svg-icons";
+import { faLock, faLockOpen, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function UnlockedIconGreen() {
     return (
         <span className="text-green-500 text-lg pr-2">
-            <FontAwesomeIcon icon={faUnlock} />{" "}
+            <FontAwesomeIcon icon={faLockOpen} />{" "}
         </span>
     );
 }
