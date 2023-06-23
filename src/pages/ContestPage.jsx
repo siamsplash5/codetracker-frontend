@@ -1,15 +1,21 @@
 import {
     faBullhorn,
     faList,
-    faPaperPlane, faSquare,
-    faTrophy
+    faPaperPlane,
+    faSquare,
+    faTrophy,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import useSWR from "swr";
-import { Announcement, Dashboard, Standings, Submissions } from "../features/contests";
+import {
+    Announcement,
+    Dashboard,
+    Standings,
+    Submissions,
+} from "../features/contests";
 import { ProblemContainer } from "../features/problems";
 import { SubmitSolution, VerdictTable } from "../features/submissions";
 
@@ -61,7 +67,7 @@ export default function ContestPage() {
         }
     }, [selectedMenuItem, problemList]);
 
-    const contestSubmitHandler = async({langID, sourceCode})=>{
+    const contestSubmitHandler = async ({ langID, sourceCode }) => {
         try {
             const { data } = await axios.post("/api/submit", {
                 judge: selectedProblem.judge,
@@ -85,7 +91,7 @@ export default function ContestPage() {
             console.log(error);
             setShowServerError(true);
         }
-    }
+    };
 
     const handleMenuItemClick = (menuItem) => {
         setSelectedMenuItem(menuItem);
@@ -192,48 +198,58 @@ export default function ContestPage() {
                             </ul>
                         </div>
                     </div>
-                    <div className="w-7/12 overflow-y-auto max-h-screen">
-                        <div className="p-4">
-                            {selectedMenuItem === "dashboard" && <Dashboard />}
-                            {selectedProblem && (
-                                <ProblemContainer
-                                    key={selectedProblem._id}
-                                    problem={selectedProblem}
-                                />
-                            )}
-                            {selectedMenuItem === "standings" && <Standings />}
-                            {selectedMenuItem === "announcements" && (
-                                <Announcement announcementList={contest.announcement} />
-                            )}
-                            {selectedMenuItem === "submissions" && (
-                                <Submissions contestID={contest.contestID}/>
-                            )}
+                    {selectedProblem && (
+                        <div className="w-7/12 overflow-y-auto max-h-screen p-4">
+                            <ProblemContainer
+                                key={selectedProblem._id}
+                                problem={selectedProblem}
+                            />
                         </div>
-                    </div>
-                    <div className="w-3/12 ml-3 mr-6 max-h-screen mt-4">
-                        {selectedProblem && (
-                            <>
-                                <SubmitSolution
-                                    handle={({ langID, sourceCode }) =>
-                                        contestSubmitHandler({
-                                            langID,
-                                            sourceCode,
-                                        })
-                                    }
-                                    judge={selectedProblem?.judge}
-                                />
-                                <VerdictTable
-                                    status={statusInfo}
-                                    key={`verdict-key-${selectedProblem._id}`}
-                                    problemInfo={{
-                                        judge: selectedProblem?.judge,
-                                        problemID: selectedProblem?.problemID,
-                                    }}
-                                    contestID={contest.contestID}
-                                />
-                            </>
-                        )}
-                    </div>
+                    )}
+                    {selectedMenuItem === "dashboard" && (
+                        <div className="w-10/12 overflow-y-auto max-h-screen">
+                            <Dashboard contest={contest}/>
+                        </div>
+                    )}
+                    {selectedMenuItem === "standings" && (
+                        <div className="w-10/12 overflow-y-auto max-h-screen">
+                            <Standings />
+                        </div>
+                    )}
+                    {selectedMenuItem === "announcements" && (
+                        <div className="w-10/12 overflow-y-auto max-h-screen">
+                            <Announcement
+                                announcementList={contest.announcement}
+                            />
+                        </div>
+                    )}
+                    {selectedMenuItem === "submissions" && (
+                        <div className="w-10/12 overflow-y-auto max-h-screen">
+                            <Submissions contestID={contest.contestID} />
+                        </div>
+                    )}
+                    {selectedProblem && (
+                        <div className="w-3/12 ml-3 mr-6 max-h-screen mt-4">
+                            <SubmitSolution
+                                handle={({ langID, sourceCode }) =>
+                                    contestSubmitHandler({
+                                        langID,
+                                        sourceCode,
+                                    })
+                                }
+                                judge={selectedProblem?.judge}
+                            />
+                            <VerdictTable
+                                status={statusInfo}
+                                key={`verdict-key-${selectedProblem._id}`}
+                                problemInfo={{
+                                    judge: selectedProblem?.judge,
+                                    problemID: selectedProblem?.problemID,
+                                }}
+                                contestID={contest.contestID}
+                            />
+                        </div>
+                    )}
                 </div>
             )}
         </>

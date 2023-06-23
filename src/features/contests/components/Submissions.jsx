@@ -13,7 +13,7 @@ const fetchSubmissionList = async (url) => {
     return data;
 };
 
-export default function SubmissionList({ contestID }) {
+export default function Submissions({ contestID }) {
     const [showCode, setShowCode] = useState(false);
     const [indexToShow, setIndexToShow] = useState();
     const [showServerError, setShowServerError] = useState(false);
@@ -29,7 +29,7 @@ export default function SubmissionList({ contestID }) {
     useEffect(() => {
         if (data === "500") {
             setShowServerError(true);
-        } else{
+        } else {
             setShowServerError(false);
             setSubmissionList(data);
         }
@@ -123,13 +123,7 @@ export default function SubmissionList({ contestID }) {
                                                         </b>
                                                     </td>
                                                     <td className="border-b px-4 py-2">
-                                                        <a
-                                                            href={`/problem/${submission.judge}/${submission.problemID}`}
-                                                        >
-                                                            {
-                                                                submission.problemName
-                                                            }
-                                                        </a>
+                                                        {submission.problemName}
                                                     </td>
                                                     <td className="border-b px-4 py-2">
                                                         {submission.language}
