@@ -5,6 +5,9 @@
 
 
 @layer base {
+  body {
+    @apply bg-slate-100;
+  }
   h1 {
     @apply text-4xl;
     @apply font-bold;

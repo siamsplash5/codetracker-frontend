@@ -55,36 +55,32 @@ export default function ({ heading, contestList }) {
                                                 <td className="border-b px-4 py-2">
                                                     <button
                                                         onClick={() =>
-                                                            handleClick(
-                                                                contest
-                                                            )
+                                                            handleClick(contest)
                                                         }
                                                     >
                                                         #{contest.contestID}
                                                     </button>
                                                 </td>
                                                 <td className="border-b px-4 py-2 text-left">
-                                                    {contest.privacy ===
-                                                        "Protected" && (
-                                                        <LockedIconAmber />
-                                                    )}
-
-                                                    {contest.privacy ===
-                                                        "Private" && (
-                                                        <LockedIconRed />
-                                                    )}
-
-                                                    {contest.privacy ===
-                                                        "Public" && (
-                                                        <UnlockedIconGreen />
-                                                    )}
                                                     <button
                                                         onClick={() =>
-                                                            handleClick(
-                                                                contest
-                                                            )
+                                                            handleClick(contest)
                                                         }
                                                     >
+                                                        {contest.privacy ===
+                                                            "Protected" && (
+                                                            <LockedIconAmber />
+                                                        )}
+
+                                                        {contest.privacy ===
+                                                            "Private" && (
+                                                            <LockedIconRed />
+                                                        )}
+
+                                                        {contest.privacy ===
+                                                            "Public" && (
+                                                            <UnlockedIconGreen />
+                                                        )}
                                                         {contest.title}
                                                     </button>
                                                 </td>

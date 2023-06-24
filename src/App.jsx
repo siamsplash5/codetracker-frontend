@@ -17,52 +17,40 @@ import Registration from "./pages/Registration";
 import UpdatePassword from "./pages/UpdatePassword";
 
 //import contexts
-import { AuthProvider } from './context/AuthContext';
-
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
     return (
-        <div className="bg-slate-100">
-            <BrowserRouter>
-                <AuthProvider>
-                    <Navbar />
-                    <Suspense fallback={<Loading />}>
-                        <Routes>
-                            <Route path="/" element={<Home />} />
-                            <Route path="/login" element={<Login />} />
-                            <Route
-                                path="/register"
-                                element={<Registration />}
-                            />
-                            <Route
-                                path="/problem"
-                                element={<ProblemListPage />}
-                            />
-                            <Route
-                                path="/contest"
-                                element={<ContestListPage />}
-                            />
-                            <Route
-                                path="/contest/:contestID"
-                                element={<ContestPage />}
-                            />
-                            <Route
-                                path="/profile/:username"
-                                element={<Profile />}
-                            />
-                            <Route
-                                path="/problem/:judge/:problemID"
-                                element={<ProblemPage />}
-                            />
-                            <Route
-                                path="/forgot-password"
-                                element={<UpdatePassword />}
-                            />
-                        </Routes>
-                    </Suspense>
-                </AuthProvider>
-            </BrowserRouter>
-        </div>
+        <BrowserRouter>
+            <AuthProvider>
+                <Navbar />
+                <Suspense fallback={<Loading />}>
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Registration />} />
+                        <Route path="/problem" element={<ProblemListPage />} />
+                        <Route path="/contest" element={<ContestListPage />} />
+                        <Route
+                            path="/contest/:contestID"
+                            element={<ContestPage />}
+                        />
+                        <Route
+                            path="/profile/:username"
+                            element={<Profile />}
+                        />
+                        <Route
+                            path="/problem/:judge/:problemID"
+                            element={<ProblemPage />}
+                        />
+                        <Route
+                            path="/forgot-password"
+                            element={<UpdatePassword />}
+                        />
+                    </Routes>
+                </Suspense>
+            </AuthProvider>
+        </BrowserRouter>
     );
 }
 

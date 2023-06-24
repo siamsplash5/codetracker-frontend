@@ -1,9 +1,9 @@
 import {
-    faBullhorn,
+    faBullhorn, faChevronRight,
     faList,
     faPaperPlane,
     faSquare,
-    faTrophy,
+    faTrophy
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
@@ -14,7 +14,7 @@ import {
     Announcement,
     Dashboard,
     Standings,
-    Submissions,
+    Submissions
 } from "../features/contests";
 import { ProblemContainer } from "../features/problems";
 import { SubmitSolution, VerdictTable } from "../features/submissions";
@@ -34,6 +34,7 @@ export default function ContestPage() {
     const [showServerError, setShowServerError] = useState(false);
     const [problemList, setProblemList] = useState([]);
     const [selectedProblem, setSelectedProblem] = useState(null);
+    const [isOpen, setIsOpen] = useState(true);
     const location = useLocation();
     const [contest, setContest] = useState(location.state);
     const { problemSet } = contest;
@@ -102,7 +103,11 @@ export default function ContestPage() {
             {showServerError && <ServerError />}
             {!showServerError && (
                 <div className="flex mx-0">
-                    <div className="w-2/12 bg-slate-800 text-white text-opacity-80 h-screen">
+                    <div
+                        className={`${
+                            isOpen ? "" : "hidden"
+                        } w-2/12 bg-slate-800 text-white text-opacity-80 h-screen`}
+                    >
                         <div className="p-4">
                             <h5 className="mb-4">{contest.title}</h5>
                             <hr />
@@ -198,34 +203,62 @@ export default function ContestPage() {
                             </ul>
                         </div>
                     </div>
-                    {selectedProblem && (
-                        <div className="w-7/12 overflow-y-auto max-h-screen p-4">
-                            <ProblemContainer
-                                key={selectedProblem._id}
-                                problem={selectedProblem}
-                            />
-                        </div>
-                    )}
+                    <div class="flex justify-start items-center h-screen">
+                        <button
+                            className="bg-slate-800 text-white text-opacity-80 pr-2 pl-1 py-6 rounded-r-full"
+                            onClick={() => setIsOpen(!isOpen)}
+                        >
+                            <FontAwesomeIcon icon={faChevronRight} />
+                        </button>
+                    </div>
                     {selectedMenuItem === "dashboard" && (
-                        <div className="w-10/12 overflow-y-auto max-h-screen">
-                            <Dashboard contest={contest}/>
+                        <div
+                            className={`${
+                                isOpen ? "w-10/12" : "w-full"
+                            } overflow-y-auto max-h-screen`}
+                        >
+                            <Dashboard contest={contest} />
                         </div>
                     )}
                     {selectedMenuItem === "standings" && (
-                        <div className="w-10/12 overflow-y-auto max-h-screen">
+                        <div
+                            className={`${
+                                isOpen ? "w-10/12" : "w-full"
+                            } overflow-y-auto max-h-screen`}
+                        >
                             <Standings />
                         </div>
                     )}
                     {selectedMenuItem === "announcements" && (
-                        <div className="w-10/12 overflow-y-auto max-h-screen">
+                        <div
+                            className={`${
+                                isOpen ? "w-10/12" : "w-full"
+                            } overflow-y-auto max-h-screen`}
+                        >
                             <Announcement
                                 announcementList={contest.announcement}
                             />
                         </div>
                     )}
                     {selectedMenuItem === "submissions" && (
-                        <div className="w-10/12 overflow-y-auto max-h-screen">
+                        <div
+                            className={`${
+                                isOpen ? "w-10/12" : "w-full"
+                            } overflow-y-auto max-h-screen`}
+                        >
                             <Submissions contestID={contest.contestID} />
+                        </div>
+                    )}
+                    {selectedProblem && (
+                        <div
+                            className={`${
+                                isOpen ? "w-7/12" : "w-full"
+                            } overflow-y-auto max-h-screen p-4`}
+                        >
+                            <ProblemContainer
+                                key={selectedProblem._id}
+                                problem={selectedProblem}
+                            />
                         </div>
                     )}
                     {selectedProblem && (
