@@ -54,13 +54,9 @@ export default function SetContestProblem({index, onChange, setTabs }) {
         });
     };
 
-    // const handleClick = () => {
-    //     onChange((prev) => [{ judge, problemID, alias }, ...prev]);
-    // };
-
     return (
-        <div className="flex space-x-4 mb-4">
-            <div className="w-2/12">
+        <div className="mb-4 space-y-4 md:flex md:space-x-4">
+            <div className="md:w-3/12">
                 <select
                     id="judge"
                     name="judge"
@@ -76,7 +72,7 @@ export default function SetContestProblem({index, onChange, setTabs }) {
                     <option value="Timus">Timus</option>
                 </select>
             </div>
-            <div className="w-2/12">
+            <div className="md:w-3/12">
                 <input
                     value={problemID}
                     onChange={handleProblemIDChange}
@@ -86,7 +82,7 @@ export default function SetContestProblem({index, onChange, setTabs }) {
                     required
                 />
             </div>
-            <div className="w-7/12">
+            <div className="md:w-5/12">
                 <input
                     value={alias}
                     onChange={handleAliasChange}
@@ -95,7 +91,7 @@ export default function SetContestProblem({index, onChange, setTabs }) {
                     placeholder="Alternate problem name to show"
                 />
             </div>
-            <div className="w-1/12 text-center">
+            <div className="md:w-1/12 text-center">
                 <button
                     type="button"
                     onClick={handleDelete}

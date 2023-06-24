@@ -99,8 +99,8 @@ const FormComponent = () => {
 
     return (
         <>
-            <form onSubmit={handleSubmit} className="mr-5 p-4">
-                <h2 className="text-center">
+            <form onSubmit={handleSubmit} className="mx-0 md:mr-2 md:p-2">
+                <h2 className="text-center mt-4 md:mt-0">
                     <PenToSquareIconDefault />
                     Create a new contest
                 </h2>
@@ -124,19 +124,19 @@ const FormComponent = () => {
                     />
                 </div>
 
-                <div className="flex space-x-4 flex-row mb-4">
-                    <div className="w-1/3">
+                <div className="flex flex-col space-y-2 lg:space-x-4 lg:flex-row mb-4">
+                    <div className="lg:w-1/3">
                         <DatePicker
                             selectedDate={startDate}
                             onChange={setStartDate}
                         />
                     </div>
 
-                    <div className="w-1/3">
+                    <div className="lg:w-1/3">
                         <TimePicker value={startTime} onChange={setStartTime} />
                     </div>
 
-                    <div className="w-1/3">
+                    <div className="lg:w-1/3">
                         <LengthPicker value={length} onChange={setLength} />
                     </div>
                 </div>
@@ -156,7 +156,7 @@ const FormComponent = () => {
                 <hr />
                 <br />
 
-                <div className="w-1/4 mb-4">
+                <div className="mb-4 md:w-1/4">
                     <button
                         type="button"
                         className="px-4 py-2 text-sm font-medium text-white bg-indigo-800 rounded-md hover:bg-indigo-900 focus:outline-none focus:bg-indigo-900"
@@ -170,7 +170,7 @@ const FormComponent = () => {
                 <div className="mb-4">
                     {tabs.map(
                         (isMounted, index) =>
-                            isMounted!==null && (
+                            isMounted !== null && (
                                 <SetContestProblem
                                     key={index}
                                     index={index}
@@ -185,7 +185,7 @@ const FormComponent = () => {
 
                 {showError && (
                     <div className="mb-4 bg-red-200 p-4 rounded">
-                        {errorMessage}       
+                        {errorMessage}
                     </div>
                 )}
 

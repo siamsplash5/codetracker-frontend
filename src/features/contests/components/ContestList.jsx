@@ -15,11 +15,11 @@ export default function ({ heading, contestList }) {
         <>
             {contestList && (
                 <>
-                    <h2 className="text-center mb-5">{heading}</h2>
+                    <h2 className="text-center mb-2 mt-2 md:mb-5">{heading}</h2>
                     <section className="dark:bg-gray-900 min-h-screen flex">
-                        <div className="container mx-auto p-4">
+                        <div className="container mx-auto p-3 md:p-4">
                             <div className="overflow-x-auto text-center">
-                                <table className="border border-gray-300 w-full">
+                                <table className="border border-gray-300 w-full overflow-x-scroll">
                                     <thead>
                                         <tr>
                                             <th className="border-b px-4 py-2">
