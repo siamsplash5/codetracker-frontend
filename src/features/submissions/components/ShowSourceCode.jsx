@@ -74,7 +74,7 @@ export default function ShowSourceCode({ status, onClose }) {
                                 </tr>
                             </tbody>
                         </table>
-                        <div className="m-5 p-5 bg-slate-200">
+                        <div className="m-5 p-5 overflow-auto bg-slate-200">
                             <pre>{sourceCode}</pre>
                         </div>
                     </div>

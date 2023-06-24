@@ -12,6 +12,10 @@ const StyledProblemStatement = styled.div`
         font-size: 1.3rem;
         margin-bottom: 20px;
     }
+    a {
+        color: #3b82f6;
+        text-decoration: underline;
+    }
     .label-warning {
         color: white;
         font-size: 1rem;
@@ -114,7 +118,7 @@ export default function CodeforcesProblem({ problem }) {
                                 className="flex bg-white"
                                 key={`test-case-${index}`}
                             >
-                                <div className="flex-1">
+                                <div className="flex-1 overflow-auto">
                                     <div className="h-full">
                                         <table className="w-full h-full border border-gray-300">
                                             <thead>
@@ -136,7 +140,7 @@ export default function CodeforcesProblem({ problem }) {
                                         </table>
                                     </div>
                                 </div>
-                                <div className="flex-1">
+                                <div className="flex-1 overflow-auto">
                                     <div className="h-full">
                                         <table className="w-full h-full border border-gray-300">
                                             <thead>
@@ -149,7 +153,7 @@ export default function CodeforcesProblem({ problem }) {
                                             <tbody>
                                                 <tr>
                                                     <td className="px-4 py-2 align-top">
-                                                        <span className="mysample">
+                                                        <span className="mysample overflow-auto">
                                                             {
                                                                 sampleTestCase
                                                                     .outputs[

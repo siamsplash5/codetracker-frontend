@@ -63,11 +63,11 @@ export default function ProblemPage() {
             {showServerError && <ServerError />}
             {showNotFound && <NotFound />}
             {!showNotFound && !showServerError && problem && (
-                <div className="container flex mx-auto mt-4">
-                    <div className="w-9/12 mr-10">
+                <div className="container flex-col lg:flex lg:flex-row mx-auto mt-4">
+                    <div className="lg:w-9/12 lg:mr-10">
                         <ProblemContainer problem={problem} />
                     </div>
-                    <div className="w-3/12">
+                    <div className="lg:w-3/12">
                         <ShowProblemInfo problem={problem} />
                         <SubmitSolution
                             handle={({ langID, sourceCode }) =>

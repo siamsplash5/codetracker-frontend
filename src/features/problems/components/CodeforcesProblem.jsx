@@ -8,6 +8,23 @@ const StyledProblemStatement = styled.div`
     ul {
         margin-bottom: 20px;
     }
+    a {
+        color: #3b82f6;
+        text-decoration: underline;
+    }
+    img {
+        margin: 1rem;
+    }
+
+    p {
+        margin-bottom: 20px;
+    }
+
+    li {
+        list-style: disc;
+        padding-left: 20px;
+        list-style-position: inside;
+    }
 
     .tex-font-style-it {
         font-style: italic;
@@ -39,19 +56,6 @@ const StyledProblemStatement = styled.div`
     .section-title {
         font-weight: bold;
         font-size: 1.6rem;
-    }
-    img{
-        margin: 1rem;
-    }
-
-    p {
-        margin-bottom: 20px;
-    }
-
-    li {
-        list-style: disc;
-        padding-left: 20px;
-        list-style-position: inside;
     }
 `;
 
@@ -107,7 +111,7 @@ export default function CodeforcesProblem({ problem }) {
 
             {sampleTestCase.inputs.map((item, index) => (
                 <div className="flex bg-white" key={`test-case-${index}`}>
-                    <div className="flex-1">
+                    <div className="flex-1 overflow-auto">
                         <div className="h-full">
                             <table className="w-full h-full border border-gray-300">
                                 <thead>
@@ -127,7 +131,7 @@ export default function CodeforcesProblem({ problem }) {
                             </table>
                         </div>
                     </div>
-                    <div className="flex-1">
+                    <div className="flex-1 overflow-auto">
                         <div className="h-full">
                             <table className="w-full h-full border border-gray-300">
                                 <thead>

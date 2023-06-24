@@ -86,26 +86,32 @@ export default function() {
     return (
         <section className="dark:bg-gray-900 min-h-screen flex">
             <div className="container mx-auto p-4">
-                <form
-                    onSubmit={handleSubmit}
-                    className="mb-4 flex justify-center items-center"
-                >
-                    <label className="mr-2">Problem URL:</label>
-                    <input
-                        type="text"
-                        value={problemUrl}
-                        onChange={(e) => setProblemUrl(e.target.value)}
-                        className="border border-gray-300 rounded px-2 py-1 w-64"
-                        placeholder="Enter the problem link"
-                        required
-                    />
-                    <button
-                        type="submit"
-                        className="bg-indigo-800 text-white py-2 px-4 rounded ml-2"
+                <div className="">
+                    <form
+                        onSubmit={handleSubmit}
+                        className="mb-4 flex md:flex-row flex-col  justify-center items-center"
                     >
-                        Submit
-                    </button>
-                </form>
+                        <div className="flex mb-2 md:mb-0">
+                            <label className="mr-2">
+                                Problem URL:
+                            </label>
+                            <input
+                                type="text"
+                                value={problemUrl}
+                                onChange={(e) => setProblemUrl(e.target.value)}
+                                className="border border-gray-300 rounded px-2 py-1 w-64"
+                                placeholder="Enter the problem link"
+                                required
+                            />
+                        </div>
+                        <button
+                            type="submit"
+                            className="bg-indigo-800 text-white py-2 px-4 rounded ml-2"
+                        >
+                            Submit
+                        </button>
+                    </form>
+                </div>
 
                 <div className="overflow-x-auto text-center">
                     <table className="border border-gray-300 w-full">

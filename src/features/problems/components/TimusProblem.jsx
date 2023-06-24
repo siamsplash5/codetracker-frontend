@@ -10,6 +10,10 @@ const StyledProblemStatement = styled.div`
     hr {
         margin: 1rem;
     }
+    a {
+        color: #3b82f6;
+        text-decoration: underline;
+    }
     h3 {
         font-weight: bold;
         font-size: 1.6rem;
@@ -78,8 +82,12 @@ export default function TimusProblem({ problem }) {
                 <>
                     {item && (
                         <>
-                            <div key={index} className="flex bg-white" key={`test-case-${index}`}>
-                                <div className="flex-1">
+                            <div
+                                key={index}
+                                className="flex bg-white"
+                                key={`test-case-${index}`}
+                            >
+                                <div className="flex-1 overflow-auto">
                                     <div className="h-full">
                                         <table className="w-full h-full border border-gray-300">
                                             <thead>
@@ -103,7 +111,7 @@ export default function TimusProblem({ problem }) {
                                         </table>
                                     </div>
                                 </div>
-                                <div className="flex-1">
+                                <div className="flex-1 overflow-auto">
                                     <div className="h-full">
                                         <table className="w-full h-full border border-gray-300">
                                             <thead>

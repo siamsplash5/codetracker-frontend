@@ -7,6 +7,10 @@ const StyledProblemStatement = styled.div`
         border: 1px solid black;
         padding: 1rem;
     }
+    a {
+        color: #3b82f6;
+        text-decoration: underline;
+    }
     pre b {
         font-size: 1.4rem;
     }
@@ -48,7 +52,7 @@ export default function TimusProblem({ problem }) {
     } = problem;
 
     return (
-        <StyledProblemStatement className="px-4 py-8 rounded-lg">
+        <StyledProblemStatement className="px-4 py-8 rounded-lg overflow-auto">
             <h1 className="text-4xl font-bold mb-4 text-center">{title}</h1>
             <hr />
             <p className="text-base text-center">
