@@ -1,5 +1,6 @@
 import {
-    faBullhorn, faChevronRight,
+    faBullhorn,
+    faChevronRight,
     faList,
     faPaperPlane,
     faSquare,
@@ -211,56 +212,38 @@ export default function ContestPage() {
                             <FontAwesomeIcon icon={faChevronRight} />
                         </button>
                     </div>
-                    {selectedMenuItem === "dashboard" && (
-                        <div
-                            className={`${
-                                isOpen ? "w-10/12" : "w-full"
-                            } overflow-y-auto max-h-screen`}
-                        >
+                    <div
+                        className={`
+                         ${
+                             isOpen
+                                 ? selectedProblem
+                                     ? "w-7/12 p-3"
+                                     : "w-10/12"
+                                 : selectedProblem
+                                 ? "w-9/12 p-3"
+                                 : "w-full"
+                         }
+                        overflow-y-auto max-h-screen`}
+                    >
+                        {selectedMenuItem === "dashboard" && (
                             <Dashboard contest={contest} />
-                        </div>
-                    )}
-                    {selectedMenuItem === "standings" && (
-                        <div
-                            className={`${
-                                isOpen ? "w-10/12" : "w-full"
-                            } overflow-y-auto max-h-screen`}
-                        >
-                            <Standings />
-                        </div>
-                    )}
-                    {selectedMenuItem === "announcements" && (
-                        <div
-                            className={`${
-                                isOpen ? "w-10/12" : "w-full"
-                            } overflow-y-auto max-h-screen`}
-                        >
+                        )}
+                        {selectedMenuItem === "standings" && <Standings />}
+                        {selectedMenuItem === "announcements" && (
                             <Announcement
                                 announcementList={contest.announcement}
                             />
-                        </div>
-                    )}
-                    {selectedMenuItem === "submissions" && (
-                        <div
-                            className={`${
-                                isOpen ? "w-10/12" : "w-full"
-                            } overflow-y-auto max-h-screen`}
-                        >
+                        )}
+                        {selectedMenuItem === "submissions" && (
                             <Submissions contestID={contest.contestID} />
-                        </div>
-                    )}
-                    {selectedProblem && (
-                        <div
-                            className={`${
-                                isOpen ? "w-7/12" : "w-full"
-                            } overflow-y-auto max-h-screen p-4`}
-                        >
+                        )}
+                        {selectedProblem && (
                             <ProblemContainer
                                 key={selectedProblem._id}
                                 problem={selectedProblem}
                             />
-                        </div>
-                    )}
+                        )}
+                    </div>
                     {selectedProblem && (
                         <div className="w-3/12 ml-3 mr-6 max-h-screen mt-4">
                             <SubmitSolution

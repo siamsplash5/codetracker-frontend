@@ -2,6 +2,9 @@ import ReactHtmlParser from "react-html-parser";
 import styled from "styled-components";
 
 const StyledProblemStatement = styled.div`
+    body {
+        background-color: white;
+    }
     h3 {
         font-weight: bold;
         font-size: 1.6rem;
