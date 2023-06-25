@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../../../assets/logo.png";
+import logo from "../../../assets/logo.svg";
 import Button from "../../../components/Button";
 import { useAuth } from "../../../context/AuthContext";
 import sleep from "../../../utils/sleep";
@@ -27,9 +27,9 @@ export default function () {
         try {
             const { status, message } = await login(username, password);
             if (status === 200) {
+                navigate(-1);
                 setUsername("");
                 setPassword("");
-                navigate(-1);
             } else {
                 setErrorMsg("");
                 await sleep(100);

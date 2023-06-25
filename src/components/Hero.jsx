@@ -1,6 +1,8 @@
-import heroImage from '../assets/Business_SVG.svg';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import heroImage from "../assets/Business_SVG.svg";
 
-export default function Hero(){
+export default function Hero() {
     return (
         <section className="bg-slate-100 text-black-900 h-screen">
             <div className="container flex flex-col justify-center p-6 mx-auto sm:py-12 lg:py-24 lg:flex-row lg:justify-between">
@@ -19,9 +21,13 @@ export default function Hero(){
                         <a
                             rel="noopener noreferrer"
                             href="/problem"
-                            className="px-8 py-3 text-lg font-semibold rounded bg-indigo-800 text-primary-50"
+                            className="px-8 py-3 text-lg font-semibold rounded bg-indigo-800 text-primary-50 hover:bg-indigo-700 flex items-center"
                         >
                             Get Started
+                            <FontAwesomeIcon
+                                icon={faArrowRight}
+                                className="ml-2"
+                            />
                         </a>
                     </div>
                 </div>

@@ -8,7 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
-import logo from "../assets/test.svg";
+import logo from "../assets/logo.svg";
 import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 

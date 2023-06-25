@@ -55,8 +55,8 @@ export default function ProfilePage() {
             {showServerError && <ServerError />}
             {showNotFound && <NotFound />}
             {!showServerError && !showNotFound && (
-                <div className="flex mx-10 mt-5">
-                    <div className="w-4/5 overflow-y-auto max-h-screen pl-4">
+                <div className="flex flex-col-reverse lg:flex-row lg:mx-10 lg:mt-5">
+                    <div className="overflow-y-auto max-h-screen lg:w-4/5 lg:pl-4">
                         <div className="p-4">
                             {selectedMenuItem === "menu1" && (
                                 <ProfileInfo
@@ -78,8 +78,8 @@ export default function ProfilePage() {
                             )}
                         </div>
                     </div>
-                    <div className="w-1/5 bg-slate-800 text-white text-opacity-80 h-screen pr-4 ">
-                        <div className="p-4">
+                    <div className="bg-slate-800 text-white text-opacity-80 lg:h-screen lg:w-1/5 lg:pr-4">
+                        <div className="p-1 lg:p-4">
                             <ul className="space-y-2">
                                 <li
                                     className={`p-2 rounded cursor-pointer  ${
@@ -89,7 +89,7 @@ export default function ProfilePage() {
                                     }`}
                                     onClick={() => handleMenuItemClick("menu1")}
                                 >
-                                    <span className="pr-2">
+                                    <span className="pr-2 text-indigo-300">
                                         <FontAwesomeIcon icon={faUser} />{" "}
                                     </span>
                                     {username ===
@@ -105,7 +105,7 @@ export default function ProfilePage() {
                                     }`}
                                     onClick={() => handleMenuItemClick("menu2")}
                                 >
-                                    <span className="pr-2">
+                                    <span className="pr-2 text-indigo-300">
                                         <FontAwesomeIcon icon={faList} />{" "}
                                     </span>
                                     {username ===
@@ -121,7 +121,7 @@ export default function ProfilePage() {
                                     }`}
                                     onClick={() => handleMenuItemClick("menu3")}
                                 >
-                                    <span className="pr-2">
+                                    <span className="pr-2 text-indigo-300">
                                         <FontAwesomeIcon icon={faList} />{" "}
                                     </span>
                                     {username ===

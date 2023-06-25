@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../../../assets/logo.png";
+import logo from "../../../assets/logo.svg";
 import { useAuth } from "../../../context/AuthContext";
 import sleep from "../../../utils/sleep";
 

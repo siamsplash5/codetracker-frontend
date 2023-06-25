@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../../../components/Button";
 import { useAuth } from "../../../context/AuthContext";
-import logo from "../../../assets/logo.png";
+import logo from "../../../assets/logo.svg";
 import sleep from "../../../utils/sleep";
 
 export default function RegisterForm({ onClose }) {

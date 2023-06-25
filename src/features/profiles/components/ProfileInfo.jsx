@@ -1,8 +1,8 @@
 import React from "react";
 import Avatar from "../../../assets/Avatar (Created with amongusavatarcreator.com).png";
 
-const ProfileComponent = ({profileData}) => {
-    const { username, total, atcoder, codeforces, spoj, timus } = profileData; 
+const ProfileComponent = ({ profileData }) => {
+    const { username, total, atcoder, codeforces, spoj, timus } = profileData;
     return (
         <div className="bg-white p-6 rounded-lg shadow-md">
             <div className="md:flex md:items-center md:mb-6">
@@ -18,7 +18,7 @@ const ProfileComponent = ({profileData}) => {
                     <p className="text-gray-600">Software Engineer</p>
                 </div>
             </div>
-            <div className="grid grid-cols-2 gap-4 m-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 m-3">
                 <div className="bg-blue-200 rounded-lg p-4 text-center">
                     <h3 className="text-lg font-semibold">Total Solves</h3>
                     <p className="text-gray-600 text-2xl">{total}</p>
@@ -28,7 +28,7 @@ const ProfileComponent = ({profileData}) => {
                     <p className="text-gray-600 text-2xl">1500</p>
                 </div>
             </div>
-            <div className="grid grid-cols-4 gap-4 m-3">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 m-3">
                 <div className="bg-zinc-200 rounded-lg p-4 text-center">
                     <h3 className="text-lg font-semibold">Atcoder</h3>
                     <p className="text-gray-600 text-2xl">{atcoder}</p>
