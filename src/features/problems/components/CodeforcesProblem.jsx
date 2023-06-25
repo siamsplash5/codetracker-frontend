@@ -3,26 +3,26 @@ import styled from "styled-components";
 
 const StyledProblemStatement = styled.div`
     hr {
-        margin-bottom: 20px;
+        margin-bottom: 1.3rem;
     }
     ul {
-        margin-bottom: 20px;
+        margin-bottom: 1.3rem;
     }
     a {
         color: #3b82f6;
         text-decoration: underline;
     }
     img {
-        margin: 1rem;
+        margin: 1.3rem;
     }
 
     p {
-        margin-bottom: 20px;
+        margin-bottom: 1.3rem;
     }
 
     li {
         list-style: disc;
-        padding-left: 20px;
+        padding-left: 1.3rem;
         list-style-position: inside;
     }
 
@@ -49,6 +49,10 @@ const StyledProblemStatement = styled.div`
         margin-right: 5px;
     }
 
+    .tex-font-style-underline {
+        text-decoration: underline;
+    }
+
     .tex-font-style-bf {
         font-weight: bold;
     }
@@ -56,6 +60,7 @@ const StyledProblemStatement = styled.div`
     .section-title {
         font-weight: bold;
         font-size: 1.6rem;
+        margin-bottom: 1.3rem;
     }
 `;
 

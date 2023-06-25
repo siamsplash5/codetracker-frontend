@@ -6,7 +6,7 @@ import TimusProblem from "./TimusProblem";
 
 export default function ProblemContainer({ problem }) {
     return (
-        <div className="bg-white text-read problemFont text-lg">
+        <div className="bg-white text-read problemFont p-2 text-lg lg:p-4">
             {problem.judge === "Atcoder" && (
                 <AtcoderProblem problem={problem} />
             )}
