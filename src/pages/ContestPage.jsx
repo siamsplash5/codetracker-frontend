@@ -4,7 +4,7 @@ import {
     faList,
     faPaperPlane,
     faSquare,
-    faTrophy
+    faTrophy,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
@@ -15,7 +15,7 @@ import {
     Announcement,
     Dashboard,
     Standings,
-    Submissions
+    Submissions,
 } from "../features/contests";
 import { ProblemContainer } from "../features/problems";
 import { SubmitSolution, VerdictTable } from "../features/submissions";
@@ -103,117 +103,349 @@ export default function ContestPage() {
         <>
             {showServerError && <ServerError />}
             {!showServerError && (
-                <div className="flex mx-0">
-                    <div
-                        className={`${
-                            isOpen ? "" : "hidden"
-                        } w-2/12 bg-slate-800 text-white text-opacity-80 h-screen`}
-                    >
-                        <div className="p-4">
-                            <h5 className="mb-4">{contest.title}</h5>
-                            <hr />
-                            <ul className="space-y-2 mt-4">
-                                <li
-                                    className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
-                                        selectedMenuItem === "dashboard"
-                                            ? "bg-gray-700 text-white"
-                                            : ""
-                                    }`}
-                                    onClick={() =>
-                                        handleMenuItemClick("dashboard")
-                                    }
-                                >
-                                    <span className="pr-2 text-indigo-300">
-                                        <FontAwesomeIcon icon={faList} />{" "}
-                                    </span>{" "}
-                                    Dashboard
-                                </li>
-                                <hr />
-                                {problemList.map((problem) => (
-                                    <li
-                                        key={problem._id}
-                                        className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
-                                            selectedMenuItem === problem._id
-                                                ? "bg-gray-700 text-white"
-                                                : ""
-                                        }`}
-                                        onClick={() =>
-                                            handleMenuItemClick(problem._id)
-                                        }
-                                    >
-                                        <span className="pr-2 text-lg">
-                                            <FontAwesomeIcon icon={faSquare} />{" "}
-                                        </span>{" "}
-                                        <span
-                                            className={`${
-                                                problem.title === "Error!"
-                                                    ? "text-red-500"
-                                                    : null
+                <div>
+                    {/* Div 1: Show only on mobile screens */}
+                    <div className="block lg:hidden">
+                        <div className="flex mx-0">
+                            <div
+                                className={`${
+                                    isOpen ? "" : "hidden"
+                                } w-full bg-slate-800 text-white text-opacity-80 h-screen`}
+                            >
+                                <div className="p-4">
+                                    <h5 className="mb-4">{contest.title}</h5>
+                                    <hr />
+                                    <ul className="space-y-2 mt-4">
+                                        <li
+                                            className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
+                                                selectedMenuItem === "dashboard"
+                                                    ? "bg-gray-700 text-white"
+                                                    : ""
                                             }`}
+                                            onClick={() => {
+                                                handleMenuItemClick(
+                                                    "dashboard"
+                                                );
+                                                setIsOpen(false);
+                                            }}
                                         >
-                                            {problem.title}
-                                        </span>
-                                    </li>
-                                ))}
-                                <hr />
-                                <li
-                                    className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
-                                        selectedMenuItem === "standings"
-                                            ? "bg-gray-700 text-white"
-                                            : ""
-                                    }`}
-                                    onClick={() =>
-                                        handleMenuItemClick("standings")
-                                    }
+                                            <span className="pr-2 text-indigo-300">
+                                                <FontAwesomeIcon
+                                                    icon={faList}
+                                                />{" "}
+                                            </span>{" "}
+                                            Dashboard
+                                        </li>
+                                        <hr />
+                                        {problemList.map((problem) => (
+                                            <li
+                                                key={problem._id}
+                                                className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
+                                                    selectedMenuItem ===
+                                                    problem._id
+                                                        ? "bg-gray-700 text-white"
+                                                        : ""
+                                                }`}
+                                                onClick={() => {
+                                                    handleMenuItemClick(
+                                                        problem._id
+                                                    );
+                                                    setIsOpen(false);
+                                                }}
+                                            >
+                                                <span className="pr-2 text-lg">
+                                                    <FontAwesomeIcon
+                                                        icon={faSquare}
+                                                    />{" "}
+                                                </span>{" "}
+                                                <span
+                                                    className={`${
+                                                        problem.title ===
+                                                        "Error!"
+                                                            ? "text-red-500"
+                                                            : null
+                                                    }`}
+                                                >
+                                                    {problem.title}
+                                                </span>
+                                            </li>
+                                        ))}
+                                        <hr />
+                                        <li
+                                            className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
+                                                selectedMenuItem === "standings"
+                                                    ? "bg-gray-700 text-white"
+                                                    : ""
+                                            }`}
+                                            onClick={() => {
+                                                handleMenuItemClick(
+                                                    "standings"
+                                                );
+                                                setIsOpen(false);
+                                            }}
+                                        >
+                                            <span className="pr-2 text-amber-400">
+                                                <FontAwesomeIcon
+                                                    icon={faTrophy}
+                                                />{" "}
+                                            </span>{" "}
+                                            Standings
+                                        </li>
+                                        <li
+                                            className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
+                                                selectedMenuItem ===
+                                                "announcements"
+                                                    ? "bg-gray-700 text-white"
+                                                    : ""
+                                            }`}
+                                            onClick={() => {
+                                                handleMenuItemClick(
+                                                    "announcements"
+                                                );
+                                                setIsOpen(false);
+                                            }}
+                                        >
+                                            <span className="pr-2 text-red-500">
+                                                <FontAwesomeIcon
+                                                    icon={faBullhorn}
+                                                />{" "}
+                                            </span>{" "}
+                                            Announcements
+                                        </li>
+                                        <li
+                                            className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
+                                                selectedMenuItem ===
+                                                "submissions"
+                                                    ? "bg-gray-700 text-white"
+                                                    : ""
+                                            }`}
+                                            onClick={() => {
+                                                setIsOpen(false);
+                                                handleMenuItemClick(
+                                                    "submissions"
+                                                );
+                                            }}
+                                        >
+                                            <span className="pr-2 text-green-400">
+                                                <FontAwesomeIcon
+                                                    icon={faPaperPlane}
+                                                />{" "}
+                                            </span>{" "}
+                                            Submissions
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="flex justify-start items-center h-screen">
+                                <button
+                                    className="bg-slate-800 text-white text-opacity-80 pr-1 pl-1 py-4 rounded-r-full"
+                                    onClick={() => setIsOpen(!isOpen)}
                                 >
-                                    <span className="pr-2 text-amber-400">
-                                        <FontAwesomeIcon icon={faTrophy} />{" "}
-                                    </span>{" "}
-                                    Standings
-                                </li>
-                                <li
-                                    className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
-                                        selectedMenuItem === "announcements"
-                                            ? "bg-gray-700 text-white"
-                                            : ""
-                                    }`}
-                                    onClick={() =>
-                                        handleMenuItemClick("announcements")
-                                    }
+                                    <FontAwesomeIcon icon={faChevronRight} />
+                                </button>
+                            </div>
+                            <div className="overflow-y-auto">
+                                <div
+                                    className={`
+                         ${isOpen ? "hidden" : "w-full m-0 p-0"}
+                        overflow-y-auto max-h-screen`}
                                 >
-                                    <span className="pr-2 text-red-500">
-                                        <FontAwesomeIcon icon={faBullhorn} />{" "}
-                                    </span>{" "}
-                                    Announcements
-                                </li>
-                                <li
-                                    className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
-                                        selectedMenuItem === "submissions"
-                                            ? "bg-gray-700 text-white"
-                                            : ""
-                                    }`}
-                                    onClick={() =>
-                                        handleMenuItemClick("submissions")
-                                    }
-                                >
-                                    <span className="pr-2 text-green-400">
-                                        <FontAwesomeIcon icon={faPaperPlane} />{" "}
-                                    </span>{" "}
-                                    Submissions
-                                </li>
-                            </ul>
+                                    {selectedMenuItem === "dashboard" && (
+                                        <Dashboard contest={contest} />
+                                    )}
+                                    {selectedMenuItem === "standings" && (
+                                        <Standings />
+                                    )}
+                                    {selectedMenuItem === "announcements" && (
+                                        <Announcement
+                                            announcementList={
+                                                contest.announcement
+                                            }
+                                        />
+                                    )}
+                                    {selectedMenuItem === "submissions" && (
+                                        <Submissions
+                                            contestID={contest.contestID}
+                                        />
+                                    )}
+                                    {selectedProblem && (
+                                        <ProblemContainer
+                                            key={selectedProblem._id}
+                                            problem={selectedProblem}
+                                        />
+                                    )}
+                                </div>
+                                <div>
+                                    {selectedProblem && (
+                                        <div
+                                            className={` ${
+                                                isOpen
+                                                    ? "hidden"
+                                                    : "w-full m-0 p-0"
+                                            } max-h-screen mt-4 overflow-auto`}
+                                        >
+                                            <SubmitSolution
+                                                handle={({
+                                                    langID,
+                                                    sourceCode,
+                                                }) =>
+                                                    contestSubmitHandler({
+                                                        langID,
+                                                        sourceCode,
+                                                    })
+                                                }
+                                                judge={selectedProblem?.judge}
+                                            />
+                                            <VerdictTable
+                                                status={statusInfo}
+                                                key={`verdict-key-${selectedProblem._id}`}
+                                                problemInfo={{
+                                                    judge: selectedProblem?.judge,
+                                                    problemID:
+                                                        selectedProblem?.problemID,
+                                                }}
+                                                contestID={contest.contestID}
+                                            />
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="flex justify-start items-center h-screen">
-                        <button
-                            className="bg-slate-800 text-white text-opacity-80 pr-2 pl-1 py-6 rounded-r-full"
-                            onClick={() => setIsOpen(!isOpen)}
-                        >
-                            <FontAwesomeIcon icon={faChevronRight} />
-                        </button>
-                    </div>
-                    <div
-                        className={`
+
+                    {/* Div 2: Show only on large screens */}
+                    <div className="hidden lg:block">
+                        <div className="flex mx-0">
+                            <div
+                                className={`${
+                                    isOpen ? "" : "hidden"
+                                } w-2/12 bg-slate-800 text-white text-opacity-80 h-screen`}
+                            >
+                                <div className="p-4">
+                                    <h5 className="mb-4">{contest.title}</h5>
+                                    <hr />
+                                    <ul className="space-y-2 mt-4">
+                                        <li
+                                            className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
+                                                selectedMenuItem === "dashboard"
+                                                    ? "bg-gray-700 text-white"
+                                                    : ""
+                                            }`}
+                                            onClick={() =>
+                                                handleMenuItemClick("dashboard")
+                                            }
+                                        >
+                                            <span className="pr-2 text-indigo-300">
+                                                <FontAwesomeIcon
+                                                    icon={faList}
+                                                />{" "}
+                                            </span>{" "}
+                                            Dashboard
+                                        </li>
+                                        <hr />
+                                        {problemList.map((problem) => (
+                                            <li
+                                                key={problem._id}
+                                                className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
+                                                    selectedMenuItem ===
+                                                    problem._id
+                                                        ? "bg-gray-700 text-white"
+                                                        : ""
+                                                }`}
+                                                onClick={() =>
+                                                    handleMenuItemClick(
+                                                        problem._id
+                                                    )
+                                                }
+                                            >
+                                                <span className="pr-2 text-lg">
+                                                    <FontAwesomeIcon
+                                                        icon={faSquare}
+                                                    />{" "}
+                                                </span>{" "}
+                                                <span
+                                                    className={`${
+                                                        problem.title ===
+                                                        "Error!"
+                                                            ? "text-red-500"
+                                                            : null
+                                                    }`}
+                                                >
+                                                    {problem.title}
+                                                </span>
+                                            </li>
+                                        ))}
+                                        <hr />
+                                        <li
+                                            className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
+                                                selectedMenuItem === "standings"
+                                                    ? "bg-gray-700 text-white"
+                                                    : ""
+                                            }`}
+                                            onClick={() =>
+                                                handleMenuItemClick("standings")
+                                            }
+                                        >
+                                            <span className="pr-2 text-amber-400">
+                                                <FontAwesomeIcon
+                                                    icon={faTrophy}
+                                                />{" "}
+                                            </span>{" "}
+                                            Standings
+                                        </li>
+                                        <li
+                                            className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
+                                                selectedMenuItem ===
+                                                "announcements"
+                                                    ? "bg-gray-700 text-white"
+                                                    : ""
+                                            }`}
+                                            onClick={() =>
+                                                handleMenuItemClick(
+                                                    "announcements"
+                                                )
+                                            }
+                                        >
+                                            <span className="pr-2 text-red-500">
+                                                <FontAwesomeIcon
+                                                    icon={faBullhorn}
+                                                />{" "}
+                                            </span>{" "}
+                                            Announcements
+                                        </li>
+                                        <li
+                                            className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
+                                                selectedMenuItem ===
+                                                "submissions"
+                                                    ? "bg-gray-700 text-white"
+                                                    : ""
+                                            }`}
+                                            onClick={() =>
+                                                handleMenuItemClick(
+                                                    "submissions"
+                                                )
+                                            }
+                                        >
+                                            <span className="pr-2 text-green-400">
+                                                <FontAwesomeIcon
+                                                    icon={faPaperPlane}
+                                                />{" "}
+                                            </span>{" "}
+                                            Submissions
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="flex justify-start items-center h-screen">
+                                <button
+                                    className="bg-slate-800 text-white text-opacity-80 pr-2 pl-1 py-6 rounded-r-full"
+                                    onClick={() => setIsOpen(!isOpen)}
+                                >
+                                    <FontAwesomeIcon icon={faChevronRight} />
+                                </button>
+                            </div>
+                            <div
+                                className={`
                          ${
                              isOpen
                                  ? selectedProblem
@@ -224,48 +456,55 @@ export default function ContestPage() {
                                  : "w-full"
                          }
                         overflow-y-auto max-h-screen`}
-                    >
-                        {selectedMenuItem === "dashboard" && (
-                            <Dashboard contest={contest} />
-                        )}
-                        {selectedMenuItem === "standings" && <Standings />}
-                        {selectedMenuItem === "announcements" && (
-                            <Announcement
-                                announcementList={contest.announcement}
-                            />
-                        )}
-                        {selectedMenuItem === "submissions" && (
-                            <Submissions contestID={contest.contestID} />
-                        )}
-                        {selectedProblem && (
-                            <ProblemContainer
-                                key={selectedProblem._id}
-                                problem={selectedProblem}
-                            />
-                        )}
-                    </div>
-                    {selectedProblem && (
-                        <div className="w-3/12 ml-3 mr-6 max-h-screen mt-4">
-                            <SubmitSolution
-                                handle={({ langID, sourceCode }) =>
-                                    contestSubmitHandler({
-                                        langID,
-                                        sourceCode,
-                                    })
-                                }
-                                judge={selectedProblem?.judge}
-                            />
-                            <VerdictTable
-                                status={statusInfo}
-                                key={`verdict-key-${selectedProblem._id}`}
-                                problemInfo={{
-                                    judge: selectedProblem?.judge,
-                                    problemID: selectedProblem?.problemID,
-                                }}
-                                contestID={contest.contestID}
-                            />
+                            >
+                                {selectedMenuItem === "dashboard" && (
+                                    <Dashboard contest={contest} />
+                                )}
+                                {selectedMenuItem === "standings" && (
+                                    <Standings />
+                                )}
+                                {selectedMenuItem === "announcements" && (
+                                    <Announcement
+                                        announcementList={contest.announcement}
+                                    />
+                                )}
+                                {selectedMenuItem === "submissions" && (
+                                    <Submissions
+                                        contestID={contest.contestID}
+                                    />
+                                )}
+                                {selectedProblem && (
+                                    <ProblemContainer
+                                        key={selectedProblem._id}
+                                        problem={selectedProblem}
+                                    />
+                                )}
+                            </div>
+                            {selectedProblem && (
+                                <div className="w-3/12 ml-3 mr-6 max-h-screen mt-4">
+                                    <SubmitSolution
+                                        handle={({ langID, sourceCode }) =>
+                                            contestSubmitHandler({
+                                                langID,
+                                                sourceCode,
+                                            })
+                                        }
+                                        judge={selectedProblem?.judge}
+                                    />
+                                    <VerdictTable
+                                        status={statusInfo}
+                                        key={`verdict-key-${selectedProblem._id}`}
+                                        problemInfo={{
+                                            judge: selectedProblem?.judge,
+                                            problemID:
+                                                selectedProblem?.problemID,
+                                        }}
+                                        contestID={contest.contestID}
+                                    />
+                                </div>
+                            )}
                         </div>
-                    )}
+                    </div>
                 </div>
             )}
         </>

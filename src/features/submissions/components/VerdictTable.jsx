@@ -72,17 +72,17 @@ export default function VerdictTable({ status, problemInfo, contestID }) {
                     <table className="rounded w-full">
                         <thead>
                             <tr>
-                                <th className="border-b px-4 py-2">
+                                <th className="border-b text-sm px-2 py-1 md:px-4 md:py-2 md:text-lg">
                                     Submission
                                 </th>
-                                <th className="border-b px-4 py-2">Time</th>
-                                <th className="border-b px-4 py-2">Verdict</th>
+                                <th className="border-b text-sm px-2 py-1 md:px-4 md:py-2 md:text-lg">Time</th>
+                                <th className="border-b text-sm px-2 py-1 md:px-4 md:py-2 md:text-lg">Verdict</th>
                             </tr>
                         </thead>
                         <tbody>
                             {submissionList.map((status, index) => (
                                 <tr key={status._id}>
-                                    <td className="border-b px-4 py-2 text-center">
+                                    <td className="border-b text-sm px-2 py-1 md:px-4 md:py-2 md:text-lg text-center">
                                         <button
                                             onClick={() => {
                                                 setShowCode(true);
@@ -92,13 +92,13 @@ export default function VerdictTable({ status, problemInfo, contestID }) {
                                             {status.realJudgesSubmissionID}
                                         </button>
                                     </td>
-                                    <td className="border-b px-4 py-2 text-center">
+                                    <td className="border-b text-sm px-2 py-1 md:px-4 md:py-2 md:text-lg text-center">
                                         {status.submitDate}
                                         <br />
                                         {status.submitTime}
                                     </td>
                                     <td
-                                        className={`border-b px-4 py-2 text-center ${
+                                        className={`border-b text-sm px-2 py-1 md:px-4 md:py-2 md:text-lg text-center ${
                                             status.verdict === "Accepted"
                                                 ? "font-bold text-green-500"
                                                 : "text-red-500"

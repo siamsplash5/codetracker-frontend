@@ -2,8 +2,10 @@ import ReactHtmlParser from "react-html-parser";
 import styled from "styled-components";
 
 const StyledProblemStatement = styled.div`
-    font-family: Times New Roman;
-    font-size: 1.4rem;
+    i{
+        font-family: Times New Roman;
+        font-size: 1.4rem;
+    }
     pre {
         font-size: 1.1rem;
     }
