@@ -1,4 +1,4 @@
-import { faClock, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
+import { faClock, faSignInAlt, faCheck, faCheckSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { data } from "autoprefixer";
 import axios from "axios";
@@ -110,6 +110,7 @@ export default function ContestDashboard(props) {
                                 <div className="text-center">
                                     <div className="items-center text-xl mx-8 mb-3">
                                         <span className="text-gray-700">
+                                            <FontAwesomeIcon icon={faClock} />
                                             Contest is running...
                                         </span>
                                     </div>
@@ -130,9 +131,9 @@ export default function ContestDashboard(props) {
                         {contest.beginTime + contest.contestLength <
                             Date.now() && (
                             <div className="flex items-center text-xl">
-                                <p className="text-gray-700">
-                                    The Contest has finished
-                                </p>
+                                <h4 className="text-gray-700 items-center justify-center">
+                                    <FontAwesomeIcon icon={faCheckSquare} className="text-xl"/>{" "} The Contest has finished
+                                </h4>
                             </div>
                         )}
                     </div>
@@ -159,7 +160,7 @@ export default function ContestDashboard(props) {
                                 )}
                                 <button
                                     type="submit"
-                                    className="px-6 py-3 bg-blue-500 text-white rounded-md flex items-center transition-colors duration-300 hover:bg-blue-600 focus:outline-none"
+                                    className="px-6 py-3 bg-indigo-800 text-white rounded-md flex items-center transition-colors duration-300 hover:bg-indigo-900 focus:outline-none"
                                 >
                                     <FontAwesomeIcon
                                         icon={faSignInAlt}

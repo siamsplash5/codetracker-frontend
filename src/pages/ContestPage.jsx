@@ -1,25 +1,28 @@
 import {
     faBullhorn,
+    faCheck,
     faChevronRight,
+    faClock,
     faList,
     faPaperPlane,
     faSquare,
-    faTrophy
+    faTrophy,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import useSWR from "swr";
 import { useAuth } from "../context/AuthContext";
 import {
     Announcement,
     ContestDashboard,
     Standings,
-    Submissions
+    Submissions,
 } from "../features/contests";
 import { ProblemContainer } from "../features/problems";
 import { SubmitSolution, VerdictTable } from "../features/submissions";
+import calculateCountdown from "../utils/calculateCountdown";
 
 const fetchProblemList = async ([url, problemSet]) => {
     const { data } = await axios.post(url, problemSet);
@@ -32,12 +35,12 @@ const fetchProblemList = async ([url, problemSet]) => {
 
 export default function ContestPage() {
     const [showServerError, setShowServerError] = useState(false);
-    const [selectedMenuItem, setSelectedMenuItem] = useState("dashboard"); 
+    const [selectedMenuItem, setSelectedMenuItem] = useState("dashboard");
     const [isSidebarOpen, setSidebarOpen] = useState(true);
     const [selectedProblem, setSelectedProblem] = useState(null);
 
-    const [problemList, setProblemList] = useState([]); 
-    const [statusInfo, setStatusInfo] = useState(); 
+    const [problemList, setProblemList] = useState([]);
+    const [statusInfo, setStatusInfo] = useState();
     const location = useLocation();
     const [contest, setContest] = useState(location.state);
     const { currentUser } = useAuth();
@@ -50,6 +53,26 @@ export default function ContestPage() {
         fetchProblemList,
         { suspense: true }
     );
+
+    const [countdown, setCountdown] = useState(calculateCountdown());
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (contest.beginTime > Date.now()) {
+                setCountdown(calculateCountdown(contest, "Upcoming"));
+            }
+            if (
+                contest.beginTime + contest.contestLength > Date.now() &&
+                contest.beginTime <= Date.now()
+            ) {
+                setCountdown(calculateCountdown(contest, "Running"));
+            }
+        }, 1000);
+
+        return () => {
+            clearInterval(interval);
+        };
+    }, []);
 
     useEffect(() => {
         if (data === "500") {
@@ -100,8 +123,6 @@ export default function ContestPage() {
             setShowServerError(true);
         }
     };
-    console.log(contest.privacy);
-    console.log(isRegistered);
 
     const handleMenuItemClick = (menuItem) => {
         setSelectedMenuItem(menuItem);
@@ -121,7 +142,31 @@ export default function ContestPage() {
                                 } w-full bg-slate-800 text-white text-opacity-80 h-screen`}
                             >
                                 <div className="p-4">
-                                    <h5 className="mb-4">{contest.title}</h5>
+                                    <h5 className="mb-4 text-xl text-center">
+                                        {contest.title}
+                                    </h5>
+                                    <div className="flex items-center justify-center text-sm py-2">
+                                        {contest.beginTime +
+                                            contest.contestLength >
+                                        Date.now() ? (
+                                            <FontAwesomeIcon
+                                                icon={faClock}
+                                                className="text-gray-500 mr-2"
+                                            />
+                                        ) : (
+                                            <FontAwesomeIcon
+                                                icon={faCheck}
+                                                className="text-gray-500 mr-2"
+                                            />
+                                        )}
+                                        <span className="text-xl">
+                                            {contest.beginTime +
+                                                contest.contestLength >
+                                            Date.now()
+                                                ? `Remaining: ${countdown}`
+                                                : "Finished"}
+                                        </span>
+                                    </div>
                                     <hr />
                                     <ul className="space-y-2 mt-4">
                                         <li
@@ -145,111 +190,131 @@ export default function ContestPage() {
                                             Dashboard
                                         </li>
                                         <hr />
-                                        {(contest.privacy !== "Private" ||
-                                            (contest.privacy === "Private" &&
-                                                isRegistered)) && (
-                                            <>
-                                                {problemList.map((problem) => (
+                                        {contest.beginTime <= Date.now() &&
+                                            (contest.privacy !== "Private" ||
+                                                (contest.privacy ===
+                                                    "Private" &&
+                                                    isRegistered)) && (
+                                                <>
+                                                    {problemList.map(
+                                                        (problem) => (
+                                                            <li
+                                                                key={
+                                                                    problem._id
+                                                                }
+                                                                className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
+                                                                    selectedMenuItem ===
+                                                                    problem._id
+                                                                        ? "bg-gray-700 text-white"
+                                                                        : ""
+                                                                }`}
+                                                                onClick={() => {
+                                                                    handleMenuItemClick(
+                                                                        problem._id
+                                                                    );
+                                                                    setSidebarOpen(
+                                                                        false
+                                                                    );
+                                                                }}
+                                                            >
+                                                                <span className="pr-2 text-lg">
+                                                                    <FontAwesomeIcon
+                                                                        icon={
+                                                                            faSquare
+                                                                        }
+                                                                    />{" "}
+                                                                </span>{" "}
+                                                                <span
+                                                                    className={`${
+                                                                        problem.title ===
+                                                                        "Error!"
+                                                                            ? "text-red-500"
+                                                                            : null
+                                                                    }`}
+                                                                >
+                                                                    {
+                                                                        problem.title
+                                                                    }
+                                                                </span>
+                                                            </li>
+                                                        )
+                                                    )}
+                                                    <hr />
                                                     <li
-                                                        key={problem._id}
                                                         className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
                                                             selectedMenuItem ===
-                                                            problem._id
+                                                            "standings"
                                                                 ? "bg-gray-700 text-white"
                                                                 : ""
                                                         }`}
                                                         onClick={() => {
                                                             handleMenuItemClick(
-                                                                problem._id
+                                                                "standings"
                                                             );
                                                             setSidebarOpen(
                                                                 false
                                                             );
                                                         }}
                                                     >
-                                                        <span className="pr-2 text-lg">
+                                                        <span className="pr-2 text-amber-400">
                                                             <FontAwesomeIcon
-                                                                icon={faSquare}
+                                                                icon={faTrophy}
                                                             />{" "}
                                                         </span>{" "}
-                                                        <span
-                                                            className={`${
-                                                                problem.title ===
-                                                                "Error!"
-                                                                    ? "text-red-500"
-                                                                    : null
-                                                            }`}
-                                                        >
-                                                            {problem.title}
-                                                        </span>
+                                                        Standings
                                                     </li>
-                                                ))}
-                                                <hr />
-                                                <li
-                                                    className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
-                                                        selectedMenuItem ===
-                                                        "standings"
-                                                            ? "bg-gray-700 text-white"
-                                                            : ""
-                                                    }`}
-                                                    onClick={() => {
-                                                        handleMenuItemClick(
-                                                            "standings"
-                                                        );
-                                                        setSidebarOpen(false);
-                                                    }}
-                                                >
-                                                    <span className="pr-2 text-amber-400">
-                                                        <FontAwesomeIcon
-                                                            icon={faTrophy}
-                                                        />{" "}
-                                                    </span>{" "}
-                                                    Standings
-                                                </li>
-                                                <li
-                                                    className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
-                                                        selectedMenuItem ===
-                                                        "announcements"
-                                                            ? "bg-gray-700 text-white"
-                                                            : ""
-                                                    }`}
-                                                    onClick={() => {
-                                                        handleMenuItemClick(
+                                                    <li
+                                                        className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
+                                                            selectedMenuItem ===
                                                             "announcements"
-                                                        );
-                                                        setSidebarOpen(false);
-                                                    }}
-                                                >
-                                                    <span className="pr-2 text-red-500">
-                                                        <FontAwesomeIcon
-                                                            icon={faBullhorn}
-                                                        />{" "}
-                                                    </span>{" "}
-                                                    Announcements
-                                                </li>
-                                                <li
-                                                    className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
-                                                        selectedMenuItem ===
-                                                        "submissions"
-                                                            ? "bg-gray-700 text-white"
-                                                            : ""
-                                                    }`}
-                                                    onClick={() => {
-                                                        setSidebarOpen(false);
-                                                        handleMenuItemClick(
+                                                                ? "bg-gray-700 text-white"
+                                                                : ""
+                                                        }`}
+                                                        onClick={() => {
+                                                            handleMenuItemClick(
+                                                                "announcements"
+                                                            );
+                                                            setSidebarOpen(
+                                                                false
+                                                            );
+                                                        }}
+                                                    >
+                                                        <span className="pr-2 text-red-500">
+                                                            <FontAwesomeIcon
+                                                                icon={
+                                                                    faBullhorn
+                                                                }
+                                                            />{" "}
+                                                        </span>{" "}
+                                                        Announcements
+                                                    </li>
+                                                    <li
+                                                        className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
+                                                            selectedMenuItem ===
                                                             "submissions"
-                                                        );
-                                                    }}
-                                                >
-                                                    <span className="pr-2 text-green-400">
-                                                        <FontAwesomeIcon
-                                                            icon={faPaperPlane}
-                                                        />{" "}
-                                                    </span>{" "}
-                                                    Submissions
-                                                </li>
-                                            </>
-                                        )}
+                                                                ? "bg-gray-700 text-white"
+                                                                : ""
+                                                        }`}
+                                                        onClick={() => {
+                                                            setSidebarOpen(
+                                                                false
+                                                            );
+                                                            handleMenuItemClick(
+                                                                "submissions"
+                                                            );
+                                                        }}
+                                                    >
+                                                        <span className="pr-2 text-green-400">
+                                                            <FontAwesomeIcon
+                                                                icon={
+                                                                    faPaperPlane
+                                                                }
+                                                            />{" "}
+                                                        </span>{" "}
+                                                        Submissions
+                                                    </li>
+                                                </>
+                                            )}
                                     </ul>
                                 </div>
                             </div>
@@ -374,105 +439,119 @@ export default function ContestPage() {
                                             Dashboard
                                         </li>
                                         <hr />
-                                        {(contest.privacy !== "Private" ||
-                                            (contest.privacy === "Private" &&
-                                                isRegistered)) && (
-                                            <>
-                                                {problemList.map((problem) => (
+                                        {contest.beginTime <= Date.now() &&
+                                            (contest.privacy !== "Private" ||
+                                                (contest.privacy ===
+                                                    "Private" &&
+                                                    isRegistered)) && (
+                                                <>
+                                                    {problemList.map(
+                                                        (problem) => (
+                                                            <li
+                                                                key={
+                                                                    problem._id
+                                                                }
+                                                                className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
+                                                                    selectedMenuItem ===
+                                                                    problem._id
+                                                                        ? "bg-gray-700 text-white"
+                                                                        : ""
+                                                                }`}
+                                                                onClick={() =>
+                                                                    handleMenuItemClick(
+                                                                        problem._id
+                                                                    )
+                                                                }
+                                                            >
+                                                                <span className="pr-2 text-lg">
+                                                                    <FontAwesomeIcon
+                                                                        icon={
+                                                                            faSquare
+                                                                        }
+                                                                    />{" "}
+                                                                </span>{" "}
+                                                                <span
+                                                                    className={`${
+                                                                        problem.title ===
+                                                                        "Error!"
+                                                                            ? "text-red-500"
+                                                                            : null
+                                                                    }`}
+                                                                >
+                                                                    {
+                                                                        problem.title
+                                                                    }
+                                                                </span>
+                                                            </li>
+                                                        )
+                                                    )}
+                                                    <hr />
                                                     <li
-                                                        key={problem._id}
                                                         className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
                                                             selectedMenuItem ===
-                                                            problem._id
+                                                            "standings"
                                                                 ? "bg-gray-700 text-white"
                                                                 : ""
                                                         }`}
                                                         onClick={() =>
                                                             handleMenuItemClick(
-                                                                problem._id
+                                                                "standings"
                                                             )
                                                         }
                                                     >
-                                                        <span className="pr-2 text-lg">
+                                                        <span className="pr-2 text-amber-400">
                                                             <FontAwesomeIcon
-                                                                icon={faSquare}
+                                                                icon={faTrophy}
                                                             />{" "}
                                                         </span>{" "}
-                                                        <span
-                                                            className={`${
-                                                                problem.title ===
-                                                                "Error!"
-                                                                    ? "text-red-500"
-                                                                    : null
-                                                            }`}
-                                                        >
-                                                            {problem.title}
-                                                        </span>
+                                                        Standings
                                                     </li>
-                                                ))}
-                                                <hr />
-                                                <li
-                                                    className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
-                                                        selectedMenuItem ===
-                                                        "standings"
-                                                            ? "bg-gray-700 text-white"
-                                                            : ""
-                                                    }`}
-                                                    onClick={() =>
-                                                        handleMenuItemClick(
-                                                            "standings"
-                                                        )
-                                                    }
-                                                >
-                                                    <span className="pr-2 text-amber-400">
-                                                        <FontAwesomeIcon
-                                                            icon={faTrophy}
-                                                        />{" "}
-                                                    </span>{" "}
-                                                    Standings
-                                                </li>
-                                                <li
-                                                    className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
-                                                        selectedMenuItem ===
-                                                        "announcements"
-                                                            ? "bg-gray-700 text-white"
-                                                            : ""
-                                                    }`}
-                                                    onClick={() =>
-                                                        handleMenuItemClick(
+                                                    <li
+                                                        className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
+                                                            selectedMenuItem ===
                                                             "announcements"
-                                                        )
-                                                    }
-                                                >
-                                                    <span className="pr-2 text-red-500">
-                                                        <FontAwesomeIcon
-                                                            icon={faBullhorn}
-                                                        />{" "}
-                                                    </span>{" "}
-                                                    Announcements
-                                                </li>
-                                                <li
-                                                    className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
-                                                        selectedMenuItem ===
-                                                        "submissions"
-                                                            ? "bg-gray-700 text-white"
-                                                            : ""
-                                                    }`}
-                                                    onClick={() =>
-                                                        handleMenuItemClick(
+                                                                ? "bg-gray-700 text-white"
+                                                                : ""
+                                                        }`}
+                                                        onClick={() =>
+                                                            handleMenuItemClick(
+                                                                "announcements"
+                                                            )
+                                                        }
+                                                    >
+                                                        <span className="pr-2 text-red-500">
+                                                            <FontAwesomeIcon
+                                                                icon={
+                                                                    faBullhorn
+                                                                }
+                                                            />{" "}
+                                                        </span>{" "}
+                                                        Announcements
+                                                    </li>
+                                                    <li
+                                                        className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
+                                                            selectedMenuItem ===
                                                             "submissions"
-                                                        )
-                                                    }
-                                                >
-                                                    <span className="pr-2 text-green-400">
-                                                        <FontAwesomeIcon
-                                                            icon={faPaperPlane}
-                                                        />{" "}
-                                                    </span>{" "}
-                                                    Submissions
-                                                </li>
-                                            </>
-                                        )}
+                                                                ? "bg-gray-700 text-white"
+                                                                : ""
+                                                        }`}
+                                                        onClick={() =>
+                                                            handleMenuItemClick(
+                                                                "submissions"
+                                                            )
+                                                        }
+                                                    >
+                                                        <span className="pr-2 text-green-400">
+                                                            <FontAwesomeIcon
+                                                                icon={
+                                                                    faPaperPlane
+                                                                }
+                                                            />{" "}
+                                                        </span>{" "}
+                                                        Submissions
+                                                    </li>
+                                                </>
+                                            )}
                                     </ul>
                                 </div>
                             </div>
@@ -530,6 +609,28 @@ export default function ContestPage() {
                                     (contest.privacy !== "Public" &&
                                         isRegistered)) && (
                                     <div className="w-3/12 ml-3 mr-6 max-h-screen mt-4">
+                                        <div className="flex items-center justify-center bg-slate-800 text-gray-300 rounded px-2 mx-4 my-3 py-4">
+                                            {contest.beginTime +
+                                                contest.contestLength >
+                                            Date.now() ? (
+                                                <FontAwesomeIcon
+                                                    icon={faClock}
+                                                    className="mr-2"
+                                                />
+                                            ) : (
+                                                <FontAwesomeIcon
+                                                    icon={faCheck}
+                                                    className="mr-2"
+                                                />
+                                            )}
+                                            <span className="text-xl">
+                                                {contest.beginTime +
+                                                    contest.contestLength >
+                                                Date.now()
+                                                    ? `Remaining: ${countdown}`
+                                                    : "Finished"}
+                                            </span>
+                                        </div>
                                         <SubmitSolution
                                             handle={({ langID, sourceCode }) =>
                                                 contestSubmitHandler({
