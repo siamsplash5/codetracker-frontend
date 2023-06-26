@@ -34,6 +34,11 @@
   }
 }
 
+::selection {
+  background-color: #ffcc00; /* Replace with your desired color */
+  color: #000000; /* Replace with the text color you want */
+}
+
 .problemFont{
   font-family: Arial, Helvetica, sans-serif;
   font-size: 1.25rem;

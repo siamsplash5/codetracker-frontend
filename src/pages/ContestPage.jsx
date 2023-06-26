@@ -13,6 +13,11 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import useSWR from "swr";
+import {
+    LockedIconAmber,
+    LockedIconRed,
+    UnlockedIconGreen,
+} from "../components/Icons";
 import { useAuth } from "../context/AuthContext";
 import {
     Announcement,
@@ -143,6 +148,15 @@ export default function ContestPage() {
                             >
                                 <div className="p-4">
                                     <h5 className="mb-4 text-xl text-center">
+                                        {contest.privacy === "Public" && (
+                                            <UnlockedIconGreen />
+                                        )}
+                                        {contest.privacy === "Private" && (
+                                            <LockedIconRed />
+                                        )}
+                                        {contest.privacy === "Protected" && (
+                                            <LockedIconAmber />
+                                        )}
                                         {contest.title}
                                     </h5>
                                     <div className="flex items-center justify-center text-sm py-2">
@@ -418,7 +432,18 @@ export default function ContestPage() {
                                 } w-2/12 bg-slate-800 text-white text-opacity-80 h-screen`}
                             >
                                 <div className="p-4">
-                                    <h5 className="mb-4">{contest.title}</h5>
+                                    <h5 className="mb-4">
+                                        {contest.privacy === "Public" && (
+                                            <UnlockedIconGreen />
+                                        )}
+                                        {contest.privacy === "Private" && (
+                                            <LockedIconRed />
+                                        )}
+                                        {contest.privacy === "Protected" && (
+                                            <LockedIconAmber />
+                                        )}
+                                        {contest.title}
+                                    </h5>
                                     <hr />
                                     <ul className="space-y-2 mt-4">
                                         <li

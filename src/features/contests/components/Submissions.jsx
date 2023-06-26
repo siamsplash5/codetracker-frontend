@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import useSWR from "swr";
 import ServerError from "../../../components/ServerError";
 import { ShowSourceCode } from "../../submissions";
@@ -18,6 +19,7 @@ export default function Submissions({ contestID }) {
     const [indexToShow, setIndexToShow] = useState();
     const [showServerError, setShowServerError] = useState(false);
     const [submissionList, setSubmissionList] = useState([]);
+    const navigate = useNavigate();
     const { data, error } = useSWR(
         `/api/submissions/specific-contest/${contestID}`,
         fetchSubmissionList,
@@ -29,7 +31,9 @@ export default function Submissions({ contestID }) {
     useEffect(() => {
         if (data === "500") {
             setShowServerError(true);
-        } else {
+        } else if(data==="401"){
+            navigate("/login");
+        } else{
             setShowServerError(false);
             setSubmissionList(data);
         }

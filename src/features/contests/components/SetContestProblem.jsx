@@ -55,23 +55,22 @@ export default function SetContestProblem({index, onChange, setTabs }) {
     };
 
     return (
-        <div className="mb-4 space-y-4 md:flex md:space-x-4">
-            <div className="md:w-3/12">
-                <select
-                    id="judge"
-                    name="judge"
-                    value={judge}
-                    onChange={handleJudgeChange}
-                    className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    required
-                >
-                    <option value="">Select Judge</option>
-                    <option value="Atcoder">Atcoder</option>
-                    <option value="Codeforces">Codeforces</option>
-                    <option value="Spoj">Spoj</option>
-                    <option value="Timus">Timus</option>
-                </select>
-            </div>
+        <div className="mb-4 space-y-4 md:space-y-0 md:flex md:space-x-4">
+            <select
+                id="judge"
+                name="judge"
+                value={judge}
+                onChange={handleJudgeChange}
+                className="md:w-3/12 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                required
+            >
+                <option value="">Select Judge</option>
+                <option value="Atcoder">Atcoder</option>
+                <option value="Codeforces">Codeforces</option>
+                <option value="Spoj">Spoj</option>
+                <option value="Timus">Timus</option>
+            </select>
+
             <div className="md:w-3/12">
                 <input
                     value={problemID}

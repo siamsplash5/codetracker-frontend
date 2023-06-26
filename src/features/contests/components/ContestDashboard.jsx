@@ -110,15 +110,11 @@ export default function ContestDashboard(props) {
                                 <div className="text-center">
                                     <div className="items-center text-xl mx-8 mb-3">
                                         <span className="text-gray-700">
-                                            <FontAwesomeIcon icon={faClock} />
+                                            <FontAwesomeIcon icon={faClock} />{" "}
                                             Contest is running...
                                         </span>
                                     </div>
-                                    <div className="flex item-center text-xl">
-                                        <FontAwesomeIcon
-                                            icon={faClock}
-                                            className="text-gray-500 mr-2"
-                                        />
+                                    <div className="flex item-center justify-center text-xl">
                                         <p className="text-gray-700">
                                             Remaining:
                                             <span className="font-bold ml-1">
