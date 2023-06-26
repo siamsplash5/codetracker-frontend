@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { data } from "autoprefixer";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import ServerError from "../../../components/ServerError";
 import { useAuth } from "../../../context/AuthContext";
 import calculateCountdown from "../../../utils/calculateCountdown";
 import sleep from "../../../utils/sleep";
-import axios from "axios";
-import ServerError from "../../../components/ServerError";
-import { data } from "autoprefixer";
-import { useNavigate } from "react-router-dom";
 
 export default function ContestDashboard(props) {
     const [contest, setContest] = useState(props.contest);
