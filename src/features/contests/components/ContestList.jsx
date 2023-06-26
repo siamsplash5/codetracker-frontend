@@ -2,7 +2,8 @@ import { useNavigate } from "react-router-dom";
 import {
     LockedIconAmber,
     LockedIconRed,
-    UnlockedIconGreen
+    UnlockedIconGreen,
+    UserIconDefault
 } from "../../../components/Icons";
 import millisecondToDayHourMinute from "../../../utils/millisecondToDayHourMinute";
 
@@ -29,7 +30,7 @@ export default function ({ heading, contestList }) {
                                                 Title
                                             </th>
                                             <th className="border-b px-4 py-2">
-                                                Total Participants
+                                                Registered
                                             </th>
                                             <th className="border-b px-4 py-2">
                                                 Begin Time
@@ -85,7 +86,9 @@ export default function ({ heading, contestList }) {
                                                     </button>
                                                 </td>
                                                 <td className="border-b px-4 py-2">
-                                                    <b>{null}</b>
+                                                    <UserIconDefault />
+                                                    x
+                                                    {contest.registered.length}
                                                 </td>
                                                 <td className="border-b px-4 py-2">
                                                     {contest.startDate}

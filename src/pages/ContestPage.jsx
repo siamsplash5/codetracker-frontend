@@ -4,18 +4,18 @@ import {
     faList,
     faPaperPlane,
     faSquare,
-    faTrophy,
+    faTrophy
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import useSWR from "swr";
 import {
     Announcement,
-    Dashboard,
+    ContestDashboard,
     Standings,
-    Submissions,
+    Submissions
 } from "../features/contests";
 import { ProblemContainer } from "../features/problems";
 import { SubmitSolution, VerdictTable } from "../features/submissions";
@@ -30,12 +30,12 @@ const fetchProblemList = async ([url, problemSet]) => {
 };
 
 export default function ContestPage() {
-    const [statusInfo, setStatusInfo] = useState();
-    const [selectedMenuItem, setSelectedMenuItem] = useState("dashboard");
+    const [statusInfo, setStatusInfo] = useState(); 
+    const [selectedMenuItem, setSelectedMenuItem] = useState("dashboard"); 
     const [showServerError, setShowServerError] = useState(false);
-    const [problemList, setProblemList] = useState([]);
+    const [problemList, setProblemList] = useState([]); 
     const [selectedProblem, setSelectedProblem] = useState(null);
-    const [isOpen, setIsOpen] = useState(true);
+    const [isSidebarOpen, setSidebarOpen] = useState(true);
     const location = useLocation();
     const [contest, setContest] = useState(location.state);
     const { problemSet } = contest;
@@ -109,7 +109,7 @@ export default function ContestPage() {
                         <div className="flex mx-0">
                             <div
                                 className={`${
-                                    isOpen ? "" : "hidden"
+                                    isSidebarOpen ? "" : "hidden"
                                 } w-full bg-slate-800 text-white text-opacity-80 h-screen`}
                             >
                                 <div className="p-4">
@@ -126,7 +126,7 @@ export default function ContestPage() {
                                                 handleMenuItemClick(
                                                     "dashboard"
                                                 );
-                                                setIsOpen(false);
+                                                setSidebarOpen(false);
                                             }}
                                         >
                                             <span className="pr-2 text-indigo-300">
@@ -150,7 +150,7 @@ export default function ContestPage() {
                                                     handleMenuItemClick(
                                                         problem._id
                                                     );
-                                                    setIsOpen(false);
+                                                    setSidebarOpen(false);
                                                 }}
                                             >
                                                 <span className="pr-2 text-lg">
@@ -181,7 +181,7 @@ export default function ContestPage() {
                                                 handleMenuItemClick(
                                                     "standings"
                                                 );
-                                                setIsOpen(false);
+                                                setSidebarOpen(false);
                                             }}
                                         >
                                             <span className="pr-2 text-amber-400">
@@ -202,7 +202,7 @@ export default function ContestPage() {
                                                 handleMenuItemClick(
                                                     "announcements"
                                                 );
-                                                setIsOpen(false);
+                                                setSidebarOpen(false);
                                             }}
                                         >
                                             <span className="pr-2 text-red-500">
@@ -220,7 +220,7 @@ export default function ContestPage() {
                                                     : ""
                                             }`}
                                             onClick={() => {
-                                                setIsOpen(false);
+                                                setSidebarOpen(false);
                                                 handleMenuItemClick(
                                                     "submissions"
                                                 );
@@ -236,10 +236,10 @@ export default function ContestPage() {
                                     </ul>
                                 </div>
                             </div>
-                            <div class="flex justify-start items-center h-screen">
+                            <div className="flex justify-start items-center h-screen">
                                 <button
                                     className="bg-slate-800 text-white text-opacity-80 pr-1 pl-1 py-4 rounded-r-full"
-                                    onClick={() => setIsOpen(!isOpen)}
+                                    onClick={() => setSidebarOpen(!isSidebarOpen)}
                                 >
                                     <FontAwesomeIcon icon={faChevronRight} />
                                 </button>
@@ -247,11 +247,13 @@ export default function ContestPage() {
                             <div className="overflow-y-auto">
                                 <div
                                     className={`
-                         ${isOpen ? "hidden" : "w-full m-0 p-0"}
+                         ${isSidebarOpen ? "hidden" : "w-full m-0 p-0"}
                         overflow-y-auto max-h-screen`}
                                 >
                                     {selectedMenuItem === "dashboard" && (
-                                        <Dashboard contest={contest} />
+                                        <ContestDashboard
+                                            contest={contest}
+                                        />
                                     )}
                                     {selectedMenuItem === "standings" && (
                                         <Standings />
@@ -279,7 +281,7 @@ export default function ContestPage() {
                                     {selectedProblem && (
                                         <div
                                             className={` ${
-                                                isOpen
+                                                isSidebarOpen
                                                     ? "hidden"
                                                     : "w-full m-0 p-0"
                                             } max-h-screen mt-4 overflow-auto`}
@@ -318,7 +320,7 @@ export default function ContestPage() {
                         <div className="flex mx-0">
                             <div
                                 className={`${
-                                    isOpen ? "" : "hidden"
+                                    isSidebarOpen ? "" : "hidden"
                                 } w-2/12 bg-slate-800 text-white text-opacity-80 h-screen`}
                             >
                                 <div className="p-4">
@@ -436,10 +438,10 @@ export default function ContestPage() {
                                     </ul>
                                 </div>
                             </div>
-                            <div class="flex justify-start items-center h-screen">
+                            <div className="flex justify-start items-center h-screen">
                                 <button
                                     className="bg-slate-800 text-white text-opacity-80 pr-2 pl-1 py-6 rounded-r-full"
-                                    onClick={() => setIsOpen(!isOpen)}
+                                    onClick={() => setSidebarOpen(!isSidebarOpen)}
                                 >
                                     <FontAwesomeIcon icon={faChevronRight} />
                                 </button>
@@ -447,7 +449,7 @@ export default function ContestPage() {
                             <div
                                 className={`
                          ${
-                             isOpen
+                             isSidebarOpen
                                  ? selectedProblem
                                      ? "w-7/12 p-3"
                                      : "w-10/12"
@@ -458,7 +460,7 @@ export default function ContestPage() {
                         overflow-y-auto max-h-screen`}
                             >
                                 {selectedMenuItem === "dashboard" && (
-                                    <Dashboard contest={contest} />
+                                    <ContestDashboard contest={contest} />
                                 )}
                                 {selectedMenuItem === "standings" && (
                                     <Standings />
