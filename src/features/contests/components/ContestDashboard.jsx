@@ -67,6 +67,8 @@ export default function ContestDashboard(props) {
                     navigate('/login');
                 }else{
                     setIsRegistered(true);
+                    const {onRegister} = props;
+                    onRegister();
                     setContest(updatedContest);
                 }
             } catch (error) {

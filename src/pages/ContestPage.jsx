@@ -11,6 +11,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import useSWR from "swr";
+import { useAuth } from "../context/AuthContext";
 import {
     Announcement,
     ContestDashboard,
@@ -30,14 +31,19 @@ const fetchProblemList = async ([url, problemSet]) => {
 };
 
 export default function ContestPage() {
-    const [statusInfo, setStatusInfo] = useState(); 
-    const [selectedMenuItem, setSelectedMenuItem] = useState("dashboard"); 
     const [showServerError, setShowServerError] = useState(false);
-    const [problemList, setProblemList] = useState([]); 
-    const [selectedProblem, setSelectedProblem] = useState(null);
+    const [selectedMenuItem, setSelectedMenuItem] = useState("dashboard"); 
     const [isSidebarOpen, setSidebarOpen] = useState(true);
+    const [selectedProblem, setSelectedProblem] = useState(null);
+
+    const [problemList, setProblemList] = useState([]); 
+    const [statusInfo, setStatusInfo] = useState(); 
     const location = useLocation();
     const [contest, setContest] = useState(location.state);
+    const { currentUser } = useAuth();
+    const [isRegistered, setIsRegistered] = useState(
+        contest.registered.includes(currentUser)
+    );
     const { problemSet } = contest;
     const { data, error } = useSWR(
         ["/api/contest-problem/all", problemSet],
@@ -239,7 +245,9 @@ export default function ContestPage() {
                             <div className="flex justify-start items-center h-screen">
                                 <button
                                     className="bg-slate-800 text-white text-opacity-80 pr-1 pl-1 py-4 rounded-r-full"
-                                    onClick={() => setSidebarOpen(!isSidebarOpen)}
+                                    onClick={() =>
+                                        setSidebarOpen(!isSidebarOpen)
+                                    }
                                 >
                                     <FontAwesomeIcon icon={faChevronRight} />
                                 </button>
@@ -253,6 +261,9 @@ export default function ContestPage() {
                                     {selectedMenuItem === "dashboard" && (
                                         <ContestDashboard
                                             contest={contest}
+                                            onRegister={() =>
+                                                setIsRegistered(true)
+                                            }
                                         />
                                     )}
                                     {selectedMenuItem === "standings" && (
@@ -278,38 +289,45 @@ export default function ContestPage() {
                                     )}
                                 </div>
                                 <div>
-                                    {selectedProblem && (
-                                        <div
-                                            className={` ${
-                                                isSidebarOpen
-                                                    ? "hidden"
-                                                    : "w-full m-0 p-0"
-                                            } max-h-screen mt-4 overflow-auto`}
-                                        >
-                                            <SubmitSolution
-                                                handle={({
-                                                    langID,
-                                                    sourceCode,
-                                                }) =>
-                                                    contestSubmitHandler({
+                                    {selectedProblem &&
+                                        (contest.privacy === "Public" ||
+                                            (contest.privacy !== "Public" &&
+                                                isRegistered)) && (
+                                            <div
+                                                className={` ${
+                                                    isSidebarOpen
+                                                        ? "hidden"
+                                                        : "w-full m-0 p-0"
+                                                } max-h-screen mt-4 overflow-auto`}
+                                            >
+                                                <SubmitSolution
+                                                    handle={({
                                                         langID,
                                                         sourceCode,
-                                                    })
-                                                }
-                                                judge={selectedProblem?.judge}
-                                            />
-                                            <VerdictTable
-                                                status={statusInfo}
-                                                key={`verdict-key-${selectedProblem._id}`}
-                                                problemInfo={{
-                                                    judge: selectedProblem?.judge,
-                                                    problemID:
-                                                        selectedProblem?.problemID,
-                                                }}
-                                                contestID={contest.contestID}
-                                            />
-                                        </div>
-                                    )}
+                                                    }) =>
+                                                        contestSubmitHandler({
+                                                            langID,
+                                                            sourceCode,
+                                                        })
+                                                    }
+                                                    judge={
+                                                        selectedProblem?.judge
+                                                    }
+                                                />
+                                                <VerdictTable
+                                                    status={statusInfo}
+                                                    key={`verdict-key-${selectedProblem._id}`}
+                                                    problemInfo={{
+                                                        judge: selectedProblem?.judge,
+                                                        problemID:
+                                                            selectedProblem?.problemID,
+                                                    }}
+                                                    contestID={
+                                                        contest.contestID
+                                                    }
+                                                />
+                                            </div>
+                                        )}
                                 </div>
                             </div>
                         </div>
@@ -441,7 +459,9 @@ export default function ContestPage() {
                             <div className="flex justify-start items-center h-screen">
                                 <button
                                     className="bg-slate-800 text-white text-opacity-80 pr-2 pl-1 py-6 rounded-r-full"
-                                    onClick={() => setSidebarOpen(!isSidebarOpen)}
+                                    onClick={() =>
+                                        setSidebarOpen(!isSidebarOpen)
+                                    }
                                 >
                                     <FontAwesomeIcon icon={faChevronRight} />
                                 </button>
@@ -460,7 +480,10 @@ export default function ContestPage() {
                         overflow-y-auto max-h-screen`}
                             >
                                 {selectedMenuItem === "dashboard" && (
-                                    <ContestDashboard contest={contest} />
+                                    <ContestDashboard
+                                        contest={contest}
+                                        onRegister={() => setIsRegistered(true)}
+                                    />
                                 )}
                                 {selectedMenuItem === "standings" && (
                                     <Standings />
@@ -482,29 +505,32 @@ export default function ContestPage() {
                                     />
                                 )}
                             </div>
-                            {selectedProblem && (
-                                <div className="w-3/12 ml-3 mr-6 max-h-screen mt-4">
-                                    <SubmitSolution
-                                        handle={({ langID, sourceCode }) =>
-                                            contestSubmitHandler({
-                                                langID,
-                                                sourceCode,
-                                            })
-                                        }
-                                        judge={selectedProblem?.judge}
-                                    />
-                                    <VerdictTable
-                                        status={statusInfo}
-                                        key={`verdict-key-${selectedProblem._id}`}
-                                        problemInfo={{
-                                            judge: selectedProblem?.judge,
-                                            problemID:
-                                                selectedProblem?.problemID,
-                                        }}
-                                        contestID={contest.contestID}
-                                    />
-                                </div>
-                            )}
+                            {selectedProblem &&
+                                (contest.privacy === "Public" ||
+                                    (contest.privacy !== "Public" &&
+                                        isRegistered)) && (
+                                    <div className="w-3/12 ml-3 mr-6 max-h-screen mt-4">
+                                        <SubmitSolution
+                                            handle={({ langID, sourceCode }) =>
+                                                contestSubmitHandler({
+                                                    langID,
+                                                    sourceCode,
+                                                })
+                                            }
+                                            judge={selectedProblem?.judge}
+                                        />
+                                        <VerdictTable
+                                            status={statusInfo}
+                                            key={`verdict-key-${selectedProblem._id}`}
+                                            problemInfo={{
+                                                judge: selectedProblem?.judge,
+                                                problemID:
+                                                    selectedProblem?.problemID,
+                                            }}
+                                            contestID={contest.contestID}
+                                        />
+                                    </div>
+                                )}
                         </div>
                     </div>
                 </div>
