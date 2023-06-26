@@ -100,6 +100,8 @@ export default function ContestPage() {
             setShowServerError(true);
         }
     };
+    console.log(contest.privacy);
+    console.log(isRegistered);
 
     const handleMenuItemClick = (menuItem) => {
         setSelectedMenuItem(menuItem);
@@ -143,102 +145,111 @@ export default function ContestPage() {
                                             Dashboard
                                         </li>
                                         <hr />
-                                        {problemList.map((problem) => (
-                                            <li
-                                                key={problem._id}
-                                                className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
-                                                    selectedMenuItem ===
-                                                    problem._id
-                                                        ? "bg-gray-700 text-white"
-                                                        : ""
-                                                }`}
-                                                onClick={() => {
-                                                    handleMenuItemClick(
-                                                        problem._id
-                                                    );
-                                                    setSidebarOpen(false);
-                                                }}
-                                            >
-                                                <span className="pr-2 text-lg">
-                                                    <FontAwesomeIcon
-                                                        icon={faSquare}
-                                                    />{" "}
-                                                </span>{" "}
-                                                <span
-                                                    className={`${
-                                                        problem.title ===
-                                                        "Error!"
-                                                            ? "text-red-500"
-                                                            : null
+                                        {(contest.privacy !== "Private" ||
+                                            (contest.privacy === "Private" &&
+                                                isRegistered)) && (
+                                            <>
+                                                {problemList.map((problem) => (
+                                                    <li
+                                                        key={problem._id}
+                                                        className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
+                                                            selectedMenuItem ===
+                                                            problem._id
+                                                                ? "bg-gray-700 text-white"
+                                                                : ""
+                                                        }`}
+                                                        onClick={() => {
+                                                            handleMenuItemClick(
+                                                                problem._id
+                                                            );
+                                                            setSidebarOpen(
+                                                                false
+                                                            );
+                                                        }}
+                                                    >
+                                                        <span className="pr-2 text-lg">
+                                                            <FontAwesomeIcon
+                                                                icon={faSquare}
+                                                            />{" "}
+                                                        </span>{" "}
+                                                        <span
+                                                            className={`${
+                                                                problem.title ===
+                                                                "Error!"
+                                                                    ? "text-red-500"
+                                                                    : null
+                                                            }`}
+                                                        >
+                                                            {problem.title}
+                                                        </span>
+                                                    </li>
+                                                ))}
+                                                <hr />
+                                                <li
+                                                    className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
+                                                        selectedMenuItem ===
+                                                        "standings"
+                                                            ? "bg-gray-700 text-white"
+                                                            : ""
                                                     }`}
+                                                    onClick={() => {
+                                                        handleMenuItemClick(
+                                                            "standings"
+                                                        );
+                                                        setSidebarOpen(false);
+                                                    }}
                                                 >
-                                                    {problem.title}
-                                                </span>
-                                            </li>
-                                        ))}
-                                        <hr />
-                                        <li
-                                            className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
-                                                selectedMenuItem === "standings"
-                                                    ? "bg-gray-700 text-white"
-                                                    : ""
-                                            }`}
-                                            onClick={() => {
-                                                handleMenuItemClick(
-                                                    "standings"
-                                                );
-                                                setSidebarOpen(false);
-                                            }}
-                                        >
-                                            <span className="pr-2 text-amber-400">
-                                                <FontAwesomeIcon
-                                                    icon={faTrophy}
-                                                />{" "}
-                                            </span>{" "}
-                                            Standings
-                                        </li>
-                                        <li
-                                            className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
-                                                selectedMenuItem ===
-                                                "announcements"
-                                                    ? "bg-gray-700 text-white"
-                                                    : ""
-                                            }`}
-                                            onClick={() => {
-                                                handleMenuItemClick(
-                                                    "announcements"
-                                                );
-                                                setSidebarOpen(false);
-                                            }}
-                                        >
-                                            <span className="pr-2 text-red-500">
-                                                <FontAwesomeIcon
-                                                    icon={faBullhorn}
-                                                />{" "}
-                                            </span>{" "}
-                                            Announcements
-                                        </li>
-                                        <li
-                                            className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
-                                                selectedMenuItem ===
-                                                "submissions"
-                                                    ? "bg-gray-700 text-white"
-                                                    : ""
-                                            }`}
-                                            onClick={() => {
-                                                setSidebarOpen(false);
-                                                handleMenuItemClick(
-                                                    "submissions"
-                                                );
-                                            }}
-                                        >
-                                            <span className="pr-2 text-green-400">
-                                                <FontAwesomeIcon
-                                                    icon={faPaperPlane}
-                                                />{" "}
-                                            </span>{" "}
-                                            Submissions
-                                        </li>
+                                                    <span className="pr-2 text-amber-400">
+                                                        <FontAwesomeIcon
+                                                            icon={faTrophy}
+                                                        />{" "}
+                                                    </span>{" "}
+                                                    Standings
+                                                </li>
+                                                <li
+                                                    className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
+                                                        selectedMenuItem ===
+                                                        "announcements"
+                                                            ? "bg-gray-700 text-white"
+                                                            : ""
+                                                    }`}
+                                                    onClick={() => {
+                                                        handleMenuItemClick(
+                                                            "announcements"
+                                                        );
+                                                        setSidebarOpen(false);
+                                                    }}
+                                                >
+                                                    <span className="pr-2 text-red-500">
+                                                        <FontAwesomeIcon
+                                                            icon={faBullhorn}
+                                                        />{" "}
+                                                    </span>{" "}
+                                                    Announcements
+                                                </li>
+                                                <li
+                                                    className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
+                                                        selectedMenuItem ===
+                                                        "submissions"
+                                                            ? "bg-gray-700 text-white"
+                                                            : ""
+                                                    }`}
+                                                    onClick={() => {
+                                                        setSidebarOpen(false);
+                                                        handleMenuItemClick(
+                                                            "submissions"
+                                                        );
+                                                    }}
+                                                >
+                                                    <span className="pr-2 text-green-400">
+                                                        <FontAwesomeIcon
+                                                            icon={faPaperPlane}
+                                                        />{" "}
+                                                    </span>{" "}
+                                                    Submissions
+                                                </li>
+                                            </>
+                                        )}
                                     </ul>
                                 </div>
                             </div>
@@ -363,96 +374,105 @@ export default function ContestPage() {
                                             Dashboard
                                         </li>
                                         <hr />
-                                        {problemList.map((problem) => (
-                                            <li
-                                                key={problem._id}
-                                                className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
-                                                    selectedMenuItem ===
-                                                    problem._id
-                                                        ? "bg-gray-700 text-white"
-                                                        : ""
-                                                }`}
-                                                onClick={() =>
-                                                    handleMenuItemClick(
-                                                        problem._id
-                                                    )
-                                                }
-                                            >
-                                                <span className="pr-2 text-lg">
-                                                    <FontAwesomeIcon
-                                                        icon={faSquare}
-                                                    />{" "}
-                                                </span>{" "}
-                                                <span
-                                                    className={`${
-                                                        problem.title ===
-                                                        "Error!"
-                                                            ? "text-red-500"
-                                                            : null
+                                        {(contest.privacy !== "Private" ||
+                                            (contest.privacy === "Private" &&
+                                                isRegistered)) && (
+                                            <>
+                                                {problemList.map((problem) => (
+                                                    <li
+                                                        key={problem._id}
+                                                        className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
+                                                            selectedMenuItem ===
+                                                            problem._id
+                                                                ? "bg-gray-700 text-white"
+                                                                : ""
+                                                        }`}
+                                                        onClick={() =>
+                                                            handleMenuItemClick(
+                                                                problem._id
+                                                            )
+                                                        }
+                                                    >
+                                                        <span className="pr-2 text-lg">
+                                                            <FontAwesomeIcon
+                                                                icon={faSquare}
+                                                            />{" "}
+                                                        </span>{" "}
+                                                        <span
+                                                            className={`${
+                                                                problem.title ===
+                                                                "Error!"
+                                                                    ? "text-red-500"
+                                                                    : null
+                                                            }`}
+                                                        >
+                                                            {problem.title}
+                                                        </span>
+                                                    </li>
+                                                ))}
+                                                <hr />
+                                                <li
+                                                    className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
+                                                        selectedMenuItem ===
+                                                        "standings"
+                                                            ? "bg-gray-700 text-white"
+                                                            : ""
                                                     }`}
+                                                    onClick={() =>
+                                                        handleMenuItemClick(
+                                                            "standings"
+                                                        )
+                                                    }
                                                 >
-                                                    {problem.title}
-                                                </span>
-                                            </li>
-                                        ))}
-                                        <hr />
-                                        <li
-                                            className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
-                                                selectedMenuItem === "standings"
-                                                    ? "bg-gray-700 text-white"
-                                                    : ""
-                                            }`}
-                                            onClick={() =>
-                                                handleMenuItemClick("standings")
-                                            }
-                                        >
-                                            <span className="pr-2 text-amber-400">
-                                                <FontAwesomeIcon
-                                                    icon={faTrophy}
-                                                />{" "}
-                                            </span>{" "}
-                                            Standings
-                                        </li>
-                                        <li
-                                            className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
-                                                selectedMenuItem ===
-                                                "announcements"
-                                                    ? "bg-gray-700 text-white"
-                                                    : ""
-                                            }`}
-                                            onClick={() =>
-                                                handleMenuItemClick(
-                                                    "announcements"
-                                                )
-                                            }
-                                        >
-                                            <span className="pr-2 text-red-500">
-                                                <FontAwesomeIcon
-                                                    icon={faBullhorn}
-                                                />{" "}
-                                            </span>{" "}
-                                            Announcements
-                                        </li>
-                                        <li
-                                            className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
-                                                selectedMenuItem ===
-                                                "submissions"
-                                                    ? "bg-gray-700 text-white"
-                                                    : ""
-                                            }`}
-                                            onClick={() =>
-                                                handleMenuItemClick(
-                                                    "submissions"
-                                                )
-                                            }
-                                        >
-                                            <span className="pr-2 text-green-400">
-                                                <FontAwesomeIcon
-                                                    icon={faPaperPlane}
-                                                />{" "}
-                                            </span>{" "}
-                                            Submissions
-                                        </li>
+                                                    <span className="pr-2 text-amber-400">
+                                                        <FontAwesomeIcon
+                                                            icon={faTrophy}
+                                                        />{" "}
+                                                    </span>{" "}
+                                                    Standings
+                                                </li>
+                                                <li
+                                                    className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
+                                                        selectedMenuItem ===
+                                                        "announcements"
+                                                            ? "bg-gray-700 text-white"
+                                                            : ""
+                                                    }`}
+                                                    onClick={() =>
+                                                        handleMenuItemClick(
+                                                            "announcements"
+                                                        )
+                                                    }
+                                                >
+                                                    <span className="pr-2 text-red-500">
+                                                        <FontAwesomeIcon
+                                                            icon={faBullhorn}
+                                                        />{" "}
+                                                    </span>{" "}
+                                                    Announcements
+                                                </li>
+                                                <li
+                                                    className={`mb-4 p-2 rounded cursor-pointer hover:text-white ${
+                                                        selectedMenuItem ===
+                                                        "submissions"
+                                                            ? "bg-gray-700 text-white"
+                                                            : ""
+                                                    }`}
+                                                    onClick={() =>
+                                                        handleMenuItemClick(
+                                                            "submissions"
+                                                        )
+                                                    }
+                                                >
+                                                    <span className="pr-2 text-green-400">
+                                                        <FontAwesomeIcon
+                                                            icon={faPaperPlane}
+                                                        />{" "}
+                                                    </span>{" "}
+                                                    Submissions
+                                                </li>
+                                            </>
+                                        )}
                                     </ul>
                                 </div>
                             </div>
