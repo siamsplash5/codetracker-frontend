@@ -67,7 +67,7 @@ export default function ContestPage() {
                 setCountdown(calculateCountdown(contest, "Upcoming"));
             }
             if (
-                contest.beginTime + contest.contestLength > Date.now() &&
+                contest.beginTime + contest.contestLength >= Date.now() &&
                 contest.beginTime <= Date.now()
             ) {
                 setCountdown(calculateCountdown(contest, "Running"));
@@ -111,11 +111,15 @@ export default function ContestPage() {
                 problemName: selectedProblem.title,
                 langID,
                 sourceCode,
-                vjContest: {
-                    contestID: contest.contestID,
-                    beginTime: contest.beginTime,
-                    contestLength: contest.contestLength,
-                },
+                vjContest:
+                    contest.beginTime <= Date.now() &&
+                    Date.now() <= contest.beginTime + contest.contestLength
+                        ? {
+                              contestID: contest.contestID,
+                              beginTime: contest.beginTime,
+                              contestLength: contest.contestLength,
+                          }
+                        : null,
             });
             if (data.status === undefined) {
                 setStatusInfo(data);

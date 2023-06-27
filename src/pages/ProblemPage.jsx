@@ -64,7 +64,7 @@ export default function ProblemPage() {
             {showNotFound && <NotFound />}
             {!showNotFound && !showServerError && problem && (
                 <div className="container flex-col lg:flex lg:flex-row mx-auto mt-4">
-                    <div className="lg:w-9/12 lg:mr-10">
+                    <div className="lg:w-9/12 lg:mr-4">
                         <ProblemContainer problem={problem} />
                     </div>
                     <div className="lg:w-3/12">
