@@ -1,10 +1,8 @@
-import {
-    faCalendarAlt, faList, faUser
-} from "@fortawesome/free-solid-svg-icons";
+import { faList, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useSWR from "swr";
 import NotFound from "../components/NotFound";
 import ServerError from "../components/ServerError";
@@ -24,6 +22,7 @@ export default function ProfilePage() {
     const [selectedMenuItem, setSelectedMenuItem] = useState("menu1");
     const [showServerError, setShowServerError] = useState(false);
     const [showNotFound, setShowNotFound] = useState(false);
+    const navigate = useNavigate();
     const { username } = useParams();
     const { data, error } = useSWR(
         `/api/submissions/specific-user/${username}`,
@@ -40,6 +39,10 @@ export default function ProfilePage() {
         } else if (data === "404") {
             setShowServerError(false);
             setShowNotFound(true);
+        } else if (data === "401") {
+            setShowServerError(false);
+            setShowNotFound(false);
+            navigate('/login');
         } else {
             setShowServerError(false);
             setShowNotFound(false);

@@ -357,7 +357,12 @@ export default function ContestPage() {
                                         />
                                     )}
                                     {selectedMenuItem === "standings" && (
-                                        <Standings />
+                                        <Standings
+                                            contestID={contest.contestID}
+                                            totalProblem={
+                                                contest.problemSet.length
+                                            }
+                                        />
                                     )}
                                     {selectedMenuItem === "announcements" && (
                                         <Announcement
@@ -610,7 +615,10 @@ export default function ContestPage() {
                                     />
                                 )}
                                 {selectedMenuItem === "standings" && (
-                                    <Standings />
+                                    <Standings
+                                        contestID={contest.contestID}
+                                        totalProblem={contest.problemSet.length}
+                                    />
                                 )}
                                 {selectedMenuItem === "announcements" && (
                                     <Announcement
