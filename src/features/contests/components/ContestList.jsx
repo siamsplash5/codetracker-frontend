@@ -86,9 +86,20 @@ export default function ({ heading, contestList }) {
                                                     </button>
                                                 </td>
                                                 <td className="border-b px-4 py-2">
-                                                    <UserIconDefault />
-                                                    x
-                                                    {contest.registered.length}
+                                                    {contest.privacy !==
+                                                    "Public" ? (
+                                                        <>
+                                                            {" "}
+                                                            <UserIconDefault />x
+                                                            {
+                                                                contest
+                                                                    .registered
+                                                                    .length
+                                                            }
+                                                        </>
+                                                    ) : (
+                                                        null
+                                                    )}
                                                 </td>
                                                 <td className="border-b px-4 py-2">
                                                     {contest.startDate}
