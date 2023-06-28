@@ -142,7 +142,7 @@ export default function Standings({ contestID, totalProblem }) {
                                                 className="border-b px-4 py-2"
                                                 style={{ width: "5%" }}
                                             >
-                                                {user.totalScore}
+                                                {user.score}
                                             </td>
                                             <td
                                                 className="border-b px-4 py-2"
@@ -165,45 +165,22 @@ export default function Standings({ contestID, totalProblem }) {
                                                         }`}
                                                     >
                                                         <b>
-                                                            {user.problemStats[
-                                                                getProblemIndex(
-                                                                    i
-                                                                )
-                                                            ].isAccepted
-                                                                ? user
-                                                                      .problemStats[
-                                                                      getProblemIndex(
-                                                                          i
-                                                                      )
-                                                                  ]
-                                                                      .totalWrongSubmission
-                                                                    ? `+${
-                                                                          user
-                                                                              .problemStats[
-                                                                              getProblemIndex(
-                                                                                  i
-                                                                              )
-                                                                          ]
-                                                                              .totalWrongSubmission
-                                                                      }`
+                                                            {
+                                                            user.problemStats[getProblemIndex(i)].isAccepted
+                                                                ? user.problemStats[getProblemIndex(i)].wrongSubmission
+                                                                    ? `+${user.problemStats[getProblemIndex(i)].wrongSubmission}`
                                                                     : "+"
-                                                                : user
-                                                                      .problemStats[
-                                                                      getProblemIndex(
-                                                                          i
-                                                                      )
-                                                                  ]
-                                                                      .totalWrongSubmission
-                                                                ? `-${
-                                                                      user
-                                                                          .problemStats[
-                                                                          getProblemIndex(
-                                                                              i
-                                                                          )
-                                                                      ]
-                                                                          .totalWrongSubmission
-                                                                  }`
-                                                                : null}
+                                                                : user.problemStats[getProblemIndex(i)].wrongSubmission
+                                                                ? `-${user.problemStats[getProblemIndex(i)].wrongSubmission}`
+                                                                : null
+                                                            }
+                                                        </b>
+                                                        <hr className={`${user.problemStats[getProblemIndex(i)].isAccepted ? null: 'hidden'}`} />
+                                                        <b>
+                                                            {
+                                                            user.problemStats[getProblemIndex(i)].isAccepted
+                                                                ? user.problemStats[getProblemIndex(i)].acceptedTimeInMinute: null
+                                                            }
                                                         </b>
                                                     </td>
                                                 )

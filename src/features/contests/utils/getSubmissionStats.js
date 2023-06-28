@@ -1,10 +1,10 @@
 import getProblemIndex from "./getProblemIndex";
 
 function comparePenalty(a, b) {
-    if (a.totalScore > b.totalScore) {
+    if (a.score > b.score) {
         return -1;
     }
-    if (a.totalScore < b.totalScore) {
+    if (a.score < b.score) {
         return 1;
     }
     if (a.penalty < b.penalty) {
@@ -32,36 +32,41 @@ export default function getSubmissionStats(data, totalProblem) {
         const { submissions } = user;
         const userInfo = {};
         userInfo.username = user.username;
-        let totalScore = 0;
-        let totalPenalty = 0;
-        let totalWrongSubmission = 0;
+
+        let score = 0;
+        let penalty = 0;
+        let wrongSubmission = 0;
+
         const perProblemStats = Object.fromEntries(
             alphabetRange.map((index) => [
                 index,
-                { totalWrongSubmission: 0, isAccepted: false },
+                { wrongSubmission: 0, isAccepted: false },
             ])
         );
-        submissions.forEach((submissionObj) => {
+
+        submissions.forEach((problemStats) => {
             const { problemIndex, totalSubmission, isAccepted, totalAcceptedSubmission, acceptedTime } =
-                submissionObj;
+                problemStats;
+            const acceptedTimeInMinute = Math.ceil(acceptedTime / (60 * 1000));
 
             //standing table accepted/submission ratio per problem
             submission[problemIndex] += totalSubmission;
             accepted[problemIndex] += isAccepted;
 
             //user's contest score
-            totalScore += isAccepted;
-            totalWrongSubmission += totalSubmission - totalAcceptedSubmission;
-            totalPenalty += acceptedTime / (60 * 1000);
+            score += isAccepted;
+            wrongSubmission = (totalSubmission - totalAcceptedSubmission);
+            if(isAccepted) penalty += (acceptedTimeInMinute + (20 * wrongSubmission));
             
-            //store user's submission stat based on problemIndex
+            //user's submission stat based on problemIndex
             perProblemStats[problemIndex] = {
-                totalWrongSubmission,
+                wrongSubmission,
                 isAccepted,
+                acceptedTimeInMinute
             };
         });
-        userInfo.totalScore = totalScore;
-        userInfo.penalty = Math.floor(totalPenalty + totalWrongSubmission * 20);
+        userInfo.score = score;
+        userInfo.penalty = penalty;
         userInfo.problemStats = perProblemStats;
         ranklist.push(userInfo);
     });
