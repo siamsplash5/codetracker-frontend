@@ -1,3 +1,5 @@
+import getProblemIndex from "./getProblemIndex";
+
 function comparePenalty(a, b) {
     if (a.totalScore > b.totalScore) {
         return -1;
@@ -15,9 +17,8 @@ function comparePenalty(a, b) {
 }
 
 export default function getSubmissionStats(data, totalProblem) {
-    const alphabetStartCode = "A".charCodeAt(0);
     const alphabetRange = Array.from({ length: totalProblem }, (_, i) =>
-        String.fromCharCode(alphabetStartCode + i)
+        getProblemIndex(i)
     );
     const submission = Object.fromEntries(
         alphabetRange.map((index) => [index, 0])
@@ -41,16 +42,22 @@ export default function getSubmissionStats(data, totalProblem) {
             ])
         );
         submissions.forEach((submissionObj) => {
-            const { problemIndex, totalSubmission, isAccepted, acceptedTime } =
+            const { problemIndex, totalSubmission, isAccepted, totalAcceptedSubmission, acceptedTime } =
                 submissionObj;
+
+            //standing table accepted/submission ratio per problem
             submission[problemIndex] += totalSubmission;
             accepted[problemIndex] += isAccepted;
+
+            //user's contest score
             totalScore += isAccepted;
-            totalWrongSubmission += totalSubmission - isAccepted;
+            totalWrongSubmission += totalSubmission - totalAcceptedSubmission;
             totalPenalty += acceptedTime / (60 * 1000);
+            
+            //store user's submission stat based on problemIndex
             perProblemStats[problemIndex] = {
-                totalWrongSubmission: totalSubmission - isAccepted,
-                isAccepted: isAccepted,
+                totalWrongSubmission,
+                isAccepted,
             };
         });
         userInfo.totalScore = totalScore;

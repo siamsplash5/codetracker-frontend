@@ -38,7 +38,6 @@ export default function Standings({ contestID, totalProblem }) {
                 accepted,
                 ranklist: ranks,
             } = getSubmissionStats(data, totalProblem);
-            console.log(ranks);
             setRanklist(ranks);
             setTotalSubmission(submission);
             setTotalAccepted(accepted);

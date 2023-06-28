@@ -6,7 +6,7 @@ import {
     faList,
     faPaperPlane,
     faSquare,
-    faTrophy,
+    faTrophy
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
@@ -16,18 +16,21 @@ import useSWR from "swr";
 import {
     LockedIconAmber,
     LockedIconRed,
-    UnlockedIconGreen,
+    UnlockedIconGreen
 } from "../components/Icons";
+import ServerError from "../components/ServerError";
 import { useAuth } from "../context/AuthContext";
 import {
     Announcement,
     ContestDashboard,
     Standings,
-    Submissions,
+    Submissions
 } from "../features/contests";
 import { ProblemContainer } from "../features/problems";
 import { SubmitSolution, VerdictTable } from "../features/submissions";
 import calculateCountdown from "../utils/calculateCountdown";
+import extractProblemIndex from "../utils/extractProblemIndex";
+ServerError
 
 const fetchProblemList = async ([url, problemSet]) => {
     const { data } = await axios.post(url, problemSet);
@@ -105,6 +108,7 @@ export default function ContestPage() {
 
     const contestSubmitHandler = async ({ langID, sourceCode }) => {
         try {
+            const problemIndex = extractProblemIndex(selectedProblem.title);
             const { data } = await axios.post("/api/submit", {
                 judge: selectedProblem.judge,
                 problemID: selectedProblem.problemID,
@@ -116,6 +120,7 @@ export default function ContestPage() {
                     Date.now() <= contest.beginTime + contest.contestLength
                         ? {
                               contestID: contest.contestID,
+                              problemIndex,
                               beginTime: contest.beginTime,
                               contestLength: contest.contestLength,
                           }
