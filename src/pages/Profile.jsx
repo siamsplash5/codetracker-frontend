@@ -72,13 +72,13 @@ export default function ProfilePage() {
                             {selectedMenuItem === "menu2" && (
                                 <SubmissionList submissionList={data} />
                             )}
-                            {selectedMenuItem === "menu3" && (
+                            {/* {selectedMenuItem === "menu3" && (
                                 <div>
                                     <h1 className="text-2xl font-bold">
                                         Component 3
                                     </h1>
                                 </div>
-                            )}
+                            )} */}
                         </div>
                     </div>
                     <div className="bg-slate-800 text-white text-opacity-80 lg:h-screen lg:w-1/5 lg:pr-4">
@@ -116,7 +116,7 @@ export default function ProfilePage() {
                                         ? "My submissions"
                                         : `${username}'s submissions`}
                                 </li>
-                                <li
+                                {/* <li
                                     className={`p-2 rounded cursor-pointer ${
                                         selectedMenuItem === "menu3"
                                             ? "bg-gray-700"
@@ -131,7 +131,7 @@ export default function ProfilePage() {
                                     localStorage.getItem("currentUser")
                                         ? "My contests"
                                         : `${username}'s contests`}
-                                </li>
+                                </li> */}
                                 <hr />
                             </ul>
                         </div>
