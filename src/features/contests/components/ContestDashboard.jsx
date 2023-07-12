@@ -1,9 +1,10 @@
-import { faClock, faSignInAlt, faCheck, faCheckSquare } from "@fortawesome/free-solid-svg-icons";
+import { faCheckSquare, faClock, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { data } from "autoprefixer";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import apiConfig from "../../../config/apiConfig";
 import ServerError from "../../../components/ServerError";
 import { useAuth } from "../../../context/AuthContext";
 import calculateCountdown from "../../../utils/calculateCountdown";
@@ -57,7 +58,7 @@ export default function ContestDashboard(props) {
         } else {
             try {
                 const { data: updatedContest } = await axios.post(
-                    "/api/contest/register/",
+                    apiConfig.registerContest,
                     {
                         contestID: contest.contestID,
                         currentUser,

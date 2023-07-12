@@ -13,6 +13,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import useSWR from "swr";
+import apiConfig from "../config/apiConfig";
 import {
     LockedIconAmber,
     LockedIconRed,
@@ -56,8 +57,9 @@ export default function ContestPage() {
         contest.registered.includes(currentUser)
     );
     const { problemSet } = contest;
+    //fetching contest problemSet by problemID
     const { data, error } = useSWR(
-        ["/api/contest-problem/all", problemSet],
+        [apiConfig.contestProblems, problemSet],
         fetchProblemList,
         { suspense: true }
     );
@@ -109,7 +111,7 @@ export default function ContestPage() {
     const contestSubmitHandler = async ({ langID, sourceCode }) => {
         try {
             const problemIndex = extractProblemIndex(selectedProblem.title);
-            const { data } = await axios.post("/api/submit", {
+            const { data } = await axios.post(apiConfig.submit, {
                 judge: selectedProblem.judge,
                 problemID: selectedProblem.problemID,
                 problemName: selectedProblem.title,

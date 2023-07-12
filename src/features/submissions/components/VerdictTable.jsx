@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import apiConfig from "../../../config/apiConfig";
 import ServerError from "../../../components/ServerError";
 import ShowSourceCode from "./ShowSourceCode";
 
@@ -15,7 +16,7 @@ export default function VerdictTable({ status, problemInfo, contestID }) {
     const getSubmission = async () => {
         try {
             const { data } = await axios.get(
-                `/api/submissions/specific-problem/${judge}/${problemID}/${
+                `${apiConfig.submissionOfSpecificProblem}${judge}/${problemID}/${
                     contestID || 0
                 }`
             );

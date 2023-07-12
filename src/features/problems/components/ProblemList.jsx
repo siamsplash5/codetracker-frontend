@@ -1,8 +1,8 @@
 import axios from "axios";
-import useSWR from "swr";
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useSWR from "swr";
+import apiConfig from "../../../config/apiConfig";
 import ServerError from "../../../components/ServerError";
 import changeCFUrl from "../utils/changeCFUrl";
 
@@ -16,7 +16,7 @@ export default function() {
     const [problemList, setProblemList] = useState([]);
     const navigate = useNavigate();
 
-    const { data, error } = useSWR("/api/problem-all", fetchProblemList, {
+    const { data, error } = useSWR(apiConfig.problemAll, fetchProblemList, {
         suspense: true,
     });
 

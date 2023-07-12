@@ -12,6 +12,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useSWR from "swr";
+import apiConfig from "../config/apiConfig";
 import ServerError from "../components/ServerError";
 import { useAuth } from "../context/AuthContext";
 import {
@@ -29,12 +30,12 @@ const fetchContestList = async (url) => {
     return data;
 };
 
-export default function ProfilePage() {
+export default function ContestListPage() {
     const [selectedMenuItem, setSelectedMenuItem] = useState("menu1");
     const [showServerError, setShowServerError] = useState(false);
     const { currentUser } = useAuth();
     const navigate = useNavigate();
-    const { data, error } = useSWR("/api/contest-query/all", fetchContestList, {
+    const { data, error } = useSWR(apiConfig.contestAll, fetchContestList, {
         suspense: true,
     });
 

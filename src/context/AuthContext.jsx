@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
+import apiConfig from "../config/apiConfig";
 
 const AuthContext = React.createContext();
 
@@ -22,7 +23,7 @@ export function AuthProvider({ children }) {
     //register function
     async function register(email, username, password){
         try {
-            const {data} = await axios.post("/api/register", 
+            const {data} = await axios.post(apiConfig.register, 
                 {
                     email, 
                     username, 
@@ -41,7 +42,7 @@ export function AuthProvider({ children }) {
     async function verify(otp) {
         try {
             const { data } = await axios.post(
-                "/api/register-verify",
+                apiConfig.verifyRegistration,
                 {
                     otp,
                 },
@@ -58,7 +59,7 @@ export function AuthProvider({ children }) {
     async function login(username, password) {
         try {
             const { data } = await axios.post(
-                "/api/login",
+                apiConfig.login,
                 {
                     username,
                     password,
@@ -80,7 +81,7 @@ export function AuthProvider({ children }) {
     async function logout() {
         try {
             const username = localStorage.getItem('currentUser');
-            const { data } = await axios.post("/api/logout", {username}, { withCredentials: true });
+            const { data } = await axios.post(apiConfig.logout, {username}, { withCredentials: true });
             if(data.status===200 || data.status===401){
                 setCurrentUser(null);
                 localStorage.removeItem("currentUser");
@@ -95,7 +96,7 @@ export function AuthProvider({ children }) {
     async function recoverPasswordRequest(username) {
         try {
             const { data } = await axios.post(
-                "/api/reset-password",
+                apiConfig.passwordUpdate,
                 { username },
                 { withCredentials: true }
             );
@@ -109,7 +110,7 @@ export function AuthProvider({ children }) {
     async function updatePassword(otp, newPassword) {
         try {
             const { data } = await axios.post(
-                "/api/reset-password-verify",
+                apiConfig.passwordUpdateVerify,
                 { otp, newPassword },
                 { withCredentials: true }
             );

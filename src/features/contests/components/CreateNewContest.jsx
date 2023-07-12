@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import apiConfig from "../../../config/apiConfig";
 import Announcement from "../../../components/Announcement";
 import DatePicker from "../../../components/DatePicker";
 import Description from "../../../components/Description";
@@ -73,7 +74,7 @@ const FormComponent = () => {
             });
 
             try {
-                const { data } = await axios.post("/api/contest/create", {
+                const { data } = await axios.post(apiConfig.createContest, {
                     privacy,
                     password,
                     title: title.trim(),

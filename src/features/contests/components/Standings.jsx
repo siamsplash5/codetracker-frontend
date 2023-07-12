@@ -1,9 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import useSWR from "swr";
+import apiConfig from "../../../config/apiConfig";
 import ServerError from "../../../components/ServerError";
-import getSubmissionStats from "../utils/getSubmissionStats";
 import getProblemIndex from "../utils/getProblemIndex";
+import getSubmissionStats from "../utils/getSubmissionStats";
 
 const fetchStandings = async (url) => {
     const { data } = await axios.get(url);
@@ -21,7 +22,7 @@ export default function Standings({ contestID, totalProblem }) {
     const [ranklist, setRanklist] = useState([]);
 
     const { data, error } = useSWR(
-        `/api/contest-query/standings/${contestID}`,
+        `${apiConfig.contestStandingByContestID}${contestID}`,
         fetchStandings,
         {
             suspense: true,

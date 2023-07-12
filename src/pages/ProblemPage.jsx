@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import apiConfig from "../config/apiConfig";
 import NotFound from "../components/NotFound";
 import ServerError from "../components/ServerError";
 import { ProblemContainer, ShowProblemInfo } from "../features/problems";
@@ -19,7 +20,7 @@ export default function ProblemPage() {
         async function fetchProblem() {
             if (!problem) {
                 try {
-                    const { data } = await axios.post("/api/problem", {
+                    const { data } = await axios.post(apiConfig.problem, {
                         judge,
                         problemID,
                     });
@@ -39,7 +40,7 @@ export default function ProblemPage() {
 
     async function submitHandler({ langID, sourceCode }) {
         try {
-            const { data } = await axios.post("/api/submit", {
+            const { data } = await axios.post(apiConfig.submit, {
                 judge: problem.judge,
                 problemID: problem.problemID,
                 problemName: problem.title,

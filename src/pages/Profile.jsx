@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import useSWR from "swr";
 import NotFound from "../components/NotFound";
 import ServerError from "../components/ServerError";
+import apiConfig from "../config/apiConfig";
 import { ProfileInfo } from "../features/profiles";
 import { filterSubmissionList, SubmissionList } from "../features/submissions";
 
@@ -25,7 +26,7 @@ export default function ProfilePage() {
     const navigate = useNavigate();
     const { username } = useParams();
     const { data, error } = useSWR(
-        `/api/submissions/specific-user/${username}`,
+        `${apiConfig.submissionsByUser}${username}`,
         fetchSubmissionList,
         {
             suspense: true,
