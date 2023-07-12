@@ -1,4 +1,4 @@
-const backendURL = '';
+const backendURL = null;
             
 const apiEndPoints = {
     register: `${backendURL}/api/register/`,
