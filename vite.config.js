@@ -7,9 +7,9 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:5000', // Replace with your backend API URL
+        target: 'https://codetracker-backend.onrender.com', // Replace with your backend API URL
         changeOrigin: true,
-        secure: false, // Set to true if your backend server uses HTTPS
+        secure: true, // Set to true if your backend server uses HTTPS
       },
     },
   },

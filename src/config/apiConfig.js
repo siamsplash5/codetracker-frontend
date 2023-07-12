@@ -1,4 +1,4 @@
-const backendURL = 'https://codetracker-backend.onrender.com';
+const backendURL = '';
             
 const apiEndPoints = {
     register: `${backendURL}/api/register/`,
