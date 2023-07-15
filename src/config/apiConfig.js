@@ -1,27 +1,27 @@
 const backendURL = 'https://codetracker-backend.vercel.app';
             
 const apiEndPoints = {
-    register: `/register/`,
-    verifyRegistration: `/register-verify/`,
-    login: `/login/`,
-    logout: `/logout/`,
-    passwordUpdate: `/reset-password/`,
-    passwordUpdateVerify: `/reset-password-verify/`,
-    registerContest: `/contest/register/`,
-    createContest: `/contest/create/`,
+    register: `/api/register/`,
+    verifyRegistration: `/api/register-verify/`,
+    login: `/api/login/`,
+    logout: `/api/logout/`,
+    passwordUpdate: `/api/reset-password/`,
+    passwordUpdateVerify: `/api/reset-password-verify/`,
+    registerContest: `/api/contest/register/`,
+    createContest: `/api/contest/create/`,
     // will include contest ID
-    contestStandingByContestID: `/contest-query/standings/`,
+    contestStandingByContestID: `/api/contest-query/standings/`,
     // will include contest ID
-    contestSubmissionsByContestID: `/submissions/specific-contest/`,
-    problemAll: `/problem-all`,
-    contestAll: `/contest-query/all`,
+    contestSubmissionsByContestID: `/api/submissions/specific-contest/`,
+    problemAll: `/api/problem-all`,
+    contestAll: `/api/contest-query/all`,
     // will include judge, problem ID, contestID
-    submissionOfSpecificProblem: `/submissions/specific-problem/`,
-    contestProblems: `/contest-problem/all/`,
-    submit: `/submit`,
-    problem: `/problem`,
+    submissionOfSpecificProblem: `/api/submissions/specific-problem/`,
+    contestProblems: `/api/contest-problem/all/`,
+    submit: `/api/submit`,
+    problem: `/api/problem`,
     // will include username
-    submissionsByUser: `/submissions/specific-user/`,
+    submissionsByUser: `/api/submissions/specific-user/`,
 }
 
 export default apiEndPoints;
