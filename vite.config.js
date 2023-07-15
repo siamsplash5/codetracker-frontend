@@ -8,7 +8,7 @@ export default defineConfig({
     proxy: {
       '/api': {
         target: 'https://codetracker-backend.vercel.app/', // Replace with your backend API URL
-        changeOrigin: true,
+        changeOrigin: false,
         secure: true, // Set to true if your backend server uses HTTPS
       },
     },
