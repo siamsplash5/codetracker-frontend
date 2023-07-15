@@ -67,8 +67,8 @@ export function AuthProvider({ children }) {
                 { withCredentials: true }
             );
             if (data.status === 200) {
-                //setCurrentUser(username);
-                //localStorage.setItem("currentUser", username);
+                setCurrentUser(username);
+                localStorage.setItem("currentUser", username);
             }
             return data;
         } catch (error) {

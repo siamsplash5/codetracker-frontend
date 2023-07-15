@@ -1,5 +1,5 @@
-// const backendURL = 'https://codetracker-backend.vercel.app';
-const backendURL = '';
+const backendURL = 'https://codetracker-backend.vercel.app';
+// const backendURL = '';
             
 const apiEndPoints = {
     register: `${backendURL}/api/register/`,
