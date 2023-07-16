@@ -66,8 +66,18 @@ export function AuthProvider({ children }) {
                 },
                 { withCredentials: true }
             );
+            // if (data.status === 200) {
+            //     setCurrentUser(username);
+            //     localStorage.setItem("currentUser", username);
+            //     localStorage.setItem("JSESSIONID", data.token);
+            // }
             if (data.status === 200) {
                 setCurrentUser(username);
+
+                // Set the session token as an HTTP-only cookie
+                document.cookie = `JSESSIONID=${data.token}; secure; HttpOnly; SameSite=Strict`;
+
+                // Store the username in local storage
                 localStorage.setItem("currentUser", username);
             }
             return data;
