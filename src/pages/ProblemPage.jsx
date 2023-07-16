@@ -1,46 +1,36 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import apiConfig from "../config/apiConfig";
+import React, { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import useSWR from "swr";
 import NotFound from "../components/NotFound";
 import ServerError from "../components/ServerError";
+import apiEndPoints from "../config/apiConfig";
 import { ProblemContainer, ShowProblemInfo } from "../features/problems";
 import { SubmitSolution, VerdictTable } from "../features/submissions";
 
+const fetchProblem = async ([url, object]) => {
+    const { data } = await axios.post(url, object);
+    return data;
+};
+
 export default function ProblemPage() {
-    const [statusInfo, setStatusInfo] = useState();
-    const { judge, problemID } = useParams();
     const [showNotFound, setShowNotFound] = useState(false);
     const [showServerError, setShowServerError] = useState(false);
-    const location = useLocation();
-    const [problem, setProblem] = useState(location.state);
+    const [statusInfo, setStatusInfo] = useState();
+    const { judge, problemID } = useParams();
     const navigate = useNavigate();
+    const { data: problem, error } = useSWR([apiEndPoints.problem, {judge, problemID}], fetchProblem, {
+        suspense: true,
+    });
 
-    useEffect(() => {
-        async function fetchProblem() {
-            if (!problem) {
-                try {
-                    const { data } = await axios.post(apiConfig.problem, {
-                        judge,
-                        problemID,
-                    });
-                    if (data.status === undefined) {
-                        setProblem(data);
-                    } else {
-                        throw new Error(data.message);
-                    }
-                } catch (error) {
-                    console.log(error);
-                    setShowNotFound(true);
-                }
-            }
-        }
-        fetchProblem();
-    }, [problem, judge, problemID]);
+    if (error || problem.status!==undefined) {
+        console.log(error);
+        return <ServerError />;
+    }
 
     async function submitHandler({ langID, sourceCode }) {
         try {
-            const { data } = await axios.post(apiConfig.submit, {
+            const { data } = await axios.post(apiEndPoints.submit, {
                 judge: problem.judge,
                 problemID: problem.problemID,
                 problemName: problem.title,

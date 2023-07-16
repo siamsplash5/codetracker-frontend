@@ -2,8 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useSWR from "swr";
-import apiConfig from "../../../config/apiConfig";
 import ServerError from "../../../components/ServerError";
+import apiEndPoints from "../../../config/apiConfig";
 import changeCFUrl from "../utils/changeCFUrl";
 
 const fetchProblemList = async (...args) => {
@@ -16,7 +16,7 @@ export default function() {
     const [problemList, setProblemList] = useState([]);
     const navigate = useNavigate();
 
-    const { data, error } = useSWR(apiConfig.problemAll, fetchProblemList, {
+    const { data, error } = useSWR(apiEndPoints.problemAll, fetchProblemList, {
         suspense: true,
     });
 
@@ -45,7 +45,7 @@ export default function() {
         );
 
         if (!problemExists) {
-            const { data } = await axios.post("/api/problem", {
+            const { data } = await axios.post(apiEndPoints.problem, {
                 problemUrl: myUrl,
             });
 
