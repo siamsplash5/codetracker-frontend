@@ -81,7 +81,7 @@ export default function SubmissionList({ submissionList }) {
                                             <br />
                                             {submission.submitTime}
                                         </td>
-                                        <td className="border-b px-4 py-2 text-yellow-900">
+                                        <td className="border-b px-4 py-2 text-green-700">
                                             <b>{submission.submittedBy}</b>
                                         </td>
                                         <td className="border-b px-4 py-2">
