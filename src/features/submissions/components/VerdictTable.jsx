@@ -15,10 +15,12 @@ export default function VerdictTable({ status, problemInfo, contestID }) {
 
     const getSubmission = async () => {
         try {
-            const { data } = await axios.get(
+            const token = localStorage.getItem("JSESSIONID");
+            const { data } = await axios.post(
                 `${apiConfig.submissionOfSpecificProblem}${judge}/${problemID}/${
                     contestID || 0
-                }`
+                }`,
+                {token}
             );
             if (data.status === undefined) {
                 setSubmissionList((prevList) => [...data, ...prevList]);

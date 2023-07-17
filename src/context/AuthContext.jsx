@@ -31,6 +31,7 @@ export function AuthProvider({ children }) {
                 },
                 {withCredentials: true}
             );
+            localStorage.setItem("uid", data.token);
             return data;
         } catch (error) {
             console.log(error);
@@ -41,13 +42,18 @@ export function AuthProvider({ children }) {
     //verify function
     async function verify(otp) {
         try {
+            const token = localStorage.getItem("uid");
             const { data } = await axios.post(
                 apiConfig.verifyRegistration,
                 {
                     otp,
+                    token
                 },
                 { withCredentials: true }
             );
+            if(data.status===201){
+                localStorage.removeItem("uid");
+            }
             return data;
         } catch (error) {
             console.log(error);
@@ -66,19 +72,10 @@ export function AuthProvider({ children }) {
                 },
                 { withCredentials: true }
             );
-            // if (data.status === 200) {
-            //     setCurrentUser(username);
-            //     localStorage.setItem("currentUser", username);
-            //     localStorage.setItem("JSESSIONID", data.token);
-            // }
             if (data.status === 200) {
                 setCurrentUser(username);
-
-                // Set the session token as an HTTP-only cookie
-                document.cookie = `JSESSIONID=${data.token}; secure; HttpOnly; SameSite=Strict`;
-
-                // Store the username in local storage
                 localStorage.setItem("currentUser", username);
+                localStorage.setItem("JSESSIONID", data.token);
             }
             return data;
         } catch (error) {
@@ -91,10 +88,12 @@ export function AuthProvider({ children }) {
     async function logout() {
         try {
             const username = localStorage.getItem('currentUser');
-            const { data } = await axios.post(apiConfig.logout, {username}, { withCredentials: true });
+            const token = localStorage.getItem("JSESSIONID");
+            const { data } = await axios.post(apiConfig.logout, {username, token}, { withCredentials: true });
             if(data.status===200 || data.status===401){
                 setCurrentUser(null);
                 localStorage.removeItem("currentUser");
+                localStorage.removeItem("JSESSIONID");
             }
             return data;
         } catch (error) {
@@ -110,6 +109,7 @@ export function AuthProvider({ children }) {
                 { username },
                 { withCredentials: true }
             );
+            localStorage.setItem("uid", data.token);
             return data;
         } catch (error) {
             console.log(error);
@@ -119,11 +119,15 @@ export function AuthProvider({ children }) {
 
     async function updatePassword(otp, newPassword) {
         try {
+            const token = localStorage.getItem("uid");
             const { data } = await axios.post(
                 apiConfig.passwordUpdateVerify,
-                { otp, newPassword },
+                { otp, newPassword, token },
                 { withCredentials: true }
             );
+            if(data.status===200){
+                localStorage.removeItem("uid");
+            }
             return data;
         } catch (error) {
             console.log(error);

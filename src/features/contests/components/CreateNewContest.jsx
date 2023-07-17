@@ -74,6 +74,7 @@ const FormComponent = () => {
             });
 
             try {
+                const token = localStorage.getItem("JSESSIONID");
                 const { data } = await axios.post(apiConfig.createContest, {
                     privacy,
                     password,
@@ -83,6 +84,7 @@ const FormComponent = () => {
                     beginTime,
                     contestLength,
                     problemSet,
+                    token,
                 });
                 if (data.status !== undefined) {
                     setErrorMessage(data.message);

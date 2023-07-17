@@ -57,11 +57,13 @@ export default function ContestDashboard(props) {
             setShowErrorMessage(true);
         } else {
             try {
+                const token = localStorage.getItem("JSESSIONID");
                 const { data: updatedContest } = await axios.post(
                     apiConfig.registerContest,
                     {
                         contestID: contest.contestID,
                         currentUser,
+                        token,
                     }
                 );
                 if(data.status===401){

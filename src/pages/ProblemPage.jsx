@@ -30,12 +30,14 @@ export default function ProblemPage() {
 
     async function submitHandler({ langID, sourceCode }) {
         try {
+            const token = localStorage.getItem("JSESSIONID");
             const { data } = await axios.post(apiEndPoints.submit, {
                 judge: problem.judge,
                 problemID: problem.problemID,
                 problemName: problem.title,
                 langID,
                 sourceCode,
+                token
             });
             if (data.status === undefined) {
                 setStatusInfo(data);

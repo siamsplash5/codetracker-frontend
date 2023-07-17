@@ -27,7 +27,7 @@ export default function () {
         try {
             const { status, message } = await login(username, password);
             if (status === 200) {
-                navigate(-1);
+                // navigate(-1);
                 setUsername("");
                 setPassword("");
             } else {

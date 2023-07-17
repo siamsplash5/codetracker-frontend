@@ -7,7 +7,8 @@ import ServerError from "../../../components/ServerError";
 import { ShowSourceCode } from "../../submissions";
 
 const fetchSubmissionList = async (url) => {
-    const { data } = await axios.get(url);
+    const token = localStorage.getItem("JSESSIONID");
+    const { data } = await axios.post(url, {token});
     if (data.status !== undefined) {
         console.log(data.message);
         return data.status.toString();
