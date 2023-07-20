@@ -1,5 +1,5 @@
 import { faPenToSquare, faTrashAlt } from "@fortawesome/free-regular-svg-icons";
-import { faLock, faLockOpen, faPerson, faPlus, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faLock, faLockOpen, faPlus, faRightToBracket, faSpinner, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function UnlockedIconGreen() {
@@ -54,6 +54,23 @@ export function UserIconDefault() {
     return (
         <span className="">
             <FontAwesomeIcon icon={faUser} />{" "}
+        </span>
+    );
+}
+
+export function RightToBrackedDefault(){
+    return (
+        <span className="pr-1">
+            <FontAwesomeIcon icon={faRightToBracket} /> {" "}
+        </span>
+    );
+}
+
+
+export function RotatingSpinner(){
+    return (
+        <span className="pr-1">
+            <FontAwesomeIcon icon={faSpinner} spin />{" "}
         </span>
     );
 }

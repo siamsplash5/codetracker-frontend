@@ -1,12 +1,17 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../../../assets/logo.svg";
+import {
+    RightToBrackedDefault,
+    RotatingSpinner
+} from "../../../components/Icons";
 import { useAuth } from "../../../context/AuthContext";
 import sleep from "../../../utils/sleep";
 
 export default function verifyRegistration({ userInfo }) {
     const { verify, login } = useAuth();
     const [otp, setOTP] = useState("");
+    const [isDisabled, setDisabled] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
     const [showErrorMsg, setShowErrorMsg] = useState(false);
     const navigate = useNavigate();
@@ -19,7 +24,7 @@ export default function verifyRegistration({ userInfo }) {
 
     async function handleSubmit(e) {
         e.preventDefault();
-
+        setDisabled(true);
         const { status, message } = await verify(otp);
         if (status === 201) {
             const response = await login(username, password);
@@ -36,6 +41,7 @@ export default function verifyRegistration({ userInfo }) {
             setErrorMsg(message);
             setShowErrorMsg(true);
         }
+        setDisabled(false);
     }
 
     return (
@@ -79,8 +85,14 @@ export default function verifyRegistration({ userInfo }) {
                         )}
                         <button
                             type="submit"
+                            disabled={isDisabled}
                             className="w-full text-white bg-indigo-800 hover:bg-indigo-900 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-buttons dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                         >
+                            {isDisabled ? (
+                                <RotatingSpinner />
+                            ) : (
+                                <RightToBrackedDefault />
+                            )}
                             Continue
                         </button>
                     </form>

@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../../../components/Button";
-import { useAuth } from "../../../context/AuthContext";
 import logo from "../../../assets/logo.svg";
+import {
+    RightToBrackedDefault,
+    RotatingSpinner
+} from "../../../components/Icons";
+import { useAuth } from "../../../context/AuthContext";
 import sleep from "../../../utils/sleep";
 
 export default function RegisterForm({ onClose }) {
@@ -11,6 +14,7 @@ export default function RegisterForm({ onClose }) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [isDisabled, setDisabled] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
     const [showErrorMsg, setShowErrorMsg] = useState(false);
     const navigate = useNavigate();
@@ -33,7 +37,7 @@ export default function RegisterForm({ onClose }) {
 
     async function handleSubmit(e) {
         e.preventDefault();
-
+        setDisabled(true);
         if (password !== confirmPassword) {
             setErrorMsg("");
             await sleep(100);
@@ -58,6 +62,7 @@ export default function RegisterForm({ onClose }) {
                 setShowErrorMsg(true);
             }
         }
+        setDisabled(false);
     }
 
     return (
@@ -157,7 +162,18 @@ export default function RegisterForm({ onClose }) {
                                 </span>
                             </div>
                         )}
-                        <Button>Create an account</Button>
+                        <button
+                            type="submit"
+                            disabled={isDisabled}
+                            className="w-full text-white bg-indigo-800 hover:bg-indigo-900 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-buttons dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                        >
+                            {isDisabled ? (
+                                <RotatingSpinner />
+                            ) : (
+                                <RightToBrackedDefault />
+                            )}
+                            Create an account
+                        </button>
                         <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                             Already have an account?{" "}
                             <a

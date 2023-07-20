@@ -1,13 +1,17 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../../../assets/logo.svg";
-import Button from "../../../components/Button";
+import {
+    RightToBrackedDefault,
+    RotatingSpinner
+} from "../../../components/Icons";
 import { useAuth } from "../../../context/AuthContext";
 import sleep from "../../../utils/sleep";
 
 export default function () {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [isDisabled, setDisabled] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
     const [showErrorMsg, setShowErrorMsg] = useState(false);
     const { login } = useAuth();
@@ -24,6 +28,7 @@ export default function () {
 
     async function handleSubmit(event) {
         event.preventDefault();
+        setDisabled(true);
         try {
             const { status, message } = await login(username, password);
             if (status === 200) {
@@ -40,6 +45,7 @@ export default function () {
             console.log(error);
             alert(error);
         }
+        setDisabled(false);
     }
     return (
         <>
@@ -131,7 +137,18 @@ export default function () {
                                     Forgot password?
                                 </a>
                             </div>
-                            <Button>Continue</Button>
+                            <button
+                                type="submit"
+                                disabled={isDisabled}
+                                className="w-full text-white bg-indigo-800 hover:bg-indigo-900 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-buttons dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                            >
+                                {isDisabled ? (
+                                    <RotatingSpinner />
+                                ) : (
+                                    <RightToBrackedDefault />
+                                )}
+                                Continue
+                            </button>
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                                 Don’t have an account yet?{" "}
                                 <a
