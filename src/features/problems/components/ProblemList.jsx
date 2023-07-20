@@ -1,3 +1,5 @@
+import { faRefresh } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -14,6 +16,7 @@ const fetchProblemList = async (...args) => {
 export default function() {
     const [problemUrl, setProblemUrl] = useState("");
     const [problemList, setProblemList] = useState([]);
+    const [isDisabled, setDisabled] = useState(false);
     const navigate = useNavigate();
 
     const { data, error } = useSWR(apiEndPoints.problemAll, fetchProblemList, {
@@ -36,6 +39,7 @@ export default function() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setDisabled(true);
 
         const myUrl = changeCFUrl(problemUrl);
 
@@ -61,6 +65,7 @@ export default function() {
             }
         }
         setProblemUrl("");
+        setDisabled(false);
     };
 
     const handleProblemClick = (problem) => {
@@ -92,9 +97,7 @@ export default function() {
                         className="mb-4 flex md:flex-row flex-col  justify-center items-center"
                     >
                         <div className="flex mb-2 md:mb-0">
-                            <label className="mr-2">
-                                Problem URL:
-                            </label>
+                            <label className="mr-2">Problem URL:</label>
                             <input
                                 type="text"
                                 value={problemUrl}
@@ -107,8 +110,16 @@ export default function() {
                         <button
                             type="submit"
                             className="bg-indigo-800 text-white py-2 px-4 rounded ml-2"
+                            disabled={isDisabled}
                         >
-                            Submit
+                            {isDisabled ? (
+                                <>
+                                    <FontAwesomeIcon icon={faRefresh} spin />{" "}
+                                    Submitted
+                                </>
+                            ) : (
+                                "Submit"
+                            )}
                         </button>
                     </form>
                 </div>
