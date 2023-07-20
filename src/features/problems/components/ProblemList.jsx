@@ -7,13 +7,15 @@ import useSWR from "swr";
 import ServerError from "../../../components/ServerError";
 import apiEndPoints from "../../../config/apiConfig";
 import changeCFUrl from "../utils/changeCFUrl";
+import { ToastContainer, toast, Slide } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const fetchProblemList = async (...args) => {
     const { data } = await axios.get(...args);
     return data;
 };
 
-export default function() {
+export default function () {
     const [problemUrl, setProblemUrl] = useState("");
     const [problemList, setProblemList] = useState([]);
     const [isDisabled, setDisabled] = useState(false);
@@ -61,7 +63,15 @@ export default function() {
             if (data.status === undefined) {
                 setProblemList((prevList) => [data, ...prevList]);
             } else {
-                alert(data.message);
+                toast.error(data.message, {
+                    position: "bottom-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    theme: "dark",
+                });
             }
         }
         setProblemUrl("");
@@ -89,93 +99,115 @@ export default function() {
     };
 
     return (
-        <section className="dark:bg-gray-900 min-h-screen flex">
-            <div className="container mx-auto p-4">
-                <div className="">
-                    <form
-                        onSubmit={handleSubmit}
-                        className="mb-4 flex md:flex-row flex-col  justify-center items-center"
-                    >
-                        <div className="flex mb-2 md:mb-0">
-                            <label className="mr-2">Problem URL:</label>
-                            <input
-                                type="text"
-                                value={problemUrl}
-                                onChange={(e) => setProblemUrl(e.target.value)}
-                                className="border border-gray-300 rounded px-2 py-1 w-64"
-                                placeholder="Enter the problem link"
-                                required
-                            />
-                        </div>
-                        <button
-                            type="submit"
-                            className="bg-indigo-800 text-white py-2 px-4 rounded ml-2"
-                            disabled={isDisabled}
+        <>
+            <ToastContainer
+                position="bottom-right"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable
+                pauseOnHover
+                theme="dark"
+                transition={Slide}
+            />
+            <section className="dark:bg-gray-900 min-h-screen flex">
+                <div className="container mx-auto p-4">
+                    <div className="">
+                        <form
+                            onSubmit={handleSubmit}
+                            className="mb-4 flex md:flex-row flex-col  justify-center items-center"
                         >
-                            {isDisabled ? (
-                                <>
-                                    <FontAwesomeIcon icon={faRefresh} spin />{" "}
-                                    Submitted
-                                </>
-                            ) : (
-                                "Submit"
-                            )}
-                        </button>
-                    </form>
-                </div>
-
-                <div className="overflow-x-auto text-center">
-                    <table className="border border-gray-300 w-full">
-                        <thead className="">
-                            <tr>
-                                <th className="border-b px-4 py-2">Judge</th>
-                                <th className="border-b px-4 py-2">
-                                    Problem ID
-                                </th>
-                                <th className="border-b px-4 py-2">
-                                    Problem Title
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {problemList.map((problem, index) => (
-                                <tr
-                                    key={problem._id}
-                                    className={
-                                        index % 2 == 0
-                                            ? "bg-gray-50"
-                                            : "bg-white"
+                            <div className="flex mb-2 md:mb-0">
+                                <label className="mr-2">Problem URL:</label>
+                                <input
+                                    type="text"
+                                    value={problemUrl}
+                                    onChange={(e) =>
+                                        setProblemUrl(e.target.value)
                                     }
-                                >
-                                    <td className="border-b px-4 py-2">
-                                        {problem.judge}
-                                    </td>
-                                    <td className="border-b px-4 py-2">
-                                        <button
-                                            onClick={() =>
-                                                handleProblemClick(problem)
-                                            }
-                                            className="cursor-pointer"
-                                        >
-                                            {problem.problemID}
-                                        </button>
-                                    </td>
-                                    <td className="border-b px-4 py-2">
-                                        <button
-                                            onClick={() =>
-                                                handleProblemClick(problem)
-                                            }
-                                            className="cursor-pointer"
-                                        >
-                                            {problem.title}
-                                        </button>
-                                    </td>
+                                    className="border border-gray-300 rounded px-2 py-1 w-64"
+                                    placeholder="Enter the problem link"
+                                    required
+                                />
+                            </div>
+                            <button
+                                type="submit"
+                                className="bg-indigo-800 text-white py-2 px-4 rounded ml-2"
+                                disabled={isDisabled}
+                            >
+                                {isDisabled ? (
+                                    <>
+                                        <FontAwesomeIcon
+                                            icon={faRefresh}
+                                            spin
+                                        />{" "}
+                                        Submitted
+                                    </>
+                                ) : (
+                                    "Submit"
+                                )}
+                            </button>
+                        </form>
+                    </div>
+
+                    <div className="overflow-x-auto text-center">
+                        <table className="border border-gray-300 w-full">
+                            <thead className="">
+                                <tr>
+                                    <th className="border-b px-4 py-2">
+                                        Judge
+                                    </th>
+                                    <th className="border-b px-4 py-2">
+                                        Problem ID
+                                    </th>
+                                    <th className="border-b px-4 py-2">
+                                        Problem Title
+                                    </th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {problemList.map((problem, index) => (
+                                    <tr
+                                        key={problem._id}
+                                        className={
+                                            index % 2 == 0
+                                                ? "bg-gray-50"
+                                                : "bg-white"
+                                        }
+                                    >
+                                        <td className="border-b px-4 py-2">
+                                            {problem.judge}
+                                        </td>
+                                        <td className="border-b px-4 py-2">
+                                            <button
+                                                onClick={() =>
+                                                    handleProblemClick(problem)
+                                                }
+                                                className="cursor-pointer"
+                                            >
+                                                {problem.problemID}
+                                            </button>
+                                        </td>
+                                        <td className="border-b px-4 py-2">
+                                            <button
+                                                onClick={() =>
+                                                    handleProblemClick(problem)
+                                                }
+                                                className="cursor-pointer"
+                                            >
+                                                {problem.title}
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </>
     );
 }
