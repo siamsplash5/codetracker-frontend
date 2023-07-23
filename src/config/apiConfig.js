@@ -14,13 +14,13 @@ const apiEndPoints = {
     contestStandingByContestID: `${backendURL}/api/contest-query/standings/`,
     // will include contest ID
     contestSubmissionsByContestID: `${backendURL}/api/submissions/specific-contest/`,
-    problemAll: `${backendURL}/api/problem-all`,
+    problemAll: `${backendURL}/api/problem/all`,
     contestAll: `${backendURL}/api/contest-query/all`,
     // will include judge, problem ID, contestID
     submissionOfSpecificProblem: `${backendURL}/api/submissions/specific-problem/`,
     contestProblems: `${backendURL}/api/contest-problem/all/`,
     submit: `${backendURL}/api/submit`,
-    problem: `${backendURL}/api/problem`,
+    problem: `${backendURL}/api/problem/one`,
     // will include username
     submissionsByUser: `${backendURL}/api/submissions/specific-user/`,
 }
