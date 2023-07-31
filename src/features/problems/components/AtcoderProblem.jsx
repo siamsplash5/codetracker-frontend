@@ -156,7 +156,7 @@ export default function CodeforcesProblem({ problem }) {
                                             <tbody>
                                                 <tr>
                                                     <td className="px-4 py-2 align-top">
-                                                        <span className="mysample overflow-auto">
+                                                        <span className="mysample">
                                                             {
                                                                 sampleTestCase
                                                                     .outputs[
