@@ -127,6 +127,7 @@ export default function ContestPage() {
                               contestLength: contest.contestLength,
                           }
                         : null,
+                token: localStorage.getItem("JSESSIONID"),
             });
             if (data.status === undefined) {
                 setStatusInfo(data);
