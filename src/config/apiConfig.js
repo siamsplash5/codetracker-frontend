@@ -1,13 +1,13 @@
-const backendURL = 'https://codetracker-backend.vercel.app'; //production
-// const backendURL = ''; //development
+// const backendURL = 'https://codetracker-backend.vercel.app'; //production
+const backendURL = ''; //development
             
 const apiEndPoints = {
     register: `${backendURL}/api/register/`,
     verifyRegistration: `${backendURL}/api/register-verify/`,
     login: `${backendURL}/api/login/`,
     logout: `${backendURL}/api/logout/`,
-    passwordUpdate: `${backendURL}/api/reset-password/`,
-    passwordUpdateVerify: `${backendURL}/api/reset-password-verify/`,
+    passwordUpdate: `${backendURL}/api/forgot-password/`,
+    passwordUpdateVerify: `${backendURL}/api/forgot-password/update`,
     registerContest: `${backendURL}/api/contest/register/`,
     createContest: `${backendURL}/api/contest/create/`,
     // will include contest ID
