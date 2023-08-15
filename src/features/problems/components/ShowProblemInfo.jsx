@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ReactHtmlParser from "react-html-parser";
+import { LightBulbYellow } from "../../../components/Icons";
 
 export default function ShowProblemInfo({ problem }) {
     const [show, setShow] = useState(false);
@@ -15,15 +16,17 @@ export default function ShowProblemInfo({ problem }) {
     } = problem;
 
     return (
-        <div className="container rounded-3xl mb-5 text-slate-50 bg-cyan-950 px-4 py-8">
-            <button onClick={() => (show ? setShow(false) : setShow(true))}>
-                {show ? "Hide Problem Info" : "Show Problem Info"}
+        <div className="container text-center rounded-xl mb-2 text-slate-50 bg-cyan-950 px-4 py-4">
+            <button
+                className=""
+                onClick={() => (show ? setShow(false) : setShow(true))}
+            >
+               <LightBulbYellow /> {show ? "Hide Problem Information" : "Show Problem Information"}
             </button>
             {show && (
                 <div>
-                    <hr />
                     <br />
-                    <div>
+                    <div className="text-left">
                         {sourceLimit && (
                             <p>
                                 <span className="text-amber-300">

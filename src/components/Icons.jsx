@@ -1,5 +1,5 @@
 import { faPenToSquare, faTrashAlt } from "@fortawesome/free-regular-svg-icons";
-import { faBug, faLock, faLockOpen, faPaperPlane, faPlus, faRightToBracket, faSpinner, faSync, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faBug, faLightbulb, faLock, faLockOpen, faPaperPlane, faPlus, faRightToBracket, faSpinner, faSync, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function UnlockedIconGreen() {
@@ -77,7 +77,7 @@ export function RotatingSpinner(){
 
 export function BugIconDefault() {
     return (
-        <span className="pr-1">
+        <span className="">
             <FontAwesomeIcon icon={faBug}/>{" "}
         </span>
     );
@@ -94,8 +94,16 @@ export function PaperPlaneIconDefault() {
 
 export function SyncIconDefault() {
     return (
-        <span className="pr-1">
+        <span className="">
             <FontAwesomeIcon icon={faSync} />{" "}
+        </span>
+    );
+}
+
+export function LightBulbYellow(){
+    return (
+        <span className="pr-1 text-yellow-200">
+            <FontAwesomeIcon icon={faLightbulb} />
         </span>
     );
 }

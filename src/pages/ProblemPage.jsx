@@ -1,15 +1,15 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-// import { BugIconDefault, SyncIconDefault } from "../components/Icons";
 import ReactConfetti from "react-confetti";
 import { useNavigate, useParams } from "react-router-dom";
 import { Slide, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "react-tooltip/dist/react-tooltip.css";
 import useSWR from "swr";
 import NotFound from "../components/NotFound";
 import ServerError from "../components/ServerError";
 import apiEndPoints from "../config/apiConfig";
-import { ProblemContainer, ShowProblemInfo } from "../features/problems";
+import { ProblemRecrawl, ProblemReport, ProblemContainer, ShowProblemInfo } from "../features/problems";
 import { SubmitSolution, VerdictTable } from "../features/submissions";
 
 const fetchProblem = async ([url, object]) => {
@@ -118,20 +118,10 @@ export default function ProblemPage() {
                     </div>
                     <div className="lg:w-3/12">
                         <ShowProblemInfo problem={problem} />
-                        {/* <div className="container flex space-x-2">
-                            <button
-                                type="button"
-                                className="w-full text-white bg-green-700 mb-2 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-buttons dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                            >
-                               <SyncIconDefault /> Recrawl
-                            </button>
-                            <button
-                                type="button"
-                                className="w-full text-white bg-red-800 mb-2 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-buttons dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                            >
-                               <BugIconDefault/> Report
-                            </button>
-                        </div> */}
+                        <div className="flex space-x-2">
+                            <ProblemRecrawl />
+                            <ProblemReport />
+                        </div>
                         <SubmitSolution
                             handle={({ langID, sourceCode }) =>
                                 submitHandler({
