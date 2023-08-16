@@ -6,7 +6,6 @@ import AtcoderOptions from "./AtcoderOptions";
 import CodeforcesOptions from "./CodeforcesOptions";
 import SpojOptions from "./SpojOptions";
 import TimusOptions from "./TimusOptions";
-import { Tooltip } from "react-tooltip";
 
 export default function SubmitSolution({ handle, judge }) {
     const [showSubmitModal, setShowSubmitModal] = useState(false);
@@ -49,9 +48,6 @@ export default function SubmitSolution({ handle, judge }) {
 
     return (
         <>
-            <Tooltip anchorSelect="#submit" place="bottom">
-                Click here to submit your solution
-            </Tooltip>
             <div className="mb-5">
                 <button
                     type="button"

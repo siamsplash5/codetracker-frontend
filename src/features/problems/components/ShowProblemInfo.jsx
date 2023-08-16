@@ -1,7 +1,6 @@
 import { useState } from "react";
 import ReactHtmlParser from "react-html-parser";
 import { LightBulbYellow } from "../../../components/Icons";
-import { Tooltip } from "react-tooltip";
 
 export default function ShowProblemInfo({ problem }) {
     const [show, setShow] = useState(false);
@@ -18,9 +17,6 @@ export default function ShowProblemInfo({ problem }) {
 
     return (
         <>
-            <Tooltip anchorSelect="#problemInfo" place="bottom">
-                {`${show? `Hide`: `Show`} problem's rating, author, tags, source etc.`}
-            </Tooltip>
             <div className="container text-center rounded-xl mb-2 text-slate-50 bg-cyan-950 px-4 py-4">
                 <button
                     onClick={() => (show ? setShow(false) : setShow(true))}
