@@ -9,43 +9,45 @@ import { useAuth } from "../../../context/AuthContext";
 import sleep from "../../../utils/sleep";
 
 export default function () {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [isDisabled, setDisabled] = useState(false);
-    const [errorMsg, setErrorMsg] = useState("");
-    const [showErrorMsg, setShowErrorMsg] = useState(false);
+    const navigate = useNavigate();
+    const [loginForm, setLoginForm] = useState({
+        username: "",
+        password: "",
+    });
+    const [error, setError] = useState({
+        isErrorVisible: false,
+        errorMessage: "",
+    })
+    const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(false);
+
     const { login } = useAuth();
 
-    const navigate = useNavigate();
-
-    const handleUsernameChange = (event) => {
-        setUsername(event.target.value);
-    };
-
-    const handlePasswordChange = (event) => {
-        setPassword(event.target.value);
-    };
-
-    async function handleSubmit(event) {
-        event.preventDefault();
-        setDisabled(true);
+    async function handleSubmit(e) {
+        e.preventDefault();
+        setIsSubmitButtonDisabled(true);
         try {
-            const { status, message } = await login(username, password);
+            const { status, message } = await login(loginForm.username, loginForm.password);
             if (status === 200) {
                 navigate("/");
-                setUsername("");
-                setPassword("");
+                setLoginForm({
+                    username: "",
+                    password: "",
+                })
             } else {
-                setErrorMsg("");
-                await sleep(100);
-                setErrorMsg(message);
-                setShowErrorMsg(true);
+                setError({
+                    ...error,
+                    errorMessage: "",
+                })
+                await sleep(100); // to differenciate between new errors 
+                setError({
+                    isErrorVisible: true,
+                    errorMessage: message,
+                })
             }
         } catch (error) {
-            console.log(error);
             alert(error);
         }
-        setDisabled(false);
+        setIsSubmitButtonDisabled(false);
     }
     return (
         <>
@@ -74,14 +76,18 @@ export default function () {
                                     Your username
                                 </label>
                                 <input
-                                    type="username"
-                                    name="username"
+                                    type="text"
                                     id="username"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-buttons focus:border-buttons block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="username"
                                     required
-                                    value={username}
-                                    onChange={handleUsernameChange}
+                                    value={loginForm.username}
+                                    onChange={(e) => {
+                                        setLoginForm({
+                                            ...loginForm,
+                                            username: e.target.value,
+                                        });
+                                    }}
                                 />
                             </div>
                             <div>
@@ -93,19 +99,23 @@ export default function () {
                                 </label>
                                 <input
                                     type="password"
-                                    name="password"
                                     id="password"
                                     placeholder="••••••••"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-buttons focus:border-buttons block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     required
-                                    value={password}
-                                    onChange={handlePasswordChange}
+                                    value={loginForm.password}
+                                    onChange={(e) => {
+                                        setLoginForm({
+                                            ...loginForm,
+                                            password: e.target.value,
+                                        });
+                                    }}
                                 />
                             </div>
-                            {showErrorMsg && (
+                            {error.isErrorVisible && (
                                 <div className="flex items-center justify-between">
                                     <span className="text-sm ml-3 text-red-600">
-                                        {errorMsg}
+                                        {error.errorMessage}
                                     </span>
                                 </div>
                             )}
@@ -139,10 +149,10 @@ export default function () {
                             </div>
                             <button
                                 type="submit"
-                                disabled={isDisabled}
+                                disabled={isSubmitButtonDisabled}
                                 className="w-full text-white bg-indigo-800 hover:bg-indigo-900 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-buttons dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                             >
-                                {isDisabled ? (
+                                {isSubmitButtonDisabled ? (
                                     <RotatingSpinner />
                                 ) : (
                                     <RightToBrackedDefault />
