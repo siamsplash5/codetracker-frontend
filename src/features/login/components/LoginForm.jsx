@@ -10,7 +10,7 @@ import sleep from "../../../utils/sleep";
 
 export default function () {
     const navigate = useNavigate();
-    const [loginForm, setLoginForm] = useState({
+    const [loginInfo, setLoginInfo] = useState({
         username: "",
         password: "",
     });
@@ -26,10 +26,10 @@ export default function () {
         e.preventDefault();
         setIsSubmitButtonDisabled(true);
         try {
-            const { status, message } = await login(loginForm.username, loginForm.password);
+            const { status, message } = await login(loginInfo);
             if (status === 200) {
                 navigate("/");
-                setLoginForm({
+                setLoginInfo({
                     username: "",
                     password: "",
                 })
@@ -81,10 +81,10 @@ export default function () {
                                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-buttons focus:border-buttons block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="username"
                                     required
-                                    value={loginForm.username}
+                                    value={loginInfo.username}
                                     onChange={(e) => {
-                                        setLoginForm({
-                                            ...loginForm,
+                                        setLoginInfo({
+                                            ...loginInfo,
                                             username: e.target.value,
                                         });
                                     }}
@@ -103,10 +103,10 @@ export default function () {
                                     placeholder="••••••••"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-buttons focus:border-buttons block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     required
-                                    value={loginForm.password}
+                                    value={loginInfo.password}
                                     onChange={(e) => {
-                                        setLoginForm({
-                                            ...loginForm,
+                                        setLoginInfo({
+                                            ...loginInfo,
                                             password: e.target.value,
                                         });
                                     }}

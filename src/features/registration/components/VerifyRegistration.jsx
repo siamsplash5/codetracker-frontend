@@ -27,7 +27,7 @@ export default function verifyRegistration({ userInfo }) {
         setDisabled(true);
         const { status, message } = await verify(otp);
         if (status === 201) {
-            const response = await login(username, password);
+            const response = await login(userInfo);
             if (response.status === 200) {
                 setOTP("");
                 setErrorMsg("");

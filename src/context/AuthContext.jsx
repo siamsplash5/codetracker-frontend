@@ -62,17 +62,15 @@ export function AuthProvider({ children }) {
     }
 
     // login function
-    async function login(username, password) {
+    async function login(loginInfo) {
         try {
             const { data } = await axios.post(
                 apiConfig.login,
-                {
-                    username,
-                    password,
-                },
+                loginInfo,
                 { withCredentials: true }
             );
             if (data.status === 200) {
+                const {username} = loginInfo;
                 setCurrentUser(username);
                 localStorage.setItem("currentUser", username);
                 localStorage.setItem("JSESSIONID", data.token);
