@@ -16,12 +16,12 @@ const fetchProblemList = async (...args) => {
 };
 
 export default function () {
-    const [problemUrl, setProblemUrl] = useState("");
+    const [problemFetchingUrl, setProblemFetchingUrl] = useState("");
     const [problemList, setProblemList] = useState([]);
-    const [isDisabled, setDisabled] = useState(false);
+    const [isLinkSubmitButtonDisabled, setIsLinkSubmitButtonDisabled] = useState(false);
     const navigate = useNavigate();
 
-    const { data, error } = useSWR(apiEndPoints.problemAll, fetchProblemList, {
+    const { data: allProblemList, error } = useSWR(apiEndPoints.problemAll, fetchProblemList, {
         suspense: true,
     });
 
@@ -31,28 +31,29 @@ export default function () {
     }
 
     useEffect(() => {
-        if (data && data.status === undefined) {
-            setProblemList((prevList) => [...data, ...prevList]);
+        if (allProblemList && allProblemList.status === undefined) {
+            setProblemList((prevList) => [...allProblemList, ...prevList]);
         } else {
-            console.log(data.message);
+            const errorMessage = allProblemList.message;
+            console.log(errorMessage);
             return <ServerError />;
         }
-    }, [data]);
+    }, [allProblemList]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setDisabled(true);
+        setIsLinkSubmitButtonDisabled(true);
 
-        const myUrl = changeCFUrl(problemUrl);
+        const myUrl = changeCFUrl(problemFetchingUrl);
 
         // check for avoiding duplicate parsing
-        const problemExists = problemList.some(
+        const isProblemInCurrentList = problemList.some(
             (problem) => problem.source === myUrl
         );
 
-        if (!problemExists) {
-            const { data } = await axios.post(apiEndPoints.problem, {
-                problemUrl: myUrl,
+        if (!isProblemInCurrentList) {
+            const { data: newProblem } = await axios.post(apiEndPoints.problem, {
+                problemFetchingUrl: myUrl,
             });
 
             if (error) {
@@ -60,10 +61,12 @@ export default function () {
                 return <ServerError />;
             }
 
-            if (data.status === undefined) {
-                setProblemList((prevList) => [data, ...prevList]);
+            if (newProblem.status === undefined) {
+                // problem has come succesfully
+                setProblemList((prevProblemList) => [newProblem, ...prevProblemList]);
             } else {
-                toast.error(data.message, {
+                const errorMessage = newProblem.message;
+                toast.error(errorMessage, {
                     position: "bottom-right",
                     autoClose: 2000,
                     hideProgressBar: false,
@@ -74,8 +77,8 @@ export default function () {
                 });
             }
         }
-        setProblemUrl("");
-        setDisabled(false);
+        setProblemFetchingUrl("");
+        setIsLinkSubmitButtonDisabled(false);
     };
 
     const handleProblemClick = (problem) => {
@@ -124,9 +127,9 @@ export default function () {
                                 <label className="mr-2">Problem URL:</label>
                                 <input
                                     type="text"
-                                    value={problemUrl}
+                                    value={problemFetchingUrl}
                                     onChange={(e) =>
-                                        setProblemUrl(e.target.value)
+                                        setProblemFetchingUrl(e.target.value)
                                     }
                                     className="border border-gray-300 rounded px-2 py-1 w-64"
                                     placeholder="Enter the problem link"
@@ -136,9 +139,9 @@ export default function () {
                             <button
                                 type="submit"
                                 className="bg-indigo-800 text-white py-2 px-4 rounded ml-2"
-                                disabled={isDisabled}
+                                disabled={isLinkSubmitButtonDisabled}
                             >
-                                {isDisabled ? (
+                                {isLinkSubmitButtonDisabled ? (
                                     <>
                                         <FontAwesomeIcon
                                             icon={faRefresh}
@@ -179,7 +182,14 @@ export default function () {
                                         }
                                     >
                                         <td className="border-b px-4 py-2">
-                                            {problem.judge}
+                                            <button
+                                                onClick={() =>
+                                                    handleProblemClick(problem)
+                                                }
+                                                className="cursor-pointer"
+                                            >
+                                                {problem.judge}
+                                            </button>
                                         </td>
                                         <td className="border-b px-4 py-2">
                                             <button
