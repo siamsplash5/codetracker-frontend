@@ -8,7 +8,7 @@ export default defineConfig({
     proxy: {
       '/api': {
         // target: 'http://localhost:5000',
-        target: 'https://codetracker-backend.vercel.app',
+        target: 'https://codetracker-backend.onrender.com',
         changeOrigin: true,
         secure: true, 
       },

@@ -1,4 +1,4 @@
-const backendURL = 'https://codetracker-backend.vercel.app'; //production
+const backendURL = 'https://codetracker-backend.onrender.com'; //production
 // const backendURL = ''; //development
             
 const apiEndPoints = {
